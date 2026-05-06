@@ -1,5 +1,7 @@
 # DGLD4Energetic
 
+![Domain-gated latent diffusion: from a Gaussian latent cloud to the converged headline lead 3,4,5-trinitro-1,2-isoxazole.](figures/readme_hero.png)
+
 **Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials**
 
 [paper PDF (TBD)] · [Zenodo DOI 10.5281/zenodo.19821953] · [BibTeX](#citation)
