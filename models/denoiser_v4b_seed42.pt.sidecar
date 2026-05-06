@@ -1,0 +1,6 @@
+filename:   denoiser_v4b_seed42.pt
+size_mb:    681
+sha256:     TODO_BEFORE_PUBLIC
+zenodo_doi: 10.5281/zenodo.19821953
+url:        https://zenodo.org/record/19821953/files/denoiser_v4b_seed42.pt
+download:   wget -O models/denoiser_v4b_seed42.pt https://zenodo.org/record/19821953/files/denoiser_v4b_seed42.pt

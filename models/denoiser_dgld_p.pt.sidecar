@@ -1,0 +1,6 @@
+filename:   denoiser_dgld_p.pt
+size_mb:    682
+sha256:     TODO_BEFORE_PUBLIC
+zenodo_doi: 10.5281/zenodo.19821953
+url:        https://zenodo.org/record/19821953/files/denoiser_dgld_p.pt
+download:   wget -O models/denoiser_dgld_p.pt https://zenodo.org/record/19821953/files/denoiser_dgld_p.pt

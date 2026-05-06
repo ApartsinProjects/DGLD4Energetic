@@ -1,0 +1,1307 @@
+{
+  "elapsed_s": 13.220711946487427,
+  "results": [
+    {
+      "smiles": "O=[N+]([O-])OCN([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.3961,
+      "density": 1.9263,
+      "DetoP": 40.0412,
+      "HOF_S": -44.49,
+      "maxtan": 0.56,
+      "composite": 0.4589,
+      "cj": {
+        "error": "no convergence",
+        "ob_pct": 35.2
+      },
+      "D_ig_minus_surrogate": null
+    },
+    {
+      "smiles": "N=C(O[N+](=O)[O-])O[N+](=O)[O-]",
+      "DetoD": 9.4968,
+      "density": 1.9065,
+      "DetoP": 40.0717,
+      "HOF_S": 25.87,
+      "maxtan": 0.5294,
+      "composite": 0.465,
+      "cj": {
+        "error": "no convergence",
+        "ob_pct": 37.1
+      },
+      "D_ig_minus_surrogate": null
+    },
+    {
+      "smiles": "O=[N+]([O-])N=CC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.5602,
+      "density": 1.9367,
+      "DetoP": 40.8324,
+      "HOF_S": 33.04,
+      "maxtan": 0.4815,
+      "composite": 0.5305,
+      "cj": {
+        "T_cj_K": 2730.0,
+        "Q_kJ_mol": 290.9,
+        "Q_J_g": 1634.0,
+        "D_ig_kms": 1.356,
+        "D_corr_kms": 4.769,
+        "P_ig_GPa": 19.58,
+        "ob_pct": 9.0,
+        "MW": 178.06,
+        "products": {
+          "N2": 0.5882,
+          "H2O": 1.0,
+          "CO2": 0.1765,
+          "CO": 1.8235,
+          "NO": 2.8236,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -8.204
+    },
+    {
+      "smiles": "O=[N+]([O-])CC([N+](=O)[O-])([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.628,
+      "density": 1.9463,
+      "DetoP": 40.7208,
+      "HOF_S": -23.95,
+      "maxtan": 0.5556,
+      "composite": 0.5328,
+      "cj": {
+        "T_cj_K": 3801.0,
+        "Q_kJ_mol": 671.2,
+        "Q_J_g": 3195.5,
+        "D_ig_kms": 1.896,
+        "D_corr_kms": 6.693,
+        "P_ig_GPa": 38.75,
+        "ob_pct": 22.9,
+        "MW": 210.06,
+        "products": {
+          "N2": 0.4159,
+          "H2O": 1.0,
+          "CO2": 1.8318,
+          "CO": 0.1682,
+          "NO": 3.1682,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -7.732
+    },
+    {
+      "smiles": "O=[N+]([O-])CN([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.5236,
+      "density": 1.9294,
+      "DetoP": 39.1015,
+      "HOF_S": -17.98,
+      "maxtan": 0.4545,
+      "composite": 0.5532,
+      "cj": {
+        "T_cj_K": 2035.0,
+        "Q_kJ_mol": 280.5,
+        "Q_J_g": 1689.1,
+        "D_ig_kms": 1.378,
+        "D_corr_kms": 4.836,
+        "P_ig_GPa": 20.05,
+        "ob_pct": 28.9,
+        "MW": 166.05,
+        "products": {
+          "N2": 0.4,
+          "H2O": 1.0,
+          "CO2": 0.85,
+          "CO": 0.1,
+          "NO": 3.2,
+          "C_s": 0.05
+        }
+      },
+      "D_ig_minus_surrogate": -8.146
+    },
+    {
+      "smiles": "O=[N+]([O-])NON[N+](=O)[O-]",
+      "DetoD": 9.5316,
+      "density": 1.9056,
+      "DetoP": 40.1898,
+      "HOF_S": 18.4,
+      "maxtan": 0.4444,
+      "composite": 0.5708,
+      "cj": {
+        "error": "no convergence",
+        "ob_pct": 46.4
+      },
+      "D_ig_minus_surrogate": null
+    },
+    {
+      "smiles": "O=[N+]([O-])NCN([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.6043,
+      "density": 1.9307,
+      "DetoP": 40.5489,
+      "HOF_S": -10.73,
+      "maxtan": 0.5333,
+      "composite": 0.5845,
+      "cj": {
+        "T_cj_K": 2044.0,
+        "Q_kJ_mol": 175.2,
+        "Q_J_g": 967.7,
+        "D_ig_kms": 1.043,
+        "D_corr_kms": 3.662,
+        "P_ig_GPa": 11.51,
+        "ob_pct": 22.1,
+        "MW": 181.06,
+        "products": {
+          "N2": 0.7846,
+          "H2O": 1.5,
+          "CO2": 0.0858,
+          "CO": 0.8976,
+          "NO": 3.4308,
+          "C_s": 0.0166
+        }
+      },
+      "D_ig_minus_surrogate": -8.561
+    },
+    {
+      "smiles": "O=[N+]([O-])C=C([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.5302,
+      "density": 1.9198,
+      "DetoP": 39.3258,
+      "HOF_S": 58.26,
+      "maxtan": 0.3889,
+      "composite": 0.5873,
+      "cj": {
+        "T_cj_K": 6308.0,
+        "Q_kJ_mol": 830.8,
+        "Q_J_g": 5095.4,
+        "D_ig_kms": 2.394,
+        "D_corr_kms": 8.37,
+        "P_ig_GPa": 59.77,
+        "ob_pct": 14.7,
+        "MW": 163.05,
+        "products": {
+          "N2": 0.75,
+          "H2O": 0.5,
+          "CO2": 2.0,
+          "CO": 0.0,
+          "NO": 1.5,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -7.136
+    },
+    {
+      "smiles": "O=[N+]([O-])c1nc(F)nn1[N+](=O)[O-]",
+      "DetoD": 9.5566,
+      "density": 1.9629,
+      "DetoP": 41.4973,
+      "HOF_S": 178.25,
+      "maxtan": 0.4,
+      "composite": 0.7408,
+      "cj": {
+        "T_cj_K": 2648.0,
+        "Q_kJ_mol": 362.8,
+        "Q_J_g": 2295.2,
+        "D_ig_kms": 1.607,
+        "D_corr_kms": 5.707,
+        "P_ig_GPa": 28.42,
+        "ob_pct": 0.0,
+        "MW": 158.05,
+        "products": {
+          "N2": 1.692,
+          "H2O": 0.0,
+          "CO2": 0.3878,
+          "CO": 1.6085,
+          "NO": 1.6159,
+          "C_s": 0.0037
+        }
+      },
+      "D_ig_minus_surrogate": -7.95
+    },
+    {
+      "smiles": "O=[N+]([O-])C=N[N+](=O)[O-]",
+      "DetoD": 9.3798,
+      "density": 1.9221,
+      "DetoP": 38.8221,
+      "HOF_S": 117.05,
+      "maxtan": 0.3889,
+      "composite": 0.912,
+      "cj": {
+        "T_cj_K": 1608.0,
+        "Q_kJ_mol": 160.1,
+        "Q_J_g": 1345.0,
+        "D_ig_kms": 1.23,
+        "D_corr_kms": 4.304,
+        "P_ig_GPa": 15.82,
+        "ob_pct": 20.2,
+        "MW": 119.04,
+        "products": {
+          "N2": 0.3,
+          "H2O": 0.5,
+          "CO2": 0.1,
+          "CO": 0.9,
+          "NO": 2.4,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -8.15
+    },
+    {
+      "smiles": "O=[N+]([O-])NC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.583,
+      "density": 1.9189,
+      "DetoP": 41.3314,
+      "HOF_S": 10.97,
+      "maxtan": 0.3889,
+      "composite": 0.9207,
+      "cj": {
+        "T_cj_K": 2214.0,
+        "Q_kJ_mol": 309.4,
+        "Q_J_g": 1863.4,
+        "D_ig_kms": 1.448,
+        "D_corr_kms": 5.06,
+        "P_ig_GPa": 21.83,
+        "ob_pct": 28.9,
+        "MW": 166.05,
+        "products": {
+          "N2": 0.4,
+          "H2O": 1.0,
+          "CO2": 0.85,
+          "CO": 0.1,
+          "NO": 3.2,
+          "C_s": 0.05
+        }
+      },
+      "D_ig_minus_surrogate": -8.135
+    },
+    {
+      "smiles": "O=C(C(CO[N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.3728,
+      "density": 1.9249,
+      "DetoP": 38.666,
+      "HOF_S": -96.81,
+      "maxtan": 0.4737,
+      "composite": 0.9503,
+      "cj": {
+        "T_cj_K": 5771.0,
+        "Q_kJ_mol": 1065.7,
+        "Q_J_g": 5097.2,
+        "D_ig_kms": 2.395,
+        "D_corr_kms": 8.387,
+        "P_ig_GPa": 60.18,
+        "ob_pct": 3.8,
+        "MW": 209.07,
+        "products": {
+          "N2": 0.7977,
+          "H2O": 1.5,
+          "CO2": 2.1068,
+          "CO": 0.8819,
+          "NO": 1.4045,
+          "C_s": 0.0113
+        }
+      },
+      "D_ig_minus_surrogate": -6.978
+    },
+    {
+      "smiles": "O=C([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.5404,
+      "density": 1.9211,
+      "DetoP": 38.1228,
+      "HOF_S": 0.16,
+      "maxtan": 0.5333,
+      "composite": 0.9958,
+      "cj": {
+        "error": "no convergence",
+        "ob_pct": 40.0
+      },
+      "D_ig_minus_surrogate": null
+    },
+    {
+      "smiles": "O=[N+]([O-])ON(O)[N+](=O)[O-]",
+      "DetoD": 9.695,
+      "density": 1.9195,
+      "DetoP": 39.0769,
+      "HOF_S": -7.99,
+      "maxtan": 0.4,
+      "composite": 1.0031,
+      "cj": {
+        "error": "no convergence",
+        "ob_pct": 63.3
+      },
+      "D_ig_minus_surrogate": null
+    },
+    {
+      "smiles": "O=[N+]([O-])CC(=N[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.6148,
+      "density": 1.8998,
+      "DetoP": 38.9944,
+      "HOF_S": 69.8,
+      "maxtan": 0.3448,
+      "composite": 1.0674,
+      "cj": {
+        "T_cj_K": 4318.0,
+        "Q_kJ_mol": 691.7,
+        "Q_J_g": 3884.7,
+        "D_ig_kms": 2.091,
+        "D_corr_kms": 7.254,
+        "P_ig_GPa": 44.42,
+        "ob_pct": 9.0,
+        "MW": 178.06,
+        "products": {
+          "N2": 1.0724,
+          "H2O": 1.0,
+          "CO2": 1.1594,
+          "CO": 0.826,
+          "NO": 1.8551,
+          "C_s": 0.0146
+        }
+      },
+      "D_ig_minus_surrogate": -7.524
+    },
+    {
+      "smiles": "N=C(CN([N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.3358,
+      "density": 1.9301,
+      "DetoP": 38.2828,
+      "HOF_S": 66.03,
+      "maxtan": 0.48,
+      "composite": 1.0998,
+      "cj": {
+        "T_cj_K": 5342.0,
+        "Q_kJ_mol": 1001.3,
+        "Q_J_g": 5186.0,
+        "D_ig_kms": 2.415,
+        "D_corr_kms": 8.476,
+        "P_ig_GPa": 61.63,
+        "ob_pct": 4.1,
+        "MW": 193.07,
+        "products": {
+          "N2": 2.0,
+          "H2O": 1.5,
+          "CO2": 1.6,
+          "CO": 0.3,
+          "NO": 1.0,
+          "C_s": 0.1
+        }
+      },
+      "D_ig_minus_surrogate": -6.921
+    },
+    {
+      "smiles": "O=[N+]([O-])NCN(N[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.6693,
+      "density": 1.9098,
+      "DetoP": 38.8034,
+      "HOF_S": -65.08,
+      "maxtan": 0.4667,
+      "composite": 1.1394,
+      "cj": {
+        "T_cj_K": 1964.0,
+        "Q_kJ_mol": 356.4,
+        "Q_J_g": 1817.6,
+        "D_ig_kms": 1.43,
+        "D_corr_kms": 4.98,
+        "P_ig_GPa": 21.05,
+        "ob_pct": 16.3,
+        "MW": 196.08,
+        "products": {
+          "N2": 1.6264,
+          "H2O": 2.0,
+          "CO2": 0.2747,
+          "CO": 0.7033,
+          "NO": 2.7472,
+          "C_s": 0.022
+        }
+      },
+      "D_ig_minus_surrogate": -8.239
+    },
+    {
+      "smiles": "O=[N+]([O-])N=C=C(OCO[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.3768,
+      "density": 1.9088,
+      "DetoP": 38.5507,
+      "HOF_S": -8.65,
+      "maxtan": 0.4138,
+      "composite": 1.1415,
+      "cj": {
+        "T_cj_K": 5223.0,
+        "Q_kJ_mol": 994.1,
+        "Q_J_g": 4476.4,
+        "D_ig_kms": 2.244,
+        "D_corr_kms": 7.813,
+        "P_ig_GPa": 51.78,
+        "ob_pct": 7.2,
+        "MW": 222.07,
+        "products": {
+          "N2": 1.0572,
+          "H2O": 1.0,
+          "CO2": 2.1214,
+          "CO": 0.8716,
+          "NO": 1.8857,
+          "C_s": 0.007
+        }
+      },
+      "D_ig_minus_surrogate": -7.133
+    },
+    {
+      "smiles": "O=[N+]([O-])OCOC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.4721,
+      "density": 1.9041,
+      "DetoP": 37.916,
+      "HOF_S": -105.53,
+      "maxtan": 0.5714,
+      "composite": 1.2096,
+      "cj": {
+        "T_cj_K": 4403.0,
+        "Q_kJ_mol": 752.5,
+        "Q_J_g": 3818.6,
+        "D_ig_kms": 2.073,
+        "D_corr_kms": 7.203,
+        "P_ig_GPa": 43.91,
+        "ob_pct": 20.3,
+        "MW": 197.06,
+        "products": {
+          "N2": 0.15,
+          "H2O": 1.5,
+          "CO2": 1.85,
+          "CO": 0.1,
+          "NO": 2.7,
+          "C_s": 0.05
+        }
+      },
+      "D_ig_minus_surrogate": -7.399
+    },
+    {
+      "smiles": "N=C(N[N+](=O)[O-])O[N+](=O)[O-]",
+      "DetoD": 9.3382,
+      "density": 1.8888,
+      "DetoP": 38.7935,
+      "HOF_S": 62.55,
+      "maxtan": 0.48,
+      "composite": 1.3381,
+      "cj": {
+        "T_cj_K": 1911.0,
+        "Q_kJ_mol": 174.6,
+        "Q_J_g": 1163.6,
+        "D_ig_kms": 1.144,
+        "D_corr_kms": 3.953,
+        "P_ig_GPa": 13.12,
+        "ob_pct": 21.3,
+        "MW": 150.05,
+        "products": {
+          "N2": 0.5368,
+          "H2O": 1.0,
+          "CO2": 0.0915,
+          "CO": 0.8906,
+          "NO": 2.9264,
+          "C_s": 0.0179
+        }
+      },
+      "D_ig_minus_surrogate": -8.194
+    },
+    {
+      "smiles": "O=[N+]([O-])N=NCC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2991,
+      "density": 1.9284,
+      "DetoP": 37.8096,
+      "HOF_S": 64.82,
+      "maxtan": 0.3571,
+      "composite": 1.3476,
+      "cj": {
+        "T_cj_K": 5166.0,
+        "Q_kJ_mol": 997.2,
+        "Q_J_g": 5164.8,
+        "D_ig_kms": 2.41,
+        "D_corr_kms": 8.453,
+        "P_ig_GPa": 61.25,
+        "ob_pct": 4.1,
+        "MW": 193.07,
+        "products": {
+          "N2": 2.0192,
+          "H2O": 1.5,
+          "CO2": 1.5386,
+          "CO": 0.4613,
+          "NO": 0.9616,
+          "C_s": 0.0001
+        }
+      },
+      "D_ig_minus_surrogate": -6.889
+    },
+    {
+      "smiles": "O=C=C([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2732,
+      "density": 1.9038,
+      "DetoP": 38.669,
+      "HOF_S": 14.24,
+      "maxtan": 0.375,
+      "composite": 1.3592,
+      "cj": {
+        "T_cj_K": 7000.0,
+        "Q_kJ_mol": 711.0,
+        "Q_J_g": 5385.0,
+        "D_ig_kms": 2.461,
+        "D_corr_kms": 8.553,
+        "P_ig_GPa": 61.9,
+        "ob_pct": 12.1,
+        "MW": 132.03,
+        "products": {
+          "N2": 0.5,
+          "H2O": 0.0,
+          "CO2": 2.0,
+          "CO": 0.0,
+          "NO": 1.0,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -6.812
+    },
+    {
+      "smiles": "O=[N+]([O-])N=CN([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.6416,
+      "density": 1.97,
+      "DetoP": 42.6725,
+      "HOF_S": 118.97,
+      "maxtan": 0.32,
+      "composite": 1.3742,
+      "cj": {
+        "T_cj_K": 2195.0,
+        "Q_kJ_mol": 317.4,
+        "Q_J_g": 1772.7,
+        "D_ig_kms": 1.412,
+        "D_corr_kms": 5.029,
+        "P_ig_GPa": 22.14,
+        "ob_pct": 31.3,
+        "MW": 179.05,
+        "products": {
+          "N2": 0.75,
+          "H2O": 0.5,
+          "CO2": 1.0,
+          "CO": 0.0,
+          "NO": 3.5,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -8.23
+    },
+    {
+      "smiles": "N=[N+]([O-])C([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.4078,
+      "density": 1.9201,
+      "DetoP": 37.1796,
+      "HOF_S": -60.63,
+      "maxtan": 0.6,
+      "composite": 1.423,
+      "cj": {
+        "T_cj_K": 2054.0,
+        "Q_kJ_mol": 54.8,
+        "Q_J_g": 365.2,
+        "D_ig_kms": 0.641,
+        "D_corr_kms": 2.241,
+        "P_ig_GPa": 4.29,
+        "ob_pct": 21.3,
+        "MW": 150.05,
+        "products": {
+          "N2": 0.5454,
+          "H2O": 1.0,
+          "CO2": 0.0909,
+          "CO": 0.9091,
+          "NO": 2.9091,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -8.767
+    },
+    {
+      "smiles": "O=[N+]([O-])OCC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2987,
+      "density": 1.9004,
+      "DetoP": 38.2941,
+      "HOF_S": -99.63,
+      "maxtan": 0.5417,
+      "composite": 1.4677,
+      "cj": {
+        "T_cj_K": 5765.0,
+        "Q_kJ_mol": 914.7,
+        "Q_J_g": 5052.0,
+        "D_ig_kms": 2.384,
+        "D_corr_kms": 8.274,
+        "P_ig_GPa": 57.82,
+        "ob_pct": 13.3,
+        "MW": 181.06,
+        "products": {
+          "N2": 0.75,
+          "H2O": 1.5,
+          "CO2": 2.0,
+          "CO": 0.0,
+          "NO": 1.5,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -6.915
+    },
+    {
+      "smiles": "O=[N+]([O-])OCN(C(c1nn[nH]n1)[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.4583,
+      "density": 1.9024,
+      "DetoP": 37.1733,
+      "HOF_S": -94.0,
+      "maxtan": 0.3415,
+      "composite": 1.5017,
+      "cj": {
+        "T_cj_K": 2293.0,
+        "Q_kJ_mol": 575.5,
+        "Q_J_g": 2179.0,
+        "D_ig_kms": 1.566,
+        "D_corr_kms": 5.438,
+        "P_ig_GPa": 25.0,
+        "ob_pct": -6.1,
+        "MW": 264.11,
+        "products": {
+          "N2": 3.0348,
+          "H2O": 2.0,
+          "CO2": 0.1206,
+          "CO": 2.8284,
+          "NO": 1.9303,
+          "C_s": 0.051
+        }
+      },
+      "D_ig_minus_surrogate": -7.892
+    },
+    {
+      "smiles": "O=[N+]([O-])NOCO[N+](=O)[O-]",
+      "DetoD": 9.3096,
+      "density": 1.8722,
+      "DetoP": 38.1036,
+      "HOF_S": -85.57,
+      "maxtan": 0.5714,
+      "composite": 1.7912,
+      "cj": {
+        "T_cj_K": 2755.0,
+        "Q_kJ_mol": 378.9,
+        "Q_J_g": 2475.9,
+        "D_ig_kms": 1.669,
+        "D_corr_kms": 5.731,
+        "P_ig_GPa": 27.33,
+        "ob_pct": 26.1,
+        "MW": 153.05,
+        "products": {
+          "N2": 0.15,
+          "H2O": 1.5,
+          "CO2": 0.85,
+          "CO": 0.1,
+          "NO": 2.7,
+          "C_s": 0.05
+        }
+      },
+      "D_ig_minus_surrogate": -7.641
+    },
+    {
+      "smiles": "O=C(C(CN[N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2627,
+      "density": 1.8987,
+      "DetoP": 37.26,
+      "HOF_S": -40.12,
+      "maxtan": 0.3784,
+      "composite": 1.9005,
+      "cj": {
+        "T_cj_K": 3987.0,
+        "Q_kJ_mol": 821.4,
+        "Q_J_g": 3947.6,
+        "D_ig_kms": 2.107,
+        "D_corr_kms": 7.309,
+        "P_ig_GPa": 45.08,
+        "ob_pct": -7.7,
+        "MW": 208.09,
+        "products": {
+          "N2": 1.2908,
+          "H2O": 2.0,
+          "CO2": 0.6383,
+          "CO": 2.3049,
+          "NO": 1.4184,
+          "C_s": 0.0568
+        }
+      },
+      "D_ig_minus_surrogate": -7.156
+    },
+    {
+      "smiles": "O=[N+]([O-])C=NC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2008,
+      "density": 1.9083,
+      "DetoP": 37.0284,
+      "HOF_S": 1.49,
+      "maxtan": 0.3333,
+      "composite": 2.0058,
+      "cj": {
+        "T_cj_K": 3921.0,
+        "Q_kJ_mol": 623.4,
+        "Q_J_g": 3501.0,
+        "D_ig_kms": 1.985,
+        "D_corr_kms": 6.908,
+        "P_ig_GPa": 40.47,
+        "ob_pct": 9.0,
+        "MW": 178.06,
+        "products": {
+          "N2": 1.0724,
+          "H2O": 1.0,
+          "CO2": 1.1595,
+          "CO": 0.8258,
+          "NO": 1.8552,
+          "C_s": 0.0147
+        }
+      },
+      "D_ig_minus_surrogate": -7.216
+    },
+    {
+      "smiles": "O=C(CC([N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1601,
+      "density": 1.9157,
+      "DetoP": 37.0215,
+      "HOF_S": 23.76,
+      "maxtan": 0.3929,
+      "composite": 2.0154,
+      "cj": {
+        "T_cj_K": 5398.0,
+        "Q_kJ_mol": 958.8,
+        "Q_J_g": 4965.9,
+        "D_ig_kms": 2.364,
+        "D_corr_kms": 8.25,
+        "P_ig_GPa": 57.95,
+        "ob_pct": -4.1,
+        "MW": 193.07,
+        "products": {
+          "N2": 0.8712,
+          "H2O": 1.5,
+          "CO2": 1.2575,
+          "CO": 1.7275,
+          "NO": 1.2575,
+          "C_s": 0.015
+        }
+      },
+      "D_ig_minus_surrogate": -6.796
+    },
+    {
+      "smiles": "O=[N+]([O-])CO[N+](=O)[O-]",
+      "DetoD": 9.1007,
+      "density": 1.8956,
+      "DetoP": 37.6444,
+      "HOF_S": -15.52,
+      "maxtan": 0.5556,
+      "composite": 2.1275,
+      "cj": {
+        "error": "no convergence",
+        "ob_pct": 26.2
+      },
+      "D_ig_minus_surrogate": null
+    },
+    {
+      "smiles": "O=[N+]([O-])C(OO)([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1192,
+      "density": 1.8747,
+      "DetoP": 37.9082,
+      "HOF_S": -198.07,
+      "maxtan": 0.4444,
+      "composite": 2.2124,
+      "cj": {
+        "error": "no convergence",
+        "ob_pct": 48.1
+      },
+      "D_ig_minus_surrogate": null
+    },
+    {
+      "smiles": "O=[N+]([O-])C=CN([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1145,
+      "density": 1.9123,
+      "DetoP": 36.7862,
+      "HOF_S": 90.07,
+      "maxtan": 0.35,
+      "composite": 2.2188,
+      "cj": {
+        "T_cj_K": 4435.0,
+        "Q_kJ_mol": 712.3,
+        "Q_J_g": 4000.2,
+        "D_ig_kms": 2.121,
+        "D_corr_kms": 7.395,
+        "P_ig_GPa": 46.48,
+        "ob_pct": 9.0,
+        "MW": 178.06,
+        "products": {
+          "N2": 1.0741,
+          "H2O": 1.0,
+          "CO2": 1.1574,
+          "CO": 0.8334,
+          "NO": 1.8518,
+          "C_s": 0.0092
+        }
+      },
+      "D_ig_minus_surrogate": -6.993
+    },
+    {
+      "smiles": "O=CN([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2892,
+      "density": 1.8673,
+      "DetoP": 37.0167,
+      "HOF_S": -24.74,
+      "maxtan": 0.5,
+      "composite": 2.2435,
+      "cj": {
+        "T_cj_K": 1911.0,
+        "Q_kJ_mol": 203.2,
+        "Q_J_g": 1504.8,
+        "D_ig_kms": 1.301,
+        "D_corr_kms": 4.46,
+        "P_ig_GPa": 16.51,
+        "ob_pct": 29.6,
+        "MW": 135.03,
+        "products": {
+          "N2": 0.168,
+          "H2O": 0.5,
+          "CO2": 0.8387,
+          "CO": 0.1586,
+          "NO": 2.6641,
+          "C_s": 0.0027
+        }
+      },
+      "D_ig_minus_surrogate": -7.988
+    },
+    {
+      "smiles": "O=C(C[N+](=O)[O-])N(C=N[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1765,
+      "density": 1.91,
+      "DetoP": 36.3853,
+      "HOF_S": -30.67,
+      "maxtan": 0.3,
+      "composite": 2.2517,
+      "cj": {
+        "T_cj_K": 3117.0,
+        "Q_kJ_mol": 652.9,
+        "Q_J_g": 2953.2,
+        "D_ig_kms": 1.823,
+        "D_corr_kms": 6.349,
+        "P_ig_GPa": 34.21,
+        "ob_pct": -3.6,
+        "MW": 221.09,
+        "products": {
+          "N2": 1.5371,
+          "H2O": 1.5,
+          "CO2": 0.5777,
+          "CO": 2.4187,
+          "NO": 1.9258,
+          "C_s": 0.0035
+        }
+      },
+      "D_ig_minus_surrogate": -7.354
+    },
+    {
+      "smiles": "O=[N+]([O-])CC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.0877,
+      "density": 1.8896,
+      "DetoP": 37.4705,
+      "HOF_S": -12.5,
+      "maxtan": 0.4348,
+      "composite": 2.2716,
+      "cj": {
+        "T_cj_K": 4954.0,
+        "Q_kJ_mol": 769.8,
+        "Q_J_g": 4663.6,
+        "D_ig_kms": 2.291,
+        "D_corr_kms": 7.917,
+        "P_ig_GPa": 52.64,
+        "ob_pct": 4.8,
+        "MW": 165.06,
+        "products": {
+          "N2": 0.8182,
+          "H2O": 1.5,
+          "CO2": 1.1364,
+          "CO": 0.8636,
+          "NO": 1.3636,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -6.797
+    },
+    {
+      "smiles": "NC(=N[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2846,
+      "density": 1.8586,
+      "DetoP": 37.0671,
+      "HOF_S": 94.25,
+      "maxtan": 0.5,
+      "composite": 2.3221,
+      "cj": {
+        "T_cj_K": 2751.0,
+        "Q_kJ_mol": 349.0,
+        "Q_J_g": 2603.4,
+        "D_ig_kms": 1.711,
+        "D_corr_kms": 5.846,
+        "P_ig_GPa": 28.23,
+        "ob_pct": 11.9,
+        "MW": 134.05,
+        "products": {
+          "N2": 1.1111,
+          "H2O": 1.0,
+          "CO2": 0.2222,
+          "CO": 0.7778,
+          "NO": 1.7778,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -7.574
+    },
+    {
+      "smiles": "O=[N+]([O-])NN=CC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.0858,
+      "density": 1.899,
+      "DetoP": 37.0372,
+      "HOF_S": -33.67,
+      "maxtan": 0.4333,
+      "composite": 2.3258,
+      "cj": {
+        "T_cj_K": 4727.0,
+        "Q_kJ_mol": 898.8,
+        "Q_J_g": 4655.0,
+        "D_ig_kms": 2.288,
+        "D_corr_kms": 7.938,
+        "P_ig_GPa": 53.18,
+        "ob_pct": 4.1,
+        "MW": 193.07,
+        "products": {
+          "N2": 2.0187,
+          "H2O": 1.5,
+          "CO2": 1.5402,
+          "CO": 0.457,
+          "NO": 0.9626,
+          "C_s": 0.0028
+        }
+      },
+      "D_ig_minus_surrogate": -6.798
+    },
+    {
+      "smiles": "O=[N+]([O-])NCC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1889,
+      "density": 1.8727,
+      "DetoP": 37.1993,
+      "HOF_S": -52.91,
+      "maxtan": 0.4762,
+      "composite": 2.3284,
+      "cj": {
+        "T_cj_K": 3562.0,
+        "Q_kJ_mol": 642.3,
+        "Q_J_g": 3566.6,
+        "D_ig_kms": 2.003,
+        "D_corr_kms": 6.88,
+        "P_ig_GPa": 39.39,
+        "ob_pct": 0.0,
+        "MW": 180.08,
+        "products": {
+          "N2": 1.2265,
+          "H2O": 2.0,
+          "CO2": 0.4641,
+          "CO": 1.5248,
+          "NO": 1.547,
+          "C_s": 0.0111
+        }
+      },
+      "D_ig_minus_surrogate": -7.186
+    },
+    {
+      "smiles": "O=CC(O[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1432,
+      "density": 1.8771,
+      "DetoP": 37.3354,
+      "HOF_S": -46.29,
+      "maxtan": 0.4167,
+      "composite": 2.3309,
+      "cj": {
+        "T_cj_K": 7000.0,
+        "Q_kJ_mol": 892.3,
+        "Q_J_g": 5946.8,
+        "D_ig_kms": 2.587,
+        "D_corr_kms": 8.898,
+        "P_ig_GPa": 66.06,
+        "ob_pct": 10.7,
+        "MW": 150.05,
+        "products": {
+          "N2": 0.5,
+          "H2O": 1.0,
+          "CO2": 2.0,
+          "CO": 0.0,
+          "NO": 1.0,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -6.556
+    },
+    {
+      "smiles": "O=[N+]([O-])C=CC(=C(NN([N+](=O)[O-])[N+](=O)[O-])N[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.3179,
+      "density": 1.8981,
+      "DetoP": 35.5906,
+      "HOF_S": 29.81,
+      "maxtan": 0.2857,
+      "composite": 2.3527,
+      "cj": {
+        "T_cj_K": 3236.0,
+        "Q_kJ_mol": 932.6,
+        "Q_J_g": 2877.5,
+        "D_ig_kms": 1.799,
+        "D_corr_kms": 6.239,
+        "P_ig_GPa": 32.84,
+        "ob_pct": 0.0,
+        "MW": 324.12,
+        "products": {
+          "N2": 2.4401,
+          "H2O": 2.0,
+          "CO2": 0.9359,
+          "CO": 3.0084,
+          "NO": 3.1197,
+          "C_s": 0.0556
+        }
+      },
+      "D_ig_minus_surrogate": -7.519
+    },
+    {
+      "smiles": "O=[N+]([O-])C=CC(=NN[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.0973,
+      "density": 1.9161,
+      "DetoP": 36.1427,
+      "HOF_S": 115.22,
+      "maxtan": 0.2812,
+      "composite": 2.4299,
+      "cj": {
+        "T_cj_K": 3736.0,
+        "Q_kJ_mol": 759.4,
+        "Q_J_g": 3702.7,
+        "D_ig_kms": 2.041,
+        "D_corr_kms": 7.125,
+        "P_ig_GPa": 43.23,
+        "ob_pct": -11.7,
+        "MW": 205.09,
+        "products": {
+          "N2": 1.8507,
+          "H2O": 1.5,
+          "CO2": 0.2597,
+          "CO": 2.6819,
+          "NO": 1.2987,
+          "C_s": 0.0584
+        }
+      },
+      "D_ig_minus_surrogate": -7.056
+    },
+    {
+      "smiles": "O=[N+]([O-])CN(CN[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.2734,
+      "density": 1.853,
+      "DetoP": 36.9639,
+      "HOF_S": -80.86,
+      "maxtan": 0.6071,
+      "composite": 2.4357,
+      "cj": {
+        "T_cj_K": 3220.0,
+        "Q_kJ_mol": 650.6,
+        "Q_J_g": 3334.6,
+        "D_ig_kms": 1.937,
+        "D_corr_kms": 6.603,
+        "P_ig_GPa": 35.9,
+        "ob_pct": -4.1,
+        "MW": 195.09,
+        "products": {
+          "N2": 1.7918,
+          "H2O": 2.5,
+          "CO2": 0.1416,
+          "CO": 1.8002,
+          "NO": 1.4165,
+          "C_s": 0.0581
+        }
+      },
+      "D_ig_minus_surrogate": -7.336
+    },
+    {
+      "smiles": "O=[N+]([O-])CC(C([N+](=O)[O-])[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1126,
+      "density": 1.9019,
+      "DetoP": 36.3964,
+      "HOF_S": 0.38,
+      "maxtan": 0.3333,
+      "composite": 2.4566,
+      "cj": {
+        "T_cj_K": 6038.0,
+        "Q_kJ_mol": 1400.5,
+        "Q_J_g": 6249.7,
+        "D_ig_kms": 2.652,
+        "D_corr_kms": 9.208,
+        "P_ig_GPa": 71.66,
+        "ob_pct": 0.0,
+        "MW": 224.08,
+        "products": {
+          "N2": 1.6,
+          "H2O": 2.0,
+          "CO2": 2.4,
+          "CO": 0.4,
+          "NO": 0.8,
+          "C_s": 0.2
+        }
+      },
+      "D_ig_minus_surrogate": -6.461
+    },
+    {
+      "smiles": "O=[N+]([O-])C=C(CN[N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.17,
+      "density": 1.9198,
+      "DetoP": 35.4612,
+      "HOF_S": -12.21,
+      "maxtan": 0.3846,
+      "composite": 2.4754,
+      "cj": {
+        "T_cj_K": 4173.0,
+        "Q_kJ_mol": 826.4,
+        "Q_J_g": 4302.2,
+        "D_ig_kms": 2.2,
+        "D_corr_kms": 7.691,
+        "P_ig_GPa": 50.47,
+        "ob_pct": -16.7,
+        "MW": 192.09,
+        "products": {
+          "N2": 1.6461,
+          "H2O": 2.0,
+          "CO2": 0.3185,
+          "CO": 2.6553,
+          "NO": 0.7077,
+          "C_s": 0.0262
+        }
+      },
+      "D_ig_minus_surrogate": -6.97
+    },
+    {
+      "smiles": "O=[N+]([O-])C=NN[N+](=O)[O-]",
+      "DetoD": 9.1793,
+      "density": 1.8589,
+      "DetoP": 36.4718,
+      "HOF_S": 60.29,
+      "maxtan": 0.3333,
+      "composite": 2.7287,
+      "cj": {
+        "T_cj_K": 2623.0,
+        "Q_kJ_mol": 329.5,
+        "Q_J_g": 2457.7,
+        "D_ig_kms": 1.663,
+        "D_corr_kms": 5.681,
+        "P_ig_GPa": 26.66,
+        "ob_pct": 11.9,
+        "MW": 134.05,
+        "products": {
+          "N2": 1.1304,
+          "H2O": 1.0,
+          "CO2": 0.2609,
+          "CO": 0.7391,
+          "NO": 1.7391,
+          "C_s": 0.0
+        }
+      },
+      "D_ig_minus_surrogate": -7.516
+    },
+    {
+      "smiles": "O=[N+]([O-])C=CC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 8.9724,
+      "density": 1.9196,
+      "DetoP": 35.8719,
+      "HOF_S": 32.69,
+      "maxtan": 0.35,
+      "composite": 2.7354,
+      "cj": {
+        "T_cj_K": 4556.0,
+        "Q_kJ_mol": 801.5,
+        "Q_J_g": 4526.5,
+        "D_ig_kms": 2.257,
+        "D_corr_kms": 7.888,
+        "P_ig_GPa": 53.08,
+        "ob_pct": -13.6,
+        "MW": 177.07,
+        "products": {
+          "N2": 1.0309,
+          "H2O": 1.5,
+          "CO2": 0.5629,
+          "CO": 2.4359,
+          "NO": 0.9382,
+          "C_s": 0.0012
+        }
+      },
+      "D_ig_minus_surrogate": -6.715
+    },
+    {
+      "smiles": "NN=C([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1008,
+      "density": 1.8647,
+      "DetoP": 36.724,
+      "HOF_S": 74.83,
+      "maxtan": 0.4211,
+      "composite": 2.7429,
+      "cj": {
+        "T_cj_K": 2598.0,
+        "Q_kJ_mol": 326.4,
+        "Q_J_g": 2435.0,
+        "D_ig_kms": 1.655,
+        "D_corr_kms": 5.667,
+        "P_ig_GPa": 26.62,
+        "ob_pct": 11.9,
+        "MW": 134.05,
+        "products": {
+          "N2": 1.1023,
+          "H2O": 1.0,
+          "CO2": 0.2244,
+          "CO": 0.7558,
+          "NO": 1.7954,
+          "C_s": 0.0198
+        }
+      },
+      "D_ig_minus_surrogate": -7.446
+    },
+    {
+      "smiles": "O=[N+]([O-])N=CCC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.0675,
+      "density": 1.8951,
+      "DetoP": 35.9757,
+      "HOF_S": -30.41,
+      "maxtan": 0.3448,
+      "composite": 2.7554,
+      "cj": {
+        "T_cj_K": 4090.0,
+        "Q_kJ_mol": 810.4,
+        "Q_J_g": 4218.8,
+        "D_ig_kms": 2.179,
+        "D_corr_kms": 7.546,
+        "P_ig_GPa": 47.96,
+        "ob_pct": -16.7,
+        "MW": 192.09,
+        "products": {
+          "N2": 1.655,
+          "H2O": 2.0,
+          "CO2": 0.3105,
+          "CO": 2.689,
+          "NO": 0.69,
+          "C_s": 0.0005
+        }
+      },
+      "D_ig_minus_surrogate": -6.889
+    },
+    {
+      "smiles": "O=[N+]([O-])NCNC([N+](=O)[O-])[N+](=O)[O-]",
+      "DetoD": 9.1419,
+      "density": 1.8701,
+      "DetoP": 36.054,
+      "HOF_S": -60.64,
+      "maxtan": 0.5714,
+      "composite": 2.8303,
+      "cj": {
+        "T_cj_K": 3341.0,
+        "Q_kJ_mol": 680.2,
+        "Q_J_g": 3486.7,
+        "D_ig_kms": 1.981,
+        "D_corr_kms": 6.795,
+        "P_ig_GPa": 38.38,
+        "ob_pct": -4.1,
+        "MW": 195.09,
+        "products": {
+          "N2": 1.8175,
+          "H2O": 2.5,
+          "CO2": 0.1365,
+          "CO": 1.8619,
+          "NO": 1.365,
+          "C_s": 0.0015
+        }
+      },
+      "D_ig_minus_surrogate": -7.161
+    }
+  ]
+}

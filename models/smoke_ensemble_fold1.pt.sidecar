@@ -1,0 +1,6 @@
+filename:   smoke_ensemble_fold1.pt
+size_mb:    200
+sha256:     TODO_BEFORE_PUBLIC
+zenodo_doi: 10.5281/zenodo.19821953
+url:        https://zenodo.org/record/19821953/files/smoke_ensemble_fold1.pt
+download:   wget -O models/smoke_ensemble_fold1.pt https://zenodo.org/record/19821953/files/smoke_ensemble_fold1.pt

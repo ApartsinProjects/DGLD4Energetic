@@ -1,0 +1,6 @@
+filename:   random_forest_viability.pkl
+size_mb:    5
+sha256:     TODO_BEFORE_PUBLIC
+zenodo_doi: 10.5281/zenodo.19821953
+url:        https://zenodo.org/record/19821953/files/random_forest_viability.pkl
+download:   wget -O models/random_forest_viability.pkl https://zenodo.org/record/19821953/files/random_forest_viability.pkl

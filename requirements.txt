@@ -1,0 +1,23 @@
+# Inference-path dependencies (CPU is sufficient for figure regeneration).
+# For training, use requirements-train.txt instead.
+
+# Core
+numpy>=1.24,<2.3
+scipy>=1.11
+pandas>=2.0
+matplotlib>=3.7
+networkx>=3.1
+
+# Cheminformatics
+rdkit-pypi>=2022.9.5
+selfies>=2.1.1
+
+# ML inference (CPU build is fine for plot scripts)
+torch>=2.1
+scikit-learn>=1.3
+
+# JSON / YAML / CFF
+pyyaml>=6.0
+
+# Optional: progress bars
+tqdm>=4.66

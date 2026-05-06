@@ -1,0 +1,28 @@
+# Training-path dependencies (GPU + Modal + heavy DL stack).
+# Adds to requirements.txt.
+
+-r requirements.txt
+
+# GPU PyTorch (install with the right CUDA wheel index for your platform)
+# torch is already pinned in requirements.txt; reinstall with CUDA wheels:
+#   pip install --index-url https://download.pytorch.org/whl/cu121 torch
+
+# Modal: cloud GPU orchestration
+modal>=0.62
+
+# HuggingFace stack (used by REINVENT 4 baseline + LSTM + various tokenizers)
+transformers>=4.40
+tokenizers>=0.15
+huggingface-hub>=0.23
+
+# REINVENT 4 baseline
+# (install separately from GitHub: pip install git+https://github.com/MolecularAI/REINVENT4.git)
+
+# AiZynthFinder retrosynthesis
+aizynthfinder>=4.0
+
+# Distribution metric: FCD
+fcd-torch>=1.2
+
+# Quantum chemistry surrogate (Cantera CJ + xTB wrappers used in audits)
+cantera>=3.0

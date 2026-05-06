@@ -1,0 +1,214 @@
+{
+  "id": "L1",
+  "smiles": "O=[N+]([O-])c1noc([N+](=O)[O-])c1[N+](=O)[O-]",
+  "errors": [],
+  "n_atoms_parent": 14,
+  "e_parent_hartree": -46.184667899448,
+  "n_candidate_bonds": 14,
+  "bonds": [
+    {
+      "atom_a": 6,
+      "atom_b": 7,
+      "syms": "C-N",
+      "frag_formulas": [
+        "C3N3O5",
+        "N1O2"
+      ],
+      "frag_atom_counts": [
+        11,
+        3
+      ],
+      "e_frag1_hartree": -35.141562340877,
+      "e_frag2_hartree": -10.906101737084,
+      "bde_hartree": 0.1370038214869993,
+      "bde_kcal_per_mol": 85.971,
+      "skipped": false
+    },
+    {
+      "atom_a": 10,
+      "atom_b": 11,
+      "syms": "C-N",
+      "frag_formulas": [
+        "C3N3O5",
+        "N1O2"
+      ],
+      "frag_atom_counts": [
+        11,
+        3
+      ],
+      "e_frag1_hartree": -35.13313435583,
+      "e_frag2_hartree": -10.906101737214,
+      "bde_hartree": 0.1454318064039981,
+      "bde_kcal_per_mol": 91.26,
+      "skipped": false
+    },
+    {
+      "atom_a": 1,
+      "atom_b": 3,
+      "syms": "N-C",
+      "frag_formulas": [
+        "N1O2",
+        "C3N3O5"
+      ],
+      "frag_atom_counts": [
+        3,
+        11
+      ],
+      "e_frag1_hartree": -10.906101738366,
+      "e_frag2_hartree": -35.131440600329,
+      "bde_hartree": 0.14712556075299688,
+      "bde_kcal_per_mol": 92.323,
+      "skipped": false
+    },
+    {
+      "atom_a": 7,
+      "atom_b": 9,
+      "syms": "N-O",
+      "frag_formulas": [
+        "C3N4O6",
+        "O1"
+      ],
+      "frag_atom_counts": [
+        13,
+        1
+      ],
+      "e_frag1_hartree": -42.143325972241,
+      "e_frag2_hartree": -3.769421097051,
+      "bde_hartree": 0.27192083015599877,
+      "bde_kcal_per_mol": 170.633,
+      "skipped": false
+    },
+    {
+      "atom_a": 0,
+      "atom_b": 1,
+      "syms": "O-N",
+      "frag_formulas": [
+        "O1",
+        "C3N4O6"
+      ],
+      "frag_atom_counts": [
+        1,
+        13
+      ],
+      "e_frag1_hartree": -3.769421097051,
+      "e_frag2_hartree": -42.132594620355,
+      "bde_hartree": 0.2826521820419998,
+      "bde_kcal_per_mol": 177.367,
+      "skipped": false
+    },
+    {
+      "atom_a": 1,
+      "atom_b": 2,
+      "syms": "N-O",
+      "frag_formulas": [
+        "C3N4O6",
+        "O1"
+      ],
+      "frag_atom_counts": [
+        13,
+        1
+      ],
+      "e_frag1_hartree": -42.132594302506,
+      "e_frag2_hartree": -3.769421097051,
+      "bde_hartree": 0.2826524998910003,
+      "bde_kcal_per_mol": 177.367,
+      "skipped": false
+    },
+    {
+      "atom_a": 11,
+      "atom_b": 12,
+      "syms": "N-O",
+      "frag_formulas": [
+        "C3N4O6",
+        "O1"
+      ],
+      "frag_atom_counts": [
+        13,
+        1
+      ],
+      "e_frag1_hartree": -42.128877868643,
+      "e_frag2_hartree": -3.769421097051,
+      "bde_hartree": 0.2863689337539981,
+      "bde_kcal_per_mol": 179.699,
+      "skipped": false
+    },
+    {
+      "atom_a": 11,
+      "atom_b": 13,
+      "syms": "N-O",
+      "frag_formulas": [
+        "C3N4O6",
+        "O1"
+      ],
+      "frag_atom_counts": [
+        13,
+        1
+      ],
+      "e_frag1_hartree": -42.128877729915,
+      "e_frag2_hartree": -3.769421097051,
+      "bde_hartree": 0.28636907248200316,
+      "bde_kcal_per_mol": 179.699,
+      "skipped": false
+    },
+    {
+      "atom_a": 7,
+      "atom_b": 8,
+      "syms": "N-O",
+      "frag_formulas": [
+        "C3N4O6",
+        "O1"
+      ],
+      "frag_atom_counts": [
+        13,
+        1
+      ],
+      "e_frag1_hartree": -42.127345082353,
+      "e_frag2_hartree": -3.769421097051,
+      "bde_hartree": 0.2879017200439975,
+      "bde_kcal_per_mol": 180.661,
+      "skipped": false
+    },
+    {
+      "atom_a": 3,
+      "atom_b": 4,
+      "syms": "C-N",
+      "skipped": true,
+      "reason": "ring-bond, not 2 fragments"
+    },
+    {
+      "atom_a": 4,
+      "atom_b": 5,
+      "syms": "N-O",
+      "skipped": true,
+      "reason": "ring-bond, not 2 fragments"
+    },
+    {
+      "atom_a": 5,
+      "atom_b": 6,
+      "syms": "O-C",
+      "skipped": true,
+      "reason": "ring-bond, not 2 fragments"
+    },
+    {
+      "atom_a": 6,
+      "atom_b": 10,
+      "syms": "C-C",
+      "skipped": true,
+      "reason": "ring-bond, not 2 fragments"
+    },
+    {
+      "atom_a": 10,
+      "atom_b": 3,
+      "syms": "C-C",
+      "skipped": true,
+      "reason": "ring-bond, not 2 fragments"
+    }
+  ],
+  "weakest_bond": {
+    "atom_a": 6,
+    "atom_b": 7,
+    "syms": "C-N",
+    "bde_kcal_per_mol": 85.971
+  },
+  "_elapsed_s": 7.6
+}

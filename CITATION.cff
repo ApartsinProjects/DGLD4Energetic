@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+title: "DGLD4Energetic: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials"
+message: "If you use this software or its companion data, please cite the paper and the Zenodo record."
+type: software
+version: 1.0.0
+date-released: "2026-05-06"
+license: Apache-2.0
+repository-code: "https://github.com/ApartsinProjects/DGLD4Energetic"
+url: "https://github.com/ApartsinProjects/DGLD4Energetic"
+authors:
+  - family-names: Aperstein
+    given-names: Yehudit
+  - family-names: Apartsin
+    given-names: Alexey
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.19821953
+    description: Zenodo archive of model checkpoints and data
+preferred-citation:
+  type: article
+  title: "Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials"
+  authors:
+    - family-names: Aperstein
+      given-names: Yehudit
+    - family-names: Apartsin
+      given-names: Alexey
+  journal: "Nature Machine Intelligence"
+  year: 2026
+  doi: "TBD"

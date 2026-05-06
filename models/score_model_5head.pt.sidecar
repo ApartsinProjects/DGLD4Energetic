@@ -1,0 +1,6 @@
+filename:   score_model_5head.pt
+size_mb:    30
+sha256:     TODO_BEFORE_PUBLIC
+zenodo_doi: 10.5281/zenodo.19821953
+url:        https://zenodo.org/record/19821953/files/score_model_5head.pt
+download:   wget -O models/score_model_5head.pt https://zenodo.org/record/19821953/files/score_model_5head.pt

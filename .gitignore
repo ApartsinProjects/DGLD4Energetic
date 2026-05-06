@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Modal / cloud caches
+.modal-cache/
+.runpod-cache/
+
+# Secrets / credentials
+*.key
+*.key.txt
+accounts.json
+secrets.*
+keys/
+.env
+.env.*
+
+# Large binary checkpoints (fetched from Zenodo via sidecars)
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.safetensors
+
+# Large parquet files (use sidecars for >50 MB)
+*.parquet
+
+# Logs
+*.log
+launch.log
+download.log
+NUL.log
+
+# Jupyter
+.ipynb_checkpoints/

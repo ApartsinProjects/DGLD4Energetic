@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dgld4energetic"
+version = "1.0.0"
+description = "Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [
+  { name = "Yehudit Aperstein" },
+  { name = "Alexey Apartsin" },
+]
+keywords = ["diffusion", "energetic-materials", "molecular-design", "CHNO", "latent-diffusion"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Chemistry",
+]
+dynamic = ["dependencies"]
+
+[project.urls]
+Homepage = "https://github.com/ApartsinProjects/DGLD4Energetic"
+Repository = "https://github.com/ApartsinProjects/DGLD4Energetic"
+Issues = "https://github.com/ApartsinProjects/DGLD4Energetic/issues"
+Zenodo = "https://doi.org/10.5281/zenodo.19821953"
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+include = ["dgld*"]
+exclude = ["experiments*", "scripts*", "tests*", "docs*", "paper*", "figures*"]
