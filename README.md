@@ -4,7 +4,7 @@
 
 **Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials**
 
-[paper PDF (TBD)] · [Zenodo DOI 10.5281/zenodo.19821953] · [BibTeX](#citation)
+[Draft paper](https://apartsinprojects.github.io/DGLD4Energetic/paper/short_paper.html) · [Zenodo DOI 10.5281/zenodo.19821953] · [BibTeX](#citation)
 
 > 12 DFT-confirmed novel CHNO leads. Headline compound L1 (3,4,5-trinitro-1,2-isoxazole)
 > at rho = 2.09 g/cm^3, D = 8.25 km/s, max-Tanimoto 0.27 to all 65,980 training molecules.
