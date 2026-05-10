@@ -21,7 +21,8 @@ from scipy import stats as scistats
 
 ROOT = r"E:\Projects\EnergeticDiffusion2"
 LEAD_DIR = os.path.join(ROOT, "m2_bundle", "results")
-OUT_DIR = os.path.join(ROOT, "docs", "paper", "figs")
+PUBLIC_REPO = r"E:\Projects\DGLD4Energetic-public"
+OUT_DIR = os.path.join(PUBLIC_REPO, "paper", "figs")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 
@@ -92,20 +93,22 @@ def main():
                 label="DFT KJ (anchor-cal) D", zorder=3, s=42)
     axL.set_yticks(y)
     axL.set_yticklabels([r["id"] for r in rows], fontsize=9)
-    axL.set_xlabel("Detonation velocity D (km/s)")
+    axL.set_xlabel("Detonation velocity $D$ (km/s)")
     axL.axvline(9.0, color="#59A14F", linestyle=":", linewidth=1.0,
                 label="HMX-class threshold (9.0 km/s)")
-    # L1 K-J calibrated D reference line
+    # L1 K-J calibrated D reference line - one annotation only (legend);
+    # earlier inline rotated text removed as redundant per Round 5 audit.
     axL.axvline(8.25, color="0.45", linestyle="--", linewidth=1.0,
                 label=r"L1 $D_{K\!-\!J,\mathrm{cal}}$ = 8.25 km/s")
-    # Inline label at top of L1 reference line for visual clarity
-    ymax = len(rows) - 0.5
-    axL.text(8.25, ymax, r" L1 $D_{K\!-\!J,\mathrm{cal}}$=8.25",
-             fontsize=7.5, color="0.35", ha="left", va="top",
-             rotation=90)
-    axL.legend(loc="lower right", fontsize=8, frameon=False)
-    axL.set_title("Per-lead dumbbell: CNN-predicted vs DFT-KJ (calibrated) D",
-                  fontsize=10)
+    # Legend in upper-LEFT (data are sorted ascending by D_cnn so this region
+    # is whitespace; previous lower-right placement collided with low-D rows)
+    axL.legend(loc="upper left", fontsize=8, frameon=True, framealpha=0.95,
+               edgecolor="0.7")
+    # Panel letter
+    axL.text(-0.07, 1.02, "(a)", transform=axL.transAxes,
+             fontsize=12, fontweight="bold", va="bottom", ha="left")
+    axL.set_title("Per-lead dumbbell: CNN-predicted vs DFT-K-J (calibrated) $D$",
+                  fontsize=10, loc="left")
     axL.grid(axis="x", color="0.9", linestyle=":")
     axL.set_axisbelow(True)
 
@@ -151,24 +154,17 @@ def main():
                      color="#1f2c3a", zorder=6)
 
     axR.set_xlabel("N fraction (N atoms / total atoms)")
-    axR.set_ylabel("D residual: DFT-KJ-cal minus CNN (km/s)")
-    axR.set_title("Residual vs N fraction (per lead)", fontsize=10)
+    axR.set_ylabel("$D$ residual: DFT-K-J-cal minus CNN (km/s)")
+    axR.set_title("Residual vs N fraction (per lead)", fontsize=10, loc="left")
+    axR.text(-0.10, 1.02, "(b)", transform=axR.transAxes,
+             fontsize=12, fontweight="bold", va="bottom", ha="left")
     axR.grid(color="0.9", linestyle=":")
     axR.set_axisbelow(True)
 
-    # Pull global r from d9 table for caption text
-    try:
-        d9 = json.load(open(os.path.join(ROOT, "results", "d9_kj_nfrac_table.json")))
-        gr = d9.get("pearson_resid_vs_Nfrac", {}).get("r")
-        if gr is not None:
-            fig.suptitle(
-                f"DFT validation: 3D-CNN vs anchor-calibrated KJ "
-                f"(global N-frac residual Pearson r={gr:.2f} on n={d9.get('n_total','?')})",
-                fontsize=11, y=0.995)
-    except Exception:
-        pass
+    # Suptitle removed per Round 5 audit; figcaption in NMIPaper.html now
+    # carries the headline message and global Pearson r context.
 
-    plt.tight_layout(rect=(0, 0, 1, 0.95))
+    plt.tight_layout()
     svg_path = os.path.join(OUT_DIR, "fig_dft_dumbbell.svg")
     png_path = os.path.join(OUT_DIR, "fig_dft_dumbbell.png")
     fig.savefig(svg_path, format="svg", bbox_inches="tight")

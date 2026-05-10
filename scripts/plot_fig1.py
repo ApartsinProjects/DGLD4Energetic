@@ -18,8 +18,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-OUT = Path("docs/paper/figs"); OUT.mkdir(exist_ok=True, parents=True)
-data = json.load(open("results/novelty_top1.json"))["rows"]
+OUT = Path("paper/figs"); OUT.mkdir(exist_ok=True, parents=True)
+data = json.load(open("data/novelty_top1.json"))["rows"]
 
 DGLD_CONDS = {"C0_unguided", "C1_viab", "C1_viab_sens", "C2_viab_sens",
               "C2_viab_sens_hazard", "C3_hazard_only", "C3_viab_sens_sa"}
@@ -130,14 +130,20 @@ def plot_panel(ax, ykey, ylabel, ylim, prop, _anchor_idx):
     # P panel: SELFIES-GA top-1 was a corpus rediscovery; novel candidate
     # P_surrogate not anchored, so skip per spec.
 
-    # Anchors
+    # Anchors. Stagger label vertical offsets so adjacent anchors at novelty=0
+    # don't pile on top of each other; labels sit slightly to the LEFT of the
+    # axis (in the white margin x = -0.05..0) so they never overlap markers.
+    name_to_offset = {"RDX": 0, "HMX": 1, "CL-20": 2, "TATB": 3, "PETN": 4}
     for name, nov, D, rho, P in ANCHORS:
         y = {"D": D, "rho": rho, "P": P}[prop]
-        ax.scatter(nov, y, s=110, marker="^",
+        ax.scatter(nov, y, s=90, marker="^",
                    facecolor="#7f7f7f", edgecolor="black", linewidths=0.6,
                    alpha=0.85, zorder=2)
-        ax.annotate(name, xy=(nov, y), xytext=(nov - 0.04, y + (ylim[1]-ylim[0])*0.012),
-                    fontsize=7.5, ha="right", color="#444")
+        # Place the label above-right of the marker, far enough to clear it
+        ax.annotate(name, xy=(nov, y),
+                    xytext=(nov + 0.025, y + (ylim[1] - ylim[0]) * 0.018),
+                    fontsize=6.8, ha="left", va="bottom", color="#555",
+                    zorder=3)
 
     ax.axvline(x=0.45, color="grey", linestyle="--", linewidth=0.7, alpha=0.6, zorder=1)
     ax.set_xlim(-0.05, 1.05)
@@ -150,10 +156,11 @@ def plot_panel(ax, ykey, ylabel, ylim, prop, _anchor_idx):
 for ax, ykey, ylabel, ylim, prop, idx in PROPS:
     plot_panel(ax, ykey, ylabel, ylim, prop, idx)
 
-# SELFIES-GA collapse inset on panel A (lower-left). Two markers connected by
-# an arrow at novelty = 0.65: triangle-up at surrogate D = 9.74, triangle-down
-# at DFT-anchored D = 6.28; the 3.5 km/s gap is the headline collapse.
-ins = axA.inset_axes([0.04, 0.04, 0.28, 0.40])
+# SELFIES-GA collapse inset on panel A. Placed in the upper-right
+# quadrant of the panel where the white space allows -- below the
+# productive-quadrant tint band and to the right of the bulk DGLD cluster.
+# Earlier placement at lower-left collided with low-D anchor markers.
+ins = axA.inset_axes([0.62, 0.04, 0.34, 0.34])
 sx = SELFIES_GA["novelty"]
 y_top = SELFIES_GA["D_surrogate"]
 y_bot = SELFIES_GA["D_DFT"]
@@ -194,30 +201,29 @@ for i, (ax, _, _, _, prop, _) in enumerate(PROPS):
     label = ["A. Detonation velocity", "B. Density", "C. Detonation pressure"][i]
     ax.set_title(label, fontsize=10.5, fontweight="bold", loc="left")
 
-# Shared legend at top
+# Shared legend at top. Labels are short -- the figure caption carries
+# the per-method conditions and caveats, so the legend sticks to the
+# minimum needed to identify markers visually. Marker-area encoding is
+# explained in the caption rather than the legend.
 handles = [
     mpatches.Patch(facecolor="#2a73c8", edgecolor="black",
-                   label="DGLD top-1 (7 conditions \u00d7 3 seeds)"),
+                   label="DGLD top-1"),
     mpatches.Patch(facecolor="#d6473a", edgecolor="black",
-                   label="SMILES-LSTM top-1 (1 seed; Tanimoto = 1.000 = exact LM match)"),
+                   label="SMILES-LSTM top-1"),
     mpatches.Patch(facecolor="#e8a830", edgecolor="black",
-                   label="MolMIM 70M top-1 (drug-domain pretrain)"),
+                   label="MolMIM 70M top-1"),
     mpatches.Patch(facecolor=REINVENT_COLOR, edgecolor="black",
-                   label="REINVENT 4 top-1 (square; N-fraction proxy reward)"),
+                   label="REINVENT 4 top-1"),
     mpatches.Patch(facecolor=SELFIES_COLOR, edgecolor="black",
-                   label="SELFIES-GA 40k novel (\u25b2 surrogate, \u25bc DFT; D collapse)"),
+                   label="SELFIES-GA (\u25b2 surrogate, \u25bc DFT)"),
     mpatches.Patch(facecolor="#7f7f7f", edgecolor="black",
-                   label="literature anchors (RDX/HMX/CL-20/TATB/PETN, experimental)"),
-    mpatches.Patch(facecolor="none", edgecolor="none",
-                   label="marker area \u221d 1 \u2212 memorisation rate (Table 6a)"),
+                   label="literature anchors"),
 ]
-fig.legend(handles=handles, loc="upper center", ncol=4, framealpha=0.95,
-           fontsize=8.5, bbox_to_anchor=(0.5, 1.04))
-fig.suptitle("Top-1 candidates of each method on three target properties:\n"
-             "DGLD occupies the productive quadrant (novel + HMX-class) on every axis",
-             fontsize=11, fontweight="bold", y=1.10)
+fig.legend(handles=handles, loc="upper center", ncol=6, framealpha=0.95,
+           fontsize=8.5, bbox_to_anchor=(0.5, 1.02), frameon=False)
 
-plt.tight_layout(rect=[0, 0, 1, 0.96])
+# No suptitle; the figcaption in the manuscript carries the headline message.
+plt.tight_layout(rect=[0, 0, 1, 0.94])
 plt.savefig(OUT / "novelty_vs_D.svg", format="svg", bbox_inches="tight")
 plt.savefig(OUT / "novelty_vs_D.png", format="png", dpi=200, bbox_inches="tight")
 print(f"[plot] -> {OUT / 'novelty_vs_D.svg'}")

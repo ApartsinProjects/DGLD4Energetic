@@ -25,8 +25,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 
-PROJECT_DIR = os.path.dirname(__file__)
-OUT_DIR     = os.path.join(PROJECT_DIR, "docs", "paper", "figs")
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT_DIR     = os.path.join(PROJECT_DIR, "paper", "figs")
 
 # ---------------------------------------------------------------------------
 # DGLD lead data
@@ -118,12 +118,15 @@ rng = np.random.default_rng(seed=42)
 n_lower = len(LOWER_LEADS)
 xs_floor = np.linspace(VIAB_THRESH + 0.005, 0.985, n_lower)
 ys_floor = S_THRESH - 0.045 + rng.uniform(-0.012, 0.012, n_lower)
-for (xf, yf, lead) in zip(xs_floor, ys_floor, LOWER_LEADS):
+for i, (xf, yf, lead) in enumerate(zip(xs_floor, ys_floor, LOWER_LEADS)):
     sz = h50_size(lead["h50"])
     ax.scatter(xf, yf, s=sz, facecolors="none", edgecolors=COLOR_LOWER,
                linewidths=1.4, zorder=4, alpha=0.75, marker="o")
+    # Stagger label y-offset so adjacent labels (L13/L18/L19/L20 cluster)
+    # don't collide horizontally when their parent markers are large.
+    y_off = -13 if i % 2 == 0 else -26
     ax.annotate(lead["id"], xy=(xf, yf),
-                xytext=(0, -13), textcoords="offset points",
+                xytext=(0, y_off), textcoords="offset points",
                 fontsize=7.8, fontfamily="DejaVu Serif", color="#345b7a",
                 ha="center", va="top", zorder=7)
 
