@@ -116,27 +116,6 @@ figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem;text-align:left;
   All code is on GitHub (<a href="https://github.com/ApartsinProjects/DGLD4Energetic">ApartsinProjects/DGLD4Energetic</a>, Apache-2.0).
 </p>
 
-<nav class="toc" style="background:#fafaf6;border:1px solid #dcd6cc;border-radius:.4rem;padding:.7rem 1rem;margin:0 0 2rem 0;font-size:.9rem;">
-  <span style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#27445d;display:block;margin-bottom:.4rem;">Supplementary contents</span>
-  <ol style="margin:0;padding-left:1.2rem">
-    <li><a href="#si-table-s1" style="color:#27445d;text-decoration:none;">Supplementary Table&nbsp;S1: Twelve DFT-confirmed leads with canonical SMILES</a></li>
-    <li><a href="#si-note-1" style="color:#27445d;text-decoration:none;">Supplementary Note&nbsp;1: Dataset details</a></li>
-    <li><a href="#si-note-2" style="color:#27445d;text-decoration:none;">Supplementary Note&nbsp;2: Model architecture and hyperparameter values</a></li>
-    <li><a href="#si-note-3" style="color:#27445d;text-decoration:none;">Supplementary Note&nbsp;3: First-principles audit (DFT) methodology and uncertainty bounds</a></li>
-    <li><a href="#si-note-4" style="color:#27445d;text-decoration:none;">Supplementary Note&nbsp;4: Reproducibility details and superseded ablations</a></li>
-    <li><a href="#si-note-5" style="color:#27445d;text-decoration:none;">Supplementary Note&nbsp;5: Baseline-method example outputs</a></li>
-    <li><a href="#si-note-6" style="color:#27445d;text-decoration:none;">Supplementary Note&nbsp;6: Detailed ablations</a></li>
-    <li><a href="#si-note-7" style="color:#27445d;text-decoration:none;">Supplementary Note&nbsp;7: AiZynthFinder retrosynthesis audit (L1 and extension leads)</a></li>
-    <li><a href="#sec-refs" style="color:#27445d;text-decoration:none;">Supplementary references</a></li>
-  </ol>
-  <div style="margin-top:.8rem;padding-top:.6rem;border-top:1px solid #dcd6cc;font-size:.86rem;color:#444;">
-    <strong style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#27445d;">Tables.</strong>&nbsp;
-    S1 (12 leads) &middot; 1.1 (per-source provenance) &middot; 2.1a&ndash;c (LIMO / denoiser+score / label sources) &middot; 2.5 (production recipe) &middot; 3.1, 3.1b&ndash;d, 3.2&ndash;3.5 (DFT) &middot; 4.3 (SMARTS rejects) &middot; 5.1&ndash;5.2 (MolMIM, SMILES-LSTM) &middot; 6.1, 6.2, 6.3a&ndash;d (head-to-head, MOSES, FCD), 6.4a&ndash;d (multi-seed, head-state grid, sensitivity, hazard), 6.5, 6.6 (ablations).
-    <br><strong style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#27445d;">Figures.</strong>&nbsp;
-    1.1 (atom counts) &middot; 4.8 (composite distribution) &middot; 6.1 (guided vs unguided).
-  </div>
-</nav>
-
 <table id="si-table-s1">
   <caption><strong>Supplementary Table&nbsp;S1.</strong> Twelve DFT-confirmed novel leads with canonical SMILES. SMILES are RDKit-canonicalised with explicit charge separation on nitro groups. \(\rho_\text{cal}\) and \(D_\text{K-J,cal}\) are 6-anchor-calibrated DFT values (Methods, &ldquo;Six-anchor DFT calibration&rdquo;, main paper). Note: L3 and L16 share an identical canonical SMILES because the Pareto reranker picked up the same molecule from two different sampling lanes; both are retained in the table to reflect the merged top-100 provenance.</caption>
   <thead>
