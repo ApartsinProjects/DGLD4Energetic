@@ -57,10 +57,27 @@ figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem;text-align:left;
 .contrib-box li{margin-bottom:.3rem}
 .smiles-table{font-size:.8rem}
 .smiles-table .smi{font-size:.78rem}
-@media print{body{font-size:10pt;max-width:none}h2,h3{break-after:avoid}}
+.downloads{position:fixed;top:1rem;right:1rem;z-index:100;
+  display:flex;flex-direction:column;gap:.25rem;
+  background:rgba(255,254,251,.94);border:1px solid var(--rule);
+  border-radius:.4rem;padding:.55rem .75rem;font-size:.82rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.downloads .label{font-size:.68rem;color:var(--muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:.15rem}
+.downloads a{color:var(--accent);text-decoration:none;display:block;line-height:1.35}
+.downloads a:hover{text-decoration:underline}
+.downloads .ext{color:var(--muted);font-size:.75em}
+@media print{body{font-size:10pt;max-width:none}h2,h3{break-after:avoid};.downloads{display:none}}
+@media (max-width:60rem){.downloads{position:static;margin:0 auto 1rem auto;max-width:48rem;box-shadow:none;border-radius:.3rem}}
 </style>
 </head>
 <body>
+
+<aside class="downloads" aria-label="Download Word versions of this paper">
+  <span class="label">Word downloads</span>
+  <a href="short_paper.docx" download>Main article <span class="ext">(.docx)</span></a>
+  <a href="short_paper_SI.docx" download>Supplementary Info <span class="ext">(.docx)</span></a>
+</aside>
 
 <header class="title">
   <h1>DGLD: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials</h1>

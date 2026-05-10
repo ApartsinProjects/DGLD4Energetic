@@ -41,8 +41,23 @@ def find_line_index(lines: list[str], pattern: re.Pattern) -> int:
     raise RuntimeError(f"marker not found: {pattern.pattern}")
 
 
+def strip_html_only_chrome(text: str) -> str:
+    """Remove HTML-only UI elements that don't belong in the Word builds.
+
+    Currently strips the top-right "Word downloads" aside from short_paper.html
+    so the .docx outputs don't carry self-referential download links.
+    """
+    return re.sub(
+        r'<aside class="downloads"[\s\S]*?</aside>\s*',
+        "",
+        text,
+        count=1,
+    )
+
+
 def main() -> None:
     text = SRC.read_text(encoding="utf-8")
+    text = strip_html_only_chrome(text)
     lines = text.splitlines(keepends=True)
 
     # Locate the three structural breakpoints

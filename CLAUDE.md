@@ -48,16 +48,26 @@ auto-injects continuous line numbers (NMI/Nature/Science compatible). Both
 files share these settings so reviewers see consistent formatting across main
 and SI.
 
+### What to commit
+
+The two final Word files **are committed** so the published HTML paper can
+serve them as downloads (top-right corner of `short_paper.html`, served by
+GitHub Pages):
+
+- `paper/short_paper.docx`
+- `paper/short_paper_SI.docx`
+
+Rebuild and re-commit both whenever `short_paper.html` changes. The HTML is
+still the source of record; the .docx files are derived snapshots that need
+to stay in sync.
+
 ### What NOT to commit
 
-Build artefacts are gitignored (see `.gitignore`):
+Build intermediates are gitignored (see `.gitignore`):
 
-- `paper/_body.html`, `paper/_supplementary.html` (intermediate splits)
-- `paper/short_paper.docx`, `paper/short_paper_SI.docx` (regenerated on demand)
+- `paper/_body.html`, `paper/_supplementary.html` (split intermediates)
 - `paper/short_paper.pdf` (if produced)
-
-The committed source-of-record is `paper/short_paper.html` only. Word files
-are derived artefacts; rebuild them whenever the HTML changes.
+- `paper/~$*.docx` (Word lock files while a doc is open)
 
 ## Author list
 

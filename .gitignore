@@ -61,10 +61,12 @@ NUL.log
 # Jupyter
 .ipynb_checkpoints/
 
-# Paper build artefacts (built on demand from short_paper.html via the
-# html2doc skill; see paper/README.md and CLAUDE.md)
+# Paper build intermediates (split by paper/_split_html.py, consumed by the
+# html2doc pipeline). The final .docx files ARE committed so the published
+# HTML paper can link to them as downloads -- see paper/short_paper.html
+# top-right corner.
 paper/_body.html
 paper/_supplementary.html
-paper/short_paper.docx
-paper/short_paper_SI.docx
 paper/short_paper.pdf
+# Word lock files (Word holds a hidden file while a doc is open)
+paper/~$*.docx
