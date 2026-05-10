@@ -356,7 +356,41 @@ table th{font-weight:600;background:#f6f3ed}
   <figcaption style="font-size:.85rem;color:#666;margin-top:.4rem"><strong>Extended Data Fig.&nbsp;9</strong> | <strong>Distribution-learning small multiples.</strong> Validity proxy, top-100 scaffold uniqueness, internal diversity, and Fr&eacute;chet ChemNet Distance versus the labelled master, comparing SMILES-LSTM (red) against seven DGLD conditions (blue). Condition codes: C0 = unguided baseline; suffix letters denote which property heads steer sampling (v = viability, s = sensitivity, h = hazard, sa = synthetic accessibility), e.g. C2vsh = viability + sensitivity + hazard. Full per-head specifications in Supplementary Note&nbsp;6.3.</figcaption>
 </figure>
 
-<p><strong>Extended Data Table 1</strong> | <strong>Six-anchor DFT calibration.</strong> Anchor compounds RDX, TATB, HMX, PETN, FOX-7, NTO with experimental densities, condensed-phase heats of formation, raw DFT outputs, and the linear correction. Leave-one-out RMS \(\pm 0.078\) g/cm<sup>3</sup> on density and \(\pm 64.6\) kJ/mol on heat of formation.</p>
+<table style="margin:1.6rem 0;font-size:.85rem">
+  <caption style="font-size:.85rem;color:#666;text-align:left;padding:0 .5rem .4rem .5rem;caption-side:bottom">
+    <strong>Extended Data Table&nbsp;1</strong> | <strong>Six-anchor DFT calibration.</strong>
+    Anchor compounds and their chemotype families; experimental crystal density
+    \(\rho_\text{exp}\) and condensed-phase heat of formation \(\Delta H_f^\text{exp}\);
+    raw \(\omega\)B97X-D3BJ/def2-TZVP outputs \(\rho_\text{DFT}\) (Bondi-vdW + 0.69 packing)
+    and \(\Delta H_f^\text{DFT}\) (atomisation-energy method, 0&nbsp;K); calibrated values
+    under the linear correction \(\rho_\text{cal} = 1.392\,\rho_\text{DFT} - 0.415\) and
+    \(\Delta H_f^\text{cal} = \Delta H_f^\text{DFT} - 206.7\) kJ/mol. Joint-fit RMS over all
+    six anchors is 0.050 g/cm<sup>3</sup> on \(\rho\) and 53.8 kJ/mol on \(\Delta H_f\);
+    leave-one-out RMS is 0.078 g/cm<sup>3</sup> and 64.6 kJ/mol respectively. Per-anchor
+    LOO residuals and the DNTF 7th-anchor exclusion are in Supplementary Note&nbsp;3.4 and
+    3.11. Source: <code>experiments/dft_audit/results/m2_calibration_6anchor.json</code>.
+  </caption>
+  <thead>
+    <tr>
+      <th>Anchor</th>
+      <th>Chemotype family</th>
+      <th>\(\rho_\text{exp}\)<br>(g/cm<sup>3</sup>)</th>
+      <th>\(\rho_\text{DFT}\)<br>(g/cm<sup>3</sup>)</th>
+      <th>\(\rho_\text{cal}\)<br>(g/cm<sup>3</sup>)</th>
+      <th>\(\Delta H_f^\text{exp}\)<br>(kJ/mol)</th>
+      <th>\(\Delta H_f^\text{DFT}\)<br>(kJ/mol)</th>
+      <th>\(\Delta H_f^\text{cal}\)<br>(kJ/mol)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>RDX</strong></td><td>ring nitramine</td><td>1.82</td><td>1.632</td><td>1.857</td><td>+70</td><td>+240.4</td><td>+33.8</td></tr>
+    <tr><td><strong>HMX</strong></td><td>ring nitramine</td><td>1.91</td><td>1.689</td><td>1.936</td><td>+75</td><td>+377.9</td><td>+171.2</td></tr>
+    <tr><td><strong>TATB</strong></td><td>aromatic amino-nitro (insensitive)</td><td>1.94</td><td>1.663</td><td>1.900</td><td>&minus;141</td><td>+82.9</td><td>&minus;123.7</td></tr>
+    <tr><td><strong>PETN</strong></td><td>nitrate ester</td><td>1.77</td><td>1.626</td><td>1.849</td><td>&minus;538</td><td>&minus;307.2</td><td>&minus;513.8</td></tr>
+    <tr><td><strong>FOX-7</strong></td><td>push&ndash;pull nitroamine</td><td>1.89</td><td>1.613</td><td>1.830</td><td>&minus;134</td><td>+41.6</td><td>&minus;165.0</td></tr>
+    <tr><td><strong>NTO</strong></td><td>nitrotriazolone</td><td>1.93</td><td>1.654</td><td>1.888</td><td>&minus;129</td><td>+7.2</td><td>&minus;199.5</td></tr>
+  </tbody>
+</table>
 
 </div>
 
