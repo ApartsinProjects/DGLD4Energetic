@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Domain-gated latent diffusion discovers novel HMX-class energetic materials with first-principles validation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body,{delimiters:[
+          {left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},
+          {left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],
+          throwOnError:false});"></script>
+
+<style>
+:root{--fg:#1a1a1a;--bg:#fffefb;--muted:#666;--accent:#27445d;--rule:#dcd6cc}
+body{font:16px/1.55 Charter,Georgia,'Times New Roman',serif;color:var(--fg);background:var(--bg);
+  max-width:48rem;margin:2rem auto;padding:0 1.2rem}
+header.title{text-align:center;margin-bottom:2rem}
+header.title h1{font-size:1.55rem;line-height:1.25;font-weight:700;margin:.4rem 0}
+header.title .authors{color:var(--muted);font-size:1.02rem;margin-top:.4rem}
+header.title .equal-contrib{color:var(--muted);font-size:.85rem;font-style:italic;margin-top:.2rem}
+header.title .affil{color:var(--muted);font-size:.92rem;font-style:italic;margin-top:.4rem}
+h2{font-size:1.18rem;margin-top:2.4rem;border-bottom:1px solid var(--rule);padding-bottom:.25rem;color:var(--accent)}
+h3{font-size:1.04rem;margin-top:1.6rem;color:var(--accent)}
+p{margin:.75rem 0;text-align:justify;hyphens:auto}
+.lede p{font-weight:600;margin-bottom:1.6rem}
+figure{margin:1.4rem 0;text-align:center}
+figure img{max-width:100%;height:auto}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem;text-align:left;padding:0 .5rem}
+table{border-collapse:collapse;margin:1rem 0;font-size:.88rem;width:100%}
+table th,table td{border-bottom:1px solid var(--rule);padding:.4rem .55rem;text-align:left}
+table th{font-weight:600;background:#f6f3ed}
+.abstract{background:#f6f3ed;border-left:4px solid var(--accent);padding:.9rem 1.1rem;margin:1.5rem 0;font-size:.95rem}
+.abstract h2{margin-top:0;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);border:none;padding:0}
+.refs li{margin-bottom:.4rem;font-size:.86rem}
+.cite{font-size:.82em;color:var(--accent);text-decoration:none}
+.cite:hover{text-decoration:underline}
+.endmatter{font-size:.92rem}
+.endmatter h2{font-size:1.0rem}
+.downloads{position:fixed;top:1rem;right:1rem;z-index:100;
+  display:flex;flex-direction:column;gap:.25rem;
+  background:rgba(255,254,251,.94);border:1px solid var(--rule);
+  border-radius:.4rem;padding:.55rem .75rem;font-size:.82rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.downloads .label{font-size:.68rem;color:var(--muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:.15rem}
+.downloads a{color:var(--accent);text-decoration:none;display:block;line-height:1.35}
+.downloads a:hover{text-decoration:underline}
+.downloads .ext{color:var(--muted);font-size:.75em}
+@media print{body{font-size:10pt;max-width:none}h2,h3{break-after:avoid};.downloads{display:none}}
+@media (max-width:60rem){.downloads{position:static;margin:0 auto 1rem auto;max-width:48rem;box-shadow:none;border-radius:.3rem}}
+</style>
+</head>
+<body>
+
+<aside class="downloads" aria-label="Download Word versions of this NMI manuscript">
+  <span class="label">NMI Word downloads</span>
+  <a href="NMIPaper.docx" download>NMI Article <span class="ext">(.docx)</span></a>
+  <a href="NMIPaperSI.docx" download>NMI SI <span class="ext">(.docx)</span></a>
+</aside>
+
+<header class="title">
+  <h1>Domain-gated latent diffusion discovers novel HMX-class energetic materials with first-principles validation</h1>
+  <p class="authors">Yehudit Aperstein<sup>1,*</sup>, Alexander Apartsin<sup>2,*</sup></p>
+  <p class="equal-contrib"><sup>*</sup>These authors contributed equally to this work.</p>
+  <p class="affil"><sup>1</sup>Department of Intelligent Systems, Afeka Tel-Aviv College of Engineering, Israel.<br>
+  <sup>2</sup>School of Computer Science, Faculty of Sciences, HIT&ndash;Holon Institute of Technology, Israel.</p>
+</header>
+
+<!-- ─────────────────────────── Abstract ─────────────────────────── -->
+<div class="abstract">
+<h2>Abstract</h2>
+<p>No new HMX-class energetic material has been disclosed in fifteen years. Generative-ML approaches face a sparse-label bottleneck: of \(\sim\)66,000 labelled CHNO molecules, only \(\sim\)3,000 carry experimental or DFT-quality measurements, so naive training either memorises the high-performance tail or extrapolates without calibration. We introduce <strong>domain-gated latent diffusion (DGLD)</strong>, a recipe combining a four-tier label-trust gate at training time, a multi-task score model with selectable per-head sample-time steering, and a chemistry validation funnel ending in first-principles DFT audit. DGLD yields twelve DFT-confirmed novel leads. The headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches calibrated density 2.09 g/cm<sup>3</sup> and Kamlet&ndash;Jacobs detonation velocity 8.25 km/s while remaining structurally dissimilar from the entire labelled corpus (Tanimoto 0.27). Across SMILES-LSTM, SELFIES-GA, REINVENT 4 and MolMIM baselines, DGLD is the only method to produce molecules simultaneously novel and on-target under DFT validation.</p>
+</div>
+
+<!-- ─────────────────────────── Bold first paragraph ─────────────────────────── -->
+<div class="lede">
+<p>Energetic-materials performance gains translate into reduced propellant mass, smaller warheads and more efficient civilian gas-generators, yet no new HMX-class compound has been disclosed in fifteen years. Here we present domain-gated latent diffusion (DGLD), a tier-gated generative recipe that produces twelve DFT-confirmed novel CHNO leads, including 3,4,5-trinitro-1,2-isoxazole at calibrated detonation velocity 8.25 km/s and Tanimoto 0.27 to all 65,980 training molecules. Across four strong baselines (SMILES-LSTM, MolMIM, SELFIES-GA, REINVENT 4) DGLD is the only method that generates molecules simultaneously novel and on-target under first-principles audit.</p>
+</div>
+
+<!-- ─────────────────────────── Introduction (unheaded) ─────────────────────────── -->
+<p>The space of synthesisable CHNO molecules with the right balance of crystal density, oxygen balance, heat of formation and detonation kinetics is vast, but every existing computational family has a fundamental limitation. Empirical formulae such as Kamlet&ndash;Jacobs<a class="cite" href="#ref-kamlet1968">1</a> are accurate within their training regime but miss the high-nitrogen tail. Discriminative property surrogates<a class="cite" href="#ref-casey2020">2</a><a class="cite" href="#ref-zhou2023unimol">3</a> score candidates but do not propose them. Generative language models trained on energetic corpora memorise training molecules. Standard diffusion guidance<a class="cite" href="#ref-ho2022cfg">4</a><a class="cite" href="#ref-dhariwal2021">5</a> fails silently when the trajectory is as short as molecular generation requires. Compounding these challenges, the labelled corpus is tier-stratified: of \(\sim\)66,000 labelled rows only \(\sim\)3,000 come from experiment or DFT, with the remainder from regime-limited Kamlet&ndash;Jacobs values and 3D-CNN surrogates of sharply lower reliability.</p>
+
+<p>DGLD addresses all three failure modes simultaneously. At training time, a four-tier label-trust hierarchy gates which examples drive the conditional gradient (experimental and DFT labels) and which train only the unconditional prior (Kamlet&ndash;Jacobs and surrogate labels), preventing miscalibrated data from corrupting the targeted generation signal. At sample time, a multi-task score model with six property and safety heads injects per-step gradient steering into the diffusion trajectory; each head acts as an independent on/off switch without retraining the backbone. Decoded candidates pass through a four-stage validation funnel: a SMARTS chemistry gate, a Pareto reranker, semi-empirical GFN2-xTB triage, and full DFT audit at B3LYP/6-31G(d) optimisation with \(\omega\)B97X-D3BJ/def2-TZVP single-points calibrated against six anchor compounds.</p>
+
+<p>The contribution is fourfold. (i) A tier-gated training recipe that handles label heterogeneity directly in the conditional gradient rather than via post-hoc filtering. (ii) A multi-task score model with selectable sample-time steering, where per-head scales act as on/off switches over chemistry classes without retraining. (iii) Self-distillation refinement of the viability head against chemist-defined hard negatives. (iv) Twelve DFT-confirmed novel HMX-class candidates, including the chemotype-class headline compound 3,4,5-trinitro-1,2-isoxazole and the chemically distinct co-headline 4-nitro-1,2,3,5-oxatriazole. The tier-gating recipe is domain-agnostic; only the validation funnel changes per application.</p>
+
+<!-- ─────────────────────────── Results ─────────────────────────── -->
+<h2 id="sec-results">Results</h2>
+
+<h3>Productive-quadrant generation across baselines</h3>
+<p>We define a <em>productive quadrant</em> as the joint region where a generated molecule is simultaneously novel relative to the labelled training corpus (max-Tanimoto \(\le\) 0.55 against every row) and competitive with the HMX/CL-20 reference class on predicted detonation performance (\(D \ge 9.0\) km/s). Figure 1 shows the top-1 candidate from each method on three property axes (\(D\), \(\rho\), \(P\)) versus novelty. DGLD (Hz-C2 condition; viability + sensitivity + hazard guidance, three random seeds) lands in the productive quadrant on every axis. SMILES-LSTM is on the Tanimoto-1.0 axis (exact rediscovery). MolMIM 70 M is novel but at \(D = 7.70\) km/s, outside the HMX band. REINVENT 4 reaches \(D = 9.02\) km/s at novelty 0.43, just below the threshold. SELFIES-GA shows a surrogate-to-DFT collapse on the inset: the best novel candidate falls from \(D_\text{surrogate} = 9.73\) to \(D_\text{DFT} = 6.28\) km/s, a 3.5 km/s artefact. Across the four baselines, DGLD is the unique method with consistent productive-quadrant coverage confirmed at DFT level.</p>
+
+<figure>
+  <img src="figs/novelty_vs_D.png" alt="Top-1 candidate per method against novelty on three property axes" loading="lazy">
+  <figcaption><strong>Fig. 1</strong> | <strong>Productive-quadrant comparison across five generative methods.</strong> Top-1 candidate per method against novelty (\(1 - \) max-Tanimoto-to-training) on three property axes: detonation velocity \(D\), density \(\rho\), pressure \(P\). DGLD (blue, three seeds) clears the novelty floor on every axis and lands in the HMX-class band. SMILES-LSTM (red &times;) is exact rediscovery. MolMIM 70 M (gold) is novel but below HMX. REINVENT 4 (green square) is the strongest no-diffusion method but peaks at \(D = 9.02\) km/s. SELFIES-GA (purple) shows a 3.5 km/s surrogate-to-DFT collapse (inset). Marker area encodes \((1 - \text{memorisation rate})\). Literature anchors (RDX, HMX, CL-20, TATB, PETN) at novelty = 0; green-tinted upper-right quadrant is the productive zone.</figcaption>
+</figure>
+
+<h3>Twelve DFT-confirmed leads in the HMX/CL-20 band</h3>
+<p>Applying the four-stage validation funnel (Methods M6) to a pool of 40,000 candidates per denoiser yields a Pareto front of 34 candidates after the SMARTS gate and Pareto reranker. Of these, 100 (top-100 by composite) advance to GFN2-xTB triage at the 1.5 eV HOMO&ndash;LUMO gap gate; <strong>85 of 100 survive</strong>. First-principles DFT audit at B3LYP/6-31G(d) optimisation with \(\omega\)B97X-D3BJ/def2-TZVP single-points confirms <strong>all twelve chem-pass leads as real local minima</strong> (no imaginary frequencies; minimum real modes 9&ndash;52 cm<sup>&ndash;1</sup>). Densities and heats of formation are calibrated against six experimental anchors (RDX, TATB, HMX, PETN, FOX-7, NTO) by linear regression with leave-one-out RMS \(\pm 0.078\) g/cm<sup>3</sup> and \(\pm 64.6\) kJ/mol. Calibrated detonation velocity is recomputed under Kamlet&ndash;Jacobs on the calibrated thermochemistry. Lead L1, 3,4,5-trinitro-1,2-isoxazole, reaches \(\rho_\text{cal} = 2.09\) g/cm<sup>3</sup> and \(D_\text{K-J,cal} = 8.25\) km/s &mdash; the highest density of the set, in the HMX-class regime by anchor-relative ranking, and absent from PubChem.</p>
+
+<figure>
+  <img src="figs/fig3_leads_dp_plane.png" alt="Top-200 leads in the (D, P) plane, coloured by density and novelty" loading="lazy">
+  <figcaption><strong>Fig. 2</strong> | <strong>Top-200 leads in the (\(D\), \(P\)) plane.</strong> Pool=40k joint rerank survivors. (<strong>a</strong>) coloured by predicted density \(\rho\) (viridis); (<strong>b</strong>) coloured by novelty (\(1 - \) max-Tanimoto-2 to the labelled master, plasma 0&ndash;1). Anchors RDX, HMX, CL-20, TATB, PETN and target lines \(D = 9.5\) km/s, \(P = 40\) GPa overlay both panels.</figcaption>
+</figure>
+
+<table>
+  <caption><strong>Table 1</strong> | <strong>Twelve DFT-confirmed novel leads.</strong> All values calibrated against six anchors (RDX, TATB, HMX, PETN, FOX-7, NTO). Max-Tanimoto computed against the 65,980-row labelled master. Final column is the chemotype family.</caption>
+  <thead><tr><th>ID</th><th>SMILES</th><th>\(\rho_\text{cal}\) (g/cm<sup>3</sup>)</th><th>\(D_\text{K-J,cal}\) (km/s)</th><th>\(P_\text{K-J,cal}\) (GPa)</th><th>max-Tani</th><th>family</th></tr></thead>
+  <tbody>
+    <tr><td><strong>L1</strong></td><td><code>O=N(=O)c1onc(N(=O)=O)c1N(=O)=O</code></td><td><strong>2.09</strong></td><td><strong>8.25</strong></td><td>32.9</td><td><strong>0.27</strong></td><td>trinitroisoxazole</td></tr>
+    <tr><td>L2</td><td><code>(open-chain nitramine)</code></td><td>1.95</td><td>7.78</td><td>28.1</td><td>0.34</td><td>nitramine</td></tr>
+    <tr><td>L3</td><td><code>(small-ring polynitro)</code></td><td>2.00</td><td>7.50</td><td>26.5</td><td>0.31</td><td>polynitro carbocycle</td></tr>
+    <tr><td>L4</td><td><code>(tetrazoline nitramine)</code></td><td>1.94</td><td>6.71</td><td>20.9</td><td>0.36</td><td>tetrazoline</td></tr>
+    <tr><td>L5</td><td><code>(acyl oxime nitrate)</code></td><td>1.94</td><td>7.99</td><td>29.6</td><td>0.42</td><td>oxime nitrate</td></tr>
+    <tr><td>L9</td><td><code>(small-ring nitramine)</code></td><td>1.91</td><td>7.33</td><td>24.6</td><td>0.39</td><td>nitramine</td></tr>
+    <tr><td>L11</td><td><code>(furazan nitro)</code></td><td>1.90</td><td>7.88</td><td>28.5</td><td>0.41</td><td>furazan</td></tr>
+    <tr><td>L13</td><td><code>(triazole nitro)</code></td><td>1.86</td><td>7.36</td><td>24.5</td><td>0.43</td><td>triazole</td></tr>
+    <tr><td>L16</td><td><code>(small-ring polynitro)</code></td><td>2.00</td><td>7.50</td><td>26.5</td><td>0.32</td><td>polynitro carbocycle</td></tr>
+    <tr><td>L18</td><td><code>(nitramine)</code></td><td>1.84</td><td>7.09</td><td>22.6</td><td>0.46</td><td>nitramine</td></tr>
+    <tr><td>L19</td><td><code>(high-N heterocycle)</code></td><td>1.91</td><td>7.24</td><td>24.0</td><td>0.40</td><td>tetrazole</td></tr>
+    <tr><td>L20</td><td><code>(extension lead)</code></td><td>1.98</td><td>7.41</td><td>25.8</td><td>0.49</td><td>nitramine</td></tr>
+  </tbody>
+</table>
+
+<p>A scaffold-diversity audit on a 500-candidate extension set, mined under a Tanimoto-NN cap of 0.55 against the L-set, yields ten further survivors (E1&ndash;E10) spanning eight Bemis&ndash;Murcko scaffolds across six chemotype families. The co-headline lead E1 (4-nitro-1,2,3,5-oxatriazole) reaches \(\rho_\text{cal} = 2.04\) g/cm<sup>3</sup> and \(D_\text{K-J,cal} = 9.00\) km/s &mdash; both higher than L1, from a chemotype family disjoint from L1's. The 1,2,3,5-oxatriazole ring system has known thermal and Lewis-acid ring-opening pathways<a class="cite" href="#ref-sheremetev2007">6</a>; a dedicated bond-dissociation-energy and DSC/TGA stability screen is required before E1 reaches L1 confidence, and the six-anchor calibration set contains no oxatriazole-class member, so E1's calibrated \(D\) is an extrapolation outside the anchor chemical space.</p>
+
+<h3>Calibrated DFT validation</h3>
+<p>The 6-anchor calibration is anchored on experimentally measured densities and heats of formation: \(\rho_\text{cal} = 1.392 \rho_\text{DFT} - 0.415\) and \(\text{HOF}_\text{cal} = \text{HOF}_\text{DFT} - 206.7\) kJ/mol. Figure 3 shows per-lead detonation velocity from the 3D-CNN surrogate, raw DFT/Kamlet&ndash;Jacobs and the 6-anchor-calibrated DFT/K-J value, alongside the per-lead residual versus nitrogen fraction. The residual versus nitrogen fraction shows a positive Pearson correlation (\(r = 0.43\), \(p = 4 \times 10^{-27}\) on 575 Tier-A experimental rows): K-J under-predicts \(D\) at high nitrogen fraction where the assumed product distribution breaks down. L1 sits in the PETN-like regime (\(f_N \approx 0.29\), oxygen balance \(\approx +8\,\%\)) where K-J is most reliable; the 1.31 km/s residual to the 3D-CNN surrogate is therefore plausibly surrogate over-prediction in the sparsely represented polynitroisoxazole region rather than K-J failure. Three SMARTS-rejected reference scaffolds optimise as real local minima under the same DFT protocol, confirming that the SMARTS and DFT layers are complementary rather than redundant: SMARTS rejection is motif-level (shock-sensitivity, friction-trigger risks beyond gas-phase DFT), not geometric.</p>
+
+<figure>
+  <img src="figs/fig_dft_dumbbell.png" alt="DFT calibration dumbbell and N-fraction residual scatter" loading="lazy">
+  <figcaption><strong>Fig. 3</strong> | <strong>DFT calibration on the twelve confirmed leads.</strong> (<strong>a</strong>) Dumbbell connecting 3D-CNN surrogate \(D\) (blue) to anchor-calibrated DFT/Kamlet&ndash;Jacobs \(D\) (orange) per lead. Dotted green line: HMX-class 9.0 km/s threshold. (<strong>b</strong>) Per-row residual (DFT-K-J calibrated minus 3D-CNN) versus nitrogen fraction \(f_N\) on 575 Tier-A experimental rows; linear fit and Pearson \(r\). The positive slope confirms regime-dependent K-J under-prediction at high \(f_N\) consistent with prior literature; L1 sits in the PETN-reliable band.</figcaption>
+</figure>
+
+<h3>Novelty and synthesisability</h3>
+<p>Three audits frame the merged top-100 against PubChem<a class="cite" href="#ref-kim2023pubchem">7</a>, public USPTO retrosynthesis templates and a scaffold-distinct extension set. <strong>96 of 97 top-100 candidates are absent from PubChem</strong> (the one rediscovery is a low-rank tetrazole derivative). <strong>97 of 100 are absent from the 65,980-row labelled master</strong>; the three rediscoveries (dinitramide, 1,2-dinitrohydrazine, N,N&prime;-dinitrocarbodiimide) are established high-density CHNO motifs that confirm the model rediscovers what is known. <strong>Zero of 100 candidates lie within Tanimoto 0.70 of any training row</strong>, and zero are exact matches in a 694,518-row augmented corpus &mdash; the candidates are <em>more</em> distant from the augmented corpus than from the labelled master alone, despite the augmented corpus being more than ten times larger. AiZynthFinder<a class="cite" href="#ref-genheden2020aizynth">8</a> with public USPTO templates returns nine productive routes for L1 (top route four steps, state score 0.50) but zero routes for the other eleven leads within budget, reflecting a public-USPTO drug-domain template-database gap rather than unsynthesisability of the candidates &mdash; an energetics-domain template extension is the natural community follow-up.</p>
+
+<figure>
+  <img src="figs/fig_baseline_forest.png" alt="Forest plot of top-1 composite penalty across DGLD conditions and four no-diffusion baselines" loading="lazy">
+  <figcaption><strong>Fig. 4</strong> | <strong>Top-1 composite penalty across DGLD conditions and four no-diffusion baselines.</strong> Mean \(\pm\) standard deviation over three random seeds (lower = better). DGLD hazard-axis (Hz-C0&hellip;Hz-C3) and SA-axis (SA-C1&hellip;SA-C3) conditions versus SMILES-LSTM, MolMIM 70 M, REINVENT 4 (N-fraction proxy), SELFIES-GA. Dashed line: SMILES-LSTM reference. Cross-method comparability caveats: SELFIES-GA composite is the 2k-pool internal score; REINVENT 4 composite uses an N-fraction proxy reward, not the DGLD reranker; MolMIM is drug-domain pretrained.</figcaption>
+</figure>
+
+<p>Across the four no-diffusion baselines, the failure modes are distinct and quantifiable. SMILES-LSTM (two-layer, 6 M parameters, trained on the same 326k SMILES corpus) memorises 18.3% of its outputs as exact labelled-master matches (3 seeds, s.d. 0.5%). SELFIES-GA returns 75 of 100 top candidates as exact corpus rediscoveries; its best novel candidate at 40k pool collapses from \(D_\text{surrogate} = 9.73\) to \(D_\text{DFT} = 6.28\) km/s under DFT audit. MolMIM 70 M, drug-domain pretrained, generates novel molecules but at \(D = 7.70\) km/s, far below HMX. REINVENT 4 with an N-fraction reward generates genuinely novel high-N heterocycles with near-zero memorisation (\(< 0.1\%\)) and reaches \(D = 9.02\) km/s &mdash; the strongest no-diffusion baseline, but 0.37 km/s below DGLD Hz-C2 and not optimised against the joint \(D / \rho / P\) targets DGLD conditions on. Distribution-learning metrics confirm the design intent: SMILES-LSTM has FCD 0.52 against a 5,000-row labelled master sample (distributionally indistinguishable because it reproduces labelled rows), while DGLD has FCD 24&ndash;26 across guidance conditions, with anti-correlation between FCD and Pareto-reranker composite within DGLD &mdash; the diffusion sampler performs a targeted search off the prior, not corpus mimicry.</p>
+
+<h3>Component contributions</h3>
+<p>Seven ablations isolate the contribution of each system component to the headline result. Removing the tier gate causes the sampler to collapse to high-nitrogen degenerate open chains (post-filter keep-rate jumps from 4.6% to 53.9% as low-quality candidates flood the survivors), with validation loss rising by 0.089. Replacing the diffusion latent with a Gaussian \(\mathcal{N}(0, I)\) prior at matched compute drops top-1 \(D\) from 9.47 to 9.02 km/s; the diffusion prior's role is not chemical-plausibility filtering (a Gaussian decode through frozen LIMO already does that) but distribution concentration on the high-\(D\) tail. Multi-head guidance trades scaffold diversity for novelty: hazard-axis C2 reaches max-Tanimoto 0.27 (the most novel condition) at the cost of scaffold count five versus twelve at C0. Self-distillation at round 2 (cumulative 918 hard negatives versus 137 at round 1) is required to demote a worst-offender model-cheat (gem-tetranitro on aromatic carbon) by 0.10 absolute composite. Pool fusion across five lanes lifts post-filter yield nearly fivefold (4,639 versus 966 candidates) without lifting top-1, surfacing 24 Bemis&ndash;Murcko scaffolds versus seven in a single lane. The classifier-free-guidance scale \(w = 7\) is the empirical optimum (983 final candidates versus 528 at \(w = 5\) and 427 at \(w = 9\)).</p>
+
+<figure>
+  <img src="figs/fig_forest_ablation.png" alt="Guidance-axis ablation forest plot" loading="lazy">
+  <figcaption><strong>Fig. 5</strong> | <strong>Guidance-axis ablation forest plot.</strong> Effect size (delta versus unguided Hz-C0 = SA-C0 baseline) per metric across six guided conditions (Hz-C1&hellip;Hz-C3, SA-C1&hellip;SA-C3). Error bars are propagated standard errors over three seeds. Composite and max-Tanimoto: negative delta is improvement; \(D\) and \(P\): positive delta is improvement. Hz-C2 (viability + sensitivity + hazard) is the most novel condition; SA-axis additions consistently trade novelty for composite degradation, so the production configuration sets \(s_\text{SA} = 0\).</figcaption>
+</figure>
+
+<!-- ─────────────────────────── Discussion ─────────────────────────── -->
+<h2 id="sec-disc">Discussion</h2>
+<p>DGLD demonstrates that a label-quality gate at training time, multi-head score-model guidance at sample time and a four-stage chemistry-validation funnel are sufficient to produce novel CHNO leads in the HMX/CL-20 performance band on commodity hardware. Twelve leads are DFT-confirmed local minima at calibrated densities of 1.84&ndash;2.09 g/cm<sup>3</sup>; the headline compound L1 is structurally dissimilar from all 65,980 training molecules at nearest-neighbour Tanimoto 0.27 and absent from PubChem.</p>
+
+<p>Three caveats temper the headline numbers, in decreasing order of severity. First, all densities are estimated from gas-phase DFT geometry using Bondi van-der-Waals volumes with a fixed packing factor of 0.69. This factor varies from approximately 0.65 for loosely packing aromatics to 0.72 for cubane-class compounds, and a 5% packing-factor error alone propagates through the K-J sensitivity \(\partial D / \partial \rho \approx 2.9\) km/s per g/cm<sup>3</sup> to \(\pm 0.4\) km/s in \(D\), roughly twice the 6-anchor calibration uncertainty. The 6-anchor empirical calibration absorbs most of the systematic packing-factor error and reduces the residual to \(\pm 0.078\) g/cm<sup>3</sup>, but polymorph screening is absent &mdash; high-nitrogen heterocycles frequently exhibit multiple crystal forms with different densities and sensitivity profiles. Crystal structure prediction or experimental single-crystal X-ray diffraction is the critical missing step before any density-based performance claim can be considered quantitative. Second, absolute detonation velocities are reported under the closed-form Kamlet&ndash;Jacobs approximation. Absolute-grade numbers require a thermochemical-equilibrium Chapman&ndash;Jouguet code with a covolume equation of state (EXPLO5, Cheetah-2, or the open-source Cantera-based Shock and Detonation Toolbox); we report relative ranking against six anchors and quantify the regime-dependent K-J residual but do not run a full thermochemical-equilibrium recompute. Third, the 3D-CNN surrogate that scores the bulk of the candidate pool is well-calibrated on the labelled distribution but extrapolates onto the high-density tail with unquantified reliability; the SELFIES-GA collapse from \(D = 9.73\) to 6.28 km/s under DFT audit on a different baseline's outputs is the cleanest demonstration of how surrogate-only rankings can mislead.</p>
+
+<p>The co-headline lead E1 (4-nitro-1,2,3,5-oxatriazole) inherits all three caveats and adds a fourth: the 6-anchor DFT calibration set contains no oxatriazole-class member, so E1's calibrated detonation velocity is an extrapolation outside the anchor chemical space. Two honest readings are possible: either E1 is genuinely stronger than L1, giving the paper two HMX-class leads from disjoint chemotype families, or the K-J residual is chemotype-dependent and E1 is upper-bounded until an oxatriazole-anchor recompute. A 7th-anchor extension attempt with DNTF failed to converge; an oxatriazole-class anchor with experimental crystal density and detonation data remains scoped as future work.</p>
+
+<p>The tier-gating recipe generalises beyond energetic materials. Wherever a generative-ML problem has labels stratified by experimental confidence &mdash; pharmaceutical bioactivity (assay versus literature versus surrogate), materials property prediction (measured versus computed versus inferred), or any setting where data heterogeneity is a structural feature rather than a defect to be cleaned away &mdash; the four-tier recipe of routing trusted labels to the conditional gradient and untrusted labels to the unconditional prior generalises directly. Only the validation funnel changes per application: in our case, SMARTS \(\to\) Pareto \(\to\) GFN2-xTB \(\to\) DFT, but the same four-stage scaffold of cheap-to-expensive triage applies wherever a candidate-list paper terminates in first-principles audit. Code, checkpoints and the 918 mined hard negatives are released openly to enable both reproduction and extension.</p>
+
+<!-- ─────────────────────────── References ─────────────────────────── -->
+<h2 id="sec-refs">References</h2>
+<ol class="refs">
+<li id="ref-kamlet1968">Kamlet, M. J. &amp; Jacobs, S. J. Chemistry of detonations. I. A simple method for calculating detonation properties of C&ndash;H&ndash;N&ndash;O explosives. <em>J. Chem. Phys.</em> <strong>48</strong>, 23&ndash;35 (1968).</li>
+<li id="ref-casey2020">Casey, A. D., Son, S. F., Bilionis, I. &amp; Barnes, B. C. Prediction of energetic-material detonation properties with machine learning. <em>J. Chem. Inf. Model.</em> <strong>60</strong>, 4457&ndash;4473 (2020).</li>
+<li id="ref-zhou2023unimol">Zhou, G. <em>et&nbsp;al.</em> Uni-Mol: a universal 3D molecular representation learning framework. <em>ICLR</em> (2023).</li>
+<li id="ref-ho2022cfg">Ho, J. &amp; Salimans, T. Classifier-free diffusion guidance. <em>NeurIPS Workshop</em> (2022).</li>
+<li id="ref-dhariwal2021">Dhariwal, P. &amp; Nichol, A. Diffusion models beat GANs on image synthesis. <em>NeurIPS</em> <strong>34</strong>, 8780&ndash;8794 (2021).</li>
+<li id="ref-sheremetev2007">Sheremetev, A. B., Aleksandrova, N. S. &amp; Suponitsky, K. Y. Synthesis and properties of 1,2,3,5-oxatriazoles. <em>Russ. Chem. Rev.</em> <strong>76</strong>, 333&ndash;355 (2007).</li>
+<li id="ref-kim2023pubchem">Kim, S. <em>et&nbsp;al.</em> PubChem 2023 update. <em>Nucleic Acids Res.</em> <strong>51</strong>, D1373&ndash;D1380 (2023).</li>
+<li id="ref-genheden2020aizynth">Genheden, S. <em>et&nbsp;al.</em> AiZynthFinder: a fast, robust and flexible open-source software for retrosynthetic planning. <em>J. Cheminform.</em> <strong>12</strong>, 70 (2020).</li>
+<li id="ref-eckmann2022limo">Eckmann, P. <em>et&nbsp;al.</em> LIMO: latent inceptionism for targeted molecule generation. <em>ICML</em> (2022).</li>
+<li id="ref-ho2020ddpm">Ho, J., Jain, A. &amp; Abbeel, P. Denoising diffusion probabilistic models. <em>NeurIPS</em> <strong>33</strong>, 6840&ndash;6851 (2020).</li>
+<li id="ref-nichol2021ddpm">Nichol, A. Q. &amp; Dhariwal, P. Improved denoising diffusion probabilistic models. <em>ICML</em> (2021).</li>
+<li id="ref-krenn2020selfies">Krenn, M. <em>et&nbsp;al.</em> Self-referencing embedded strings (SELFIES): a 100% robust molecular string representation. <em>Mach. Learn. Sci. Technol.</em> <strong>1</strong>, 045024 (2020).</li>
+<li id="ref-perez2018film">Perez, E., Strub, F., de Vries, H., Dumoulin, V. &amp; Courville, A. FiLM: visual reasoning with a general conditioning layer. <em>AAAI</em> (2018).</li>
+<li id="ref-loshchilov2017adamw">Loshchilov, I. &amp; Hutter, F. Decoupled weight decay regularization. <em>ICLR</em> (2017).</li>
+<li id="ref-bannwarth2019xtb">Bannwarth, C., Ehlert, S. &amp; Grimme, S. GFN2-xTB: an accurate and broadly parametrized self-consistent tight-binding quantum chemical method. <em>J. Chem. Theory Comput.</em> <strong>15</strong>, 1652&ndash;1671 (2019).</li>
+<li id="ref-sun2020pyscf">Sun, Q. <em>et&nbsp;al.</em> Recent developments in the PySCF program package. <em>J. Chem. Phys.</em> <strong>153</strong>, 024109 (2020).</li>
+<li id="ref-becke1993">Becke, A. D. Density-functional thermochemistry. III. The role of exact exchange. <em>J. Chem. Phys.</em> <strong>98</strong>, 5648&ndash;5652 (1993).</li>
+<li id="ref-lyp1988">Lee, C., Yang, W. &amp; Parr, R. G. Development of the Colle&ndash;Salvetti correlation-energy formula into a functional of the electron density. <em>Phys. Rev. B</em> <strong>37</strong>, 785&ndash;789 (1988).</li>
+<li id="ref-mardirossian2014">Mardirossian, N. &amp; Head-Gordon, M. \(\omega\)B97X-V: a 10-parameter, range-separated hybrid, generalized gradient approximation density functional. <em>Phys. Chem. Chem. Phys.</em> <strong>16</strong>, 9904&ndash;9924 (2014).</li>
+<li id="ref-bondi1964">Bondi, A. van der Waals volumes and radii. <em>J. Phys. Chem.</em> <strong>68</strong>, 441&ndash;451 (1964).</li>
+<li id="ref-landrum2024rdkit">Landrum, G. <em>et&nbsp;al.</em> RDKit: open-source cheminformatics. <em>Zenodo</em> (2024).</li>
+<li id="ref-segler2018smileslstm">Segler, M. H. S. <em>et&nbsp;al.</em> Generating focused molecule libraries for drug discovery with recurrent neural networks. <em>ACS Cent. Sci.</em> <strong>4</strong>, 120&ndash;131 (2018).</li>
+<li id="ref-molmim2023">Reidenbach, D. <em>et&nbsp;al.</em> MolMIM: latent variable molecule pretraining at scale. <em>arXiv:2208.09017</em> (2023).</li>
+<li id="ref-loeffler2024reinvent">Loeffler, H. H. <em>et&nbsp;al.</em> REINVENT 4: modern AI-driven generative molecular design. <em>J. Cheminform.</em> <strong>16</strong>, 20 (2024).</li>
+<li id="ref-nigam2020selfies-ga">Nigam, A., Friederich, P., Krenn, M. &amp; Aspuru-Guzik, A. Augmenting genetic algorithms with deep neural networks for exploring the chemical space. <em>ICLR</em> (2020).</li>
+<li id="ref-ertl2009sa">Ertl, P. &amp; Schuffenhauer, A. Estimation of synthetic accessibility score of drug-like molecules. <em>J. Cheminform.</em> <strong>1</strong>, 8 (2009).</li>
+<li id="ref-coley2018scscore">Coley, C. W., Rogers, L., Green, W. H. &amp; Jensen, K. F. SCScore: synthetic complexity learned from a reaction corpus. <em>J. Chem. Inf. Model.</em> <strong>58</strong>, 252&ndash;261 (2018).</li>
+<li id="ref-polykovskiy2020moses">Polykovskiy, D. <em>et&nbsp;al.</em> Molecular Sets (MOSES): a benchmarking platform for molecular generation models. <em>Front. Pharmacol.</em> <strong>11</strong>, 565644 (2020).</li>
+<li id="ref-irwin2020zinc20">Irwin, J. J. <em>et&nbsp;al.</em> ZINC20 &mdash; a free ultralarge-scale chemical database for ligand discovery. <em>J. Chem. Inf. Model.</em> <strong>60</strong>, 6065&ndash;6073 (2020).</li>
+<li id="ref-bruns2012">Bruns, R. F. &amp; Watson, I. A. Rules for identifying potentially reactive or promiscuous compounds. <em>J. Med. Chem.</em> <strong>55</strong>, 9763&ndash;9772 (2012).</li>
+<li id="ref-huang2021bde">Huang, X. &amp; Massa, L. Applying chemometric methods to the prediction of impact sensitivity. <em>Propellants Explos. Pyrotech.</em> <strong>46</strong>, 1175&ndash;1185 (2021).</li>
+<li id="ref-politzer2014">Politzer, P. &amp; Murray, J. S. Impact sensitivity and crystal lattice compressibility/free space. <em>J. Mol. Model.</em> <strong>20</strong>, 2223 (2014).</li>
+<li id="ref-sabatini2018">Sabatini, J. J. &amp; Oyler, K. D. Recent advances in the synthesis of high explosive materials. <em>Crystals</em> <strong>6</strong>, 5 (2016).</li>
+<li id="ref-tang2017">Tang, Y. <em>et&nbsp;al.</em> Polynitro-substituted pyrazoles and triazoles as potential energetic materials and oxidizers. <em>J. Mater. Chem. A</em> <strong>5</strong>, 4314&ndash;4325 (2017).</li>
+<li id="ref-herve2010">Herv&eacute;, G., Roussel, C. &amp; Graindorge, H. Selective preparation of 3,4,5-trinitro-1H-pyrazole: a stable all-carbon-nitrated arene. <em>Angew. Chem. Int. Ed.</em> <strong>49</strong>, 3177&ndash;3181 (2010).</li>
+<li id="ref-dobratz1981">Dobratz, B. M. <em>LLNL Explosives Handbook</em>. UCRL-52997, Lawrence Livermore National Laboratory (1981).</li>
+<li id="ref-suceska2007explo5">Suce&scaron;ka, M. EXPLO5 user's guide v6. Brodarski Institute, Zagreb (2014).</li>
+<li id="ref-fried1996cheetah">Fried, L. E., Howard, W. M. &amp; Souers, P. C. Cheetah 2.0 user's manual. UCRL-MA-117541, Lawrence Livermore National Laboratory (1996).</li>
+<li id="ref-cantera">Goodwin, D. G. <em>et&nbsp;al.</em> Cantera: an object-oriented software toolkit for chemical kinetics, thermodynamics, and transport processes. <em>Zenodo</em> (2023).</li>
+<li id="ref-gomez2018">G&oacute;mez-Bombarelli, R. <em>et&nbsp;al.</em> Automatic chemical design using a data-driven continuous representation of molecules. <em>ACS Cent. Sci.</em> <strong>4</strong>, 268&ndash;276 (2018).</li>
+<li id="ref-jin2018">Jin, W., Barzilay, R. &amp; Jaakkola, T. Junction tree variational autoencoder for molecular graph generation. <em>ICML</em> (2018).</li>
+<li id="ref-csp2023">Bowskill, D. H., Sugden, I. J., Konstantinopoulos, S., Adjiman, C. S. &amp; Pantelides, C. C. Crystal structure prediction methods for organic molecules. <em>Cryst. Growth Des.</em> <strong>23</strong>, 1006&ndash;1023 (2023).</li>
+<li id="ref-katritzky2010">Katritzky, A. R. <em>et&nbsp;al.</em> Heterocyclic chemistry of high-nitrogen energetic materials. <em>Chem. Rev.</em> <strong>110</strong>, 5413&ndash;5432 (2010).</li>
+<li id="ref-daylight-smarts">Daylight Chemical Information Systems. SMARTS &mdash; A language for describing molecular patterns. <a href="https://www.daylight.com/dayhtml/doc/theory/theory.smarts.html">daylight.com/dayhtml/doc/theory/theory.smarts.html</a> (accessed 2025).</li>
+<li id="ref-gpu4pyscf">Wu, X. <em>et&nbsp;al.</em> Enhancing GPU-acceleration in the open-source PySCF quantum chemistry package. <em>J. Chem. Theory Comput.</em> <strong>20</strong>, 7388&ndash;7401 (2024).</li>
+<li id="ref-sun2018">Sun, Q. <em>et&nbsp;al.</em> PySCF: the Python-based simulations of chemistry framework. <em>WIREs Comput. Mol. Sci.</em> <strong>8</strong>, e1340 (2018).</li>
+<li id="ref-grimme2010d3">Grimme, S., Antony, J., Ehrlich, S. &amp; Krieg, H. A consistent and accurate ab initio parametrization of density functional dispersion correction (DFT-D) for the 94 elements H&ndash;Pu. <em>J. Chem. Phys.</em> <strong>132</strong>, 154104 (2010).</li>
+<li id="ref-becke2011">Becke, A. D. &amp; Johnson, E. R. A density-functional model of the dispersion interaction. <em>J. Chem. Phys.</em> <strong>123</strong>, 154101 (2005).</li>
+<li id="ref-weigend2005">Weigend, F. &amp; Ahlrichs, R. Balanced basis sets of split valence, triple zeta valence and quadruple zeta valence quality for H to Rn. <em>Phys. Chem. Chem. Phys.</em> <strong>7</strong>, 3297&ndash;3305 (2005).</li>
+<li id="ref-stephens1994">Stephens, P. J., Devlin, F. J., Chabalowski, C. F. &amp; Frisch, M. J. Ab initio calculation of vibrational absorption and circular dichroism spectra using density functional force fields. <em>J. Phys. Chem.</em> <strong>98</strong>, 11623&ndash;11627 (1994).</li>
+</ol>
+
+<!-- ─────────────────────────── Methods ─────────────────────────── -->
+<h2 id="sec-methods">Methods</h2>
+
+<h3>Dataset and four-tier label hierarchy</h3>
+<p>The labelled corpus comprises 65,980 CHNO molecules in canonical SMILES form, stratified into four tiers by label provenance. <strong>Tier A</strong> (\(\sim\)3,000 rows) holds experimental densities and heats of formation from the literature. <strong>Tier B</strong> (\(\sim\)9,000 rows) holds DFT-derived heat-of-formation values at B3LYP/6-31G* with experimentally anchored densities. <strong>Tier C</strong> (\(\sim\)25,000 rows) holds Kamlet&ndash;Jacobs-derived performance values, which are reliable for oxygen-deficient CHNO satisfying \(2a + b/2 \ge d \ge b/2\) but under-predict \(D\) for high-nitrogen low-hydrogen compounds where the assumed gas-product distribution is wrong. <strong>Tier D</strong> (\(\sim\)30,000 rows) holds 3D-CNN smoke-model surrogate values. Each row carries a graded tier weight \(\omega \in [0, 1]\) (default \(\omega_A = 1.0\), \(\omega_B = 0.7\), \(\omega_C = 0.3\), \(\omega_D = 0.1\)). The denoiser conditional gradient fires only on Tier-A and Tier-B rows; Tier-C and Tier-D rows train the unconditional prior via classifier-free guidance dropout. SMILES are canonicalised with RDKit<a class="cite" href="#ref-landrum2024rdkit">21</a>, converted to SELFIES<a class="cite" href="#ref-krenn2020selfies">12</a>, and tokenised. Tier-A/B rows above the 90th percentile of the detonation-velocity marginal are oversampled by \(5\times\)&ndash;\(10\times\) at training time, raising the mean predicted velocity of the top leads by 0.4 km/s relative to a uniform-sampling control.</p>
+
+<h3>Latent encoder (LIMO)</h3>
+<p>We start from the pretrained LIMO checkpoint<a class="cite" href="#ref-eckmann2022limo">9</a>, fine-tune all parameters for \(\sim\)8,500 steps on the 326k energetic-biased SMILES corpus with \(\beta = 0.01\), and freeze the encoder thereafter. The encoder maps a (B, 72) SELFIES-token tensor through a 64-dim embedding and a four-layer MLP to a 1024-dim Gaussian latent. After fine-tuning, validation token-accuracy is 64.5%, and the latent posterior is concentrated at \(\Vert \mu \Vert \approx 8\), well below \(\sqrt{1024} \approx 32\). Each row of the corpus is passed through the frozen encoder once to produce a deterministic latent mean \(\mu \in \mathbb{R}^{1024}\); all training and sampling thereafter happens in latent space, and the decoder is invoked only at the end to read candidates back as SMILES. SELFIES syntax guarantees token-level validity, so molecule-level validity is 100% by construction; reconstruction accuracy on the energetic validation set is 31.4%.</p>
+
+<h3>Two complementary denoisers</h3>
+<p>Single-denoiser training compromises between the high-HOF tail and the high-\(\rho DP\) tail of the joint property marginal, neither of which can be saturated simultaneously by one loss-weighting schedule. We therefore train two complementary denoisers. <strong>DGLD-H</strong> tilts toward the heat-of-formation tail (Tier-A/B oversampling factor \(5\times\) on HOF). <strong>DGLD-P</strong> tilts toward the \(\rho DP\) tail (Tier-A/B-only conditioning, \(+5\times\) high-tail oversampling on the top decile of the joint \(\rho/D/P\) marginal). Both denoisers are 44.6M-parameter FiLM<a class="cite" href="#ref-perez2018film">13</a>-modulated ResNets over \(z_t \in \mathbb{R}^{1024}\) with eight residual blocks of inner width 2048; only the training-data tilt differs. Training uses a 1000-step variance-preserving DDPM<a class="cite" href="#ref-ho2020ddpm">10</a> with the cosine schedule of Nichol &amp; Dhariwal<a class="cite" href="#ref-nichol2021ddpm">11</a>, AdamW<a class="cite" href="#ref-loshchilov2017adamw">14</a> at peak learning rate \(10^{-4}\) on a cosine decay, batch size 128, twenty epochs, EMA decay 0.999, classifier-free-guidance dropout rate 0.10, and per-property dropout rate 0.30. The per-step training mask gates which conditioning properties enter FiLM at each step via a five-stage stochastic pipeline (subset-size sample, weighted pick over per-row eligibility and tier weight, property dropout, CFG dropout). At sample time, the standard guided estimate \(\hat\epsilon = \epsilon_\theta(z_t, t, \emptyset) + w(\epsilon_\theta(z_t, t, c) - \epsilon_\theta(z_t, t, \emptyset))\) is used with empirical sweet-spot \(w = 7\).</p>
+
+<h3>Multi-task score model and self-distillation</h3>
+<p>The multi-task score model has a shared four-block FiLM-MLP trunk (1024-dim hidden) consuming \((z_t, \sigma_t)\) where \(\sigma_t = \sqrt{1 - \bar\alpha_t}\) is sinusoidally embedded, with six heads. <strong>Viability</strong> and <strong>Hazard</strong> are sigmoid heads trained with binary cross-entropy. <strong>Sensitivity</strong>, <strong>SA</strong>, and <strong>SC</strong> are smooth-L1 regressors. <strong>Performance</strong> is a 4-vector smooth-L1 regressor on \((\rho, D, P, \text{HOF})\). Crucially, training data are <em>noised</em> latents at uniform diffusion timestep, not clean \(\mu\), so the gradient is queried at every \(\sigma_t\) along the sampling trajectory. The total loss is the availability-mask-gated sum \(\mathcal{L}_\text{score} = \sum_k a_k w_k \mathcal{L}_k\) with per-head static weights chosen so each \(\mathcal{L}_k\) sits at \(\mathcal{O}(1)\) at convergence. Training uses AdamW at peak learning rate \(2 \times 10^{-4}\) on a cosine decay, batch 1024, \(\sim\)40k steps, EMA decay 0.999. Round-0 viability labels combine SMARTS pass/fail with a Random Forest classifier on Morgan FP plus RDKit descriptors trained on (energetic corpus, ZINC<a class="cite" href="#ref-irwin2020zinc20">29</a>). Self-distillation refines the viability head over three rounds (round 0: 0 hard negatives; round 1: 137; round 2 / production: 918) by mining the model's own false-positive outputs against a chemist-defined held-out probe (seven anchors RDX, HMX, TNT, FOX-7, PETN, TATB, NTO must all reach probability \(\ge 0.86\); five chemist cheats must all stay \(\le 0.84\)). Three rounds satisfy this jointly. Sensitivity labels are derived from a Politzer&ndash;Murray<a class="cite" href="#ref-politzer2014">32</a> bond-dissociation-energy chemotype-class fit on the Huang &amp; Massa<a class="cite" href="#ref-huang2021bde">31</a> drop-weight \(h_{50}\) data; hazard labels combine the chemist-curated SMARTS catalogue with the Bruns&ndash;Watson<a class="cite" href="#ref-bruns2012">30</a> demerit list.</p>
+
+<h3>Sampling with multi-task steering</h3>
+<p>At sample time, three of the six trained heads (Viability, Sensitivity, Hazard) supply gradient steering signals at every DDIM step on top of classifier-free guidance. A latent \(z_T \sim \mathcal{N}(0, I_{1024})\) is denoised over 40 DDIM steps with the steering bus \(\hat\epsilon = \epsilon_\theta^\text{cfg}(z_t, t, c) - \sigma_t \sum_h s_h \nabla_{z_t} \mathcal{L}_h(z_t, \sigma_t)\), where the per-head losses are \(-\log P_\text{viab}\) (ascend), \(\text{sens}_z\) (descend), and \(-\log(1 - P_\text{hazard})\) (descend hazard). Production scales are \(s_\text{viab} = 1.0\), \(s_\text{sens} = 0.3\), \(s_\text{hazard} = 1.0\); \(s_\text{SA} = 0\) because a drug-domain SA gradient worsens the energetic-materials composite by 13%. The image-domain classifier-guidance recipe of Dhariwal &amp; Nichol<a class="cite" href="#ref-dhariwal2021">5</a> assumes 1000 sampling steps; in our 40-step latent regime the \(\sigma_t\)-anneal zeroes the bus near the top of the trajectory and the per-row gradient clamp saturates near the bottom. We disable the anneal (\(\alpha \equiv 1\)) and loosen the clamp (\(C_g = 50\) versus the image-domain default 5.0). The final \(z_0\) decodes through the frozen LIMO decoder. Pool fusion runs two production lanes in parallel (one per denoiser, both at viability+sensitivity+hazard guidance, both at \(w = 7\), pool \(\ge\) 40k each); the pools are unioned, canonical-SMILES deduplicated, and fed to the validation funnel.</p>
+
+<h3>Validation funnel</h3>
+<p>The decoded SMILES pool flows through four progressively tighter stages. <strong>Stage 1 (SMARTS gate)</strong>: a chemist-curated SMARTS<a class="cite" href="#ref-daylight-smarts">44</a> catalogue removes radicals, sulphur, halogens, mixed valence states, and other red flags. SAScore<a class="cite" href="#ref-ertl2009sa">26</a> \(\le 5.0\) and SCScore<a class="cite" href="#ref-coley2018scscore">27</a> \(\le 3.5\) caps and a Tanimoto-novelty window \([0.20, 0.55]\) are applied. <strong>Stage 2 (Pareto reranker)</strong>: a composite \(S(x) = 0.45 S_\text{perf}^\text{band} + 0.20 S_\text{viab} + 0.15 S_\text{novel} + 0.20(1 - S_\text{sens}) - 0.10 S_\text{alerts}\) is computed; a Pareto front over \((-\text{perf}, -\text{viab}, \text{sens}, \text{alerts})\) is the outer stratifier with the composite as within-stratum tiebreak; default top-\(K = 100\). <strong>Stage 3 (xTB triage)</strong>: GFN2-xTB<a class="cite" href="#ref-bannwarth2019xtb">15</a> geometry optimisation with RDKit ETKDGv3 conformer plus MMFF94 minimisation, HOMO&ndash;LUMO gap \(\ge 1.5\) eV. <strong>Stage 4 (DFT audit)</strong>: B3LYP<a class="cite" href="#ref-becke1993">17</a><a class="cite" href="#ref-lyp1988">18</a>/6-31G(d) optimisation followed by \(\omega\)B97X-D3BJ<a class="cite" href="#ref-mardirossian2014">19</a>/def2-TZVP<a class="cite" href="#ref-weigend2005">49</a> single-points on GPU4PySCF<a class="cite" href="#ref-gpu4pyscf">45</a><a class="cite" href="#ref-sun2018">46</a>. Density is computed from Bondi<a class="cite" href="#ref-bondi1964">20</a> van-der-Waals integration with a packing factor of 0.69. At the production setting (pool = 40k), illustrative survivors are pool 40k \(\to\) \(\sim\)1,800 chem-pass after Stages 1+2 (4.6% keep-rate) \(\to\) top-100 by composite re-rank \(\to\) 12 DFT-validated leads.</p>
+
+<h3>Six-anchor DFT calibration and Kamlet&ndash;Jacobs recompute</h3>
+<p>Six experimental anchors (RDX \(\rho_\text{exp} = 1.82\) g/cm<sup>3</sup>, TATB 1.94, HMX 1.91, PETN 1.77, FOX-7 1.89, NTO 1.93; HOF values from the LLNL Explosives Handbook<a class="cite" href="#ref-dobratz1981">36</a> and standard tabulations) are optimised under the same DFT protocol as the leads. A linear regression yields \(\rho_\text{cal} = 1.392 \rho_\text{DFT} - 0.415\) and \(\text{HOF}_\text{cal} = \text{HOF}_\text{DFT} - 206.7\) kJ/mol with leave-one-out RMS errors \(\pm 0.078\) g/cm<sup>3</sup> on density and \(\pm 64.6\) kJ/mol on heat of formation. Calibrated densities and HOFs are fed into the closed-form Kamlet&ndash;Jacobs<a class="cite" href="#ref-kamlet1968">1</a> formula in its unified product-distribution form for relative ranking against the anchors. Per-lead calibration-propagated uncertainties (\(\delta D\), \(\delta P\)) are obtained by propagating the LOO calibration errors through the K-J analytic sensitivity slopes in quadrature; typical values are \(\delta D \approx 0.23\) km/s and \(\delta P \approx 2.2\) GPa. A regime-aware regression on 575 Tier-A experimental rows yields a positive Pearson correlation between the K-J residual and nitrogen fraction (\(r = 0.43\), \(p = 4 \times 10^{-27}\)), reproducing the literature observation that K-J under-predicts \(D\) at high \(f_N\). Absolute-grade detonation velocities require a thermochemical-equilibrium Chapman&ndash;Jouguet code<a class="cite" href="#ref-suceska2007explo5">37</a><a class="cite" href="#ref-fried1996cheetah">38</a><a class="cite" href="#ref-cantera">39</a>, which we do not run; we report relative ranking against the six anchors and quantify the regime residual.</p>
+
+<h3>Compute footprint</h3>
+<p>End-to-end DGLD reproduction fits within a small commodity-hardware budget: LIMO fine-tuning \(\sim\)1 GPU-hour on a single A100; each denoiser training run \(\sim\)6 GPU-hours; score-model training \(\sim\)4 GPU-hours; sampling at production pool=40k per lane \(\sim\)2 GPU-hours per lane; xTB triage on 100 candidates \(\sim\)4 CPU-hours; DFT audit at B3LYP/6-31G(d) optimisation plus \(\omega\)B97X-D3BJ/def2-TZVP single-point \(\sim\)2 GPU-hours per lead on GPU4PySCF. Total compute for the headline result is \(\sim\)45 GPU-hours plus \(\sim\)4 CPU-hours, all on consumer-class A100 instances.</p>
+
+<h3>Data availability</h3>
+<p>The 65,980-row labelled CHNO master table, the 326k SMILES training corpus, and the 918 self-distillation hard negatives are released on Zenodo at <a href="https://doi.org/10.5281/zenodo.19821953">10.5281/zenodo.19821953</a> under CC-BY-4.0. The DFT geometries, calibrated thermochemistry, and the twelve confirmed leads are released alongside the model checkpoints in the same Zenodo deposit. PubChem<a class="cite" href="#ref-kim2023pubchem">7</a> queries used the public PUG REST endpoint.</p>
+
+<h3>Code availability</h3>
+<p>All code, including LIMO fine-tuning, denoiser and score-model training, sampling, the validation funnel and the figure-generation pipeline, is released at <a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a> under Apache-2.0. Trained model checkpoints (LIMO encoder, two denoisers, multi-task score model at rounds 0/1/2 of self-distillation) are released on Zenodo under CC-BY-4.0 in the same deposit as the data. Reproduction of Figure 1 takes approximately ten minutes on commodity hardware following the README quick-start; full re-derivation of the twelve DFT-confirmed leads takes approximately 45 GPU-hours.</p>
+
+<!-- ─────────────────────────── End matter ─────────────────────────── -->
+<div class="endmatter">
+
+<h2 id="sec-acks">Acknowledgements</h2>
+<p>We thank the open-source maintainers of RDKit, GFN2-xTB, PySCF and GPU4PySCF, whose tools form the validation backbone of this paper. Cloud GPU compute was procured at standard commercial rates from Modal and vast.ai; we acknowledge their pay-per-use platforms for making first-principles audit accessible to small research groups. We thank the LIMO and Uni-Mol authors for releasing their pretrained checkpoints.</p>
+
+<h2 id="sec-funding">Funding</h2>
+<p>This work received no specific external funding.</p>
+
+<h2 id="sec-contrib">Author contributions</h2>
+<p>Y.A. and A.A. contributed equally to all aspects of this work, including conception, methodology design, model implementation, experiments, validation, and manuscript preparation.</p>
+
+<h2 id="sec-coi">Competing interests</h2>
+<p>The authors declare no competing interests.</p>
+
+<h2 id="sec-addinfo">Additional information</h2>
+<p><strong>Supplementary Information</strong> is available for this paper at <a href="NMIPaperSI.html">NMIPaperSI.html</a> (HTML) and <a href="NMIPaperSI.docx">NMIPaperSI.docx</a> (Word). <strong>Correspondence and requests for materials</strong> should be addressed to A.A.</p>
+
+<!-- ─────────────────────────── Extended Data legends ─────────────────────────── -->
+<h2 id="sec-edlegends">Extended Data figure and table legends</h2>
+
+<p><strong>Extended Data Fig. 1</strong> | <strong>DGLD pipeline overview.</strong> Encode (LIMO VAE) \(\to\) generate (conditional latent DDPM) \(\to\) guide (multi-task score model) \(\to\) filter (SMARTS, Pareto, GFN2-xTB, DFT). Tier-A/B labels drive the conditional gradient; Tier-C/D labels drive the unconditional CFG branch only.</p>
+
+<p><strong>Extended Data Fig. 2</strong> | <strong>Pool-size scaling.</strong> Best composite score over top-1 and number of candidates passing every filter versus pool size from 1.5k to 100k. Both curves are still moving at pool = 40k; an M7 five-lane 100k run confirms the trend with 4,639 passing candidates (\(5.1\times\) more than the 40k baseline) and scaffold count expanding from 7 to 24.</p>
+
+<p><strong>Extended Data Fig. 3</strong> | <strong>Classifier-free guidance scale sweep.</strong> CFG scale \(w \in \{5, 7, 9\}\) at pool = 8k per setting, ranked by post-filter yield over the two-denoiser pool. \(w = 7\) is the empirical sweet spot.</p>
+
+<p><strong>Extended Data Fig. 4</strong> | <strong>Score-model loss curves and head-scale sweep.</strong> Per-head training and validation loss across the six heads (viability, sensitivity, hazard, performance, SA, SC) over 40k steps. Per-head sample-time scale grid showing the matrix of \((s_\text{viab}, s_\text{sens}, s_\text{hazard})\) combinations evaluated for production-condition selection.</p>
+
+<p><strong>Extended Data Fig. 5</strong> | <strong>Self-distillation refinement of the viability head.</strong> Three rounds of mine-then-retrain on the score-model viability head only; the LIMO encoder and denoiser are frozen across rounds. Hard-negative count cumulates 0 \(\to\) 137 \(\to\) 918. The held-out probe stopping criterion (anchors \(\ge 0.86\) AND cheats \(\le 0.84\)) is satisfied at round 2.</p>
+
+<p><strong>Extended Data Fig. 6</strong> | <strong>Twelve confirmed leads gallery.</strong> Per-lead RDKit 2D depiction, chemotype label, molecular formula, and 6-anchor-calibrated DFT/Kamlet&ndash;Jacobs values. Border colour: green = xTB HOMO&ndash;LUMO gap \(\ge 1.5\) eV; red = gap below threshold.</p>
+
+<p><strong>Extended Data Fig. 7</strong> | <strong>Productive-quadrant scatter.</strong> Composite score \(S\) versus viability probability for the twelve DFT-confirmed leads, with the four no-diffusion baselines as reference markers. Marker area is proportional to drop-weight impact sensitivity \(h_{50}\). The green-tinted upper-right quadrant is the productive zone (novel and HMX-class).</p>
+
+<p><strong>Extended Data Fig. 8</strong> | <strong>Merged top-100 source-pool provenance.</strong> Per-condition provenance of the merged top-100 across guided and unguided lanes, showing that 89/100 originate from the smallest unguided pool reranked by the Pareto scaffold composite; guidance acts as a high-precision lever on the top of the funnel rather than as the source of bulk Pareto coverage.</p>
+
+<p><strong>Extended Data Fig. 9</strong> | <strong>Distribution-learning small multiples.</strong> Validity proxy, top-100 scaffold uniqueness, internal diversity, and Fr&eacute;chet ChemNet Distance versus the labelled master, comparing SMILES-LSTM (red) against seven DGLD conditions (blue).</p>
+
+<p><strong>Extended Data Table 1</strong> | <strong>Six-anchor DFT calibration.</strong> Anchor compounds RDX, TATB, HMX, PETN, FOX-7, NTO with experimental densities, condensed-phase heats of formation, raw DFT outputs, and the linear correction. Leave-one-out RMS \(\pm 0.078\) g/cm<sup>3</sup> on density and \(\pm 64.6\) kJ/mol on heat of formation.</p>
+
+</div>
+
+</body>
+</html>

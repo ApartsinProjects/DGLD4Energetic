@@ -22,14 +22,12 @@ wkhtmltopdf --enable-local-file-access paper/short_paper.html paper.pdf
 
 ## Render to Word (journal submission)
 
-Two Word files are produced for every submission, never one combined file:
+Two paired deliverables are produced. Each pair is main + SI; never combined.
+
+### Long-form preprint pair (from `short_paper.html`)
 
 - `short_paper.docx` -- main article (sections 1-7 + References).
 - `short_paper_SI.docx` -- Supplementary Information (Appendix A-F).
-
-Both use the `html2doc` skill's `review-manuscript` profile (Times New Roman,
-1.5x line spacing, continuous line numbers, native editable Word equations).
-See `../CLAUDE.md` for the full build recipe and the convention's rationale.
 
 ```bash
 cd paper
@@ -37,8 +35,26 @@ python _split_html.py    # produces _body.html + _supplementary.html
 # then run the html2doc 3-stage pipeline on each (see ../CLAUDE.md)
 ```
 
-The `.docx` outputs are gitignored; rebuild them on demand from the committed
-`short_paper.html`.
+### NMI-compliant pair (from `NMIPaper.html` and `NMIPaperSI.html`)
+
+- `NMIPaper.docx` -- NMI Article (~2,500 words main text, 5 figures + 1 table,
+  50 references, full Methods, end-matter, 10 Extended Data legends).
+- `NMIPaperSI.docx` -- NMI Supplementary Information (full Appendix A-F).
+
+```bash
+cd paper
+# NMIPaper.html and NMIPaperSI.html are already self-contained;
+# run the html2doc 3-stage pipeline on each directly.
+```
+
+All four documents use the `html2doc` skill's `review-manuscript` profile
+(Times New Roman, 1.5x line spacing, continuous line numbers, native editable
+Word equations). See `../CLAUDE.md` for the full build recipe, the limits
+table, and the rationale for the two-pair convention.
+
+The `.docx` outputs are committed so GitHub Pages serves them as downloads
+from `paper/short_paper.html`. Rebuild and re-commit when the corresponding
+HTML source changes.
 
 ## Figure script index
 

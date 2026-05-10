@@ -2,20 +2,46 @@
 
 Project-scoped instructions. These override generic defaults.
 
-## Paper deliverable: ALWAYS produce two Word files
+## Paper deliverables: TWO documents, each as a main + SI pair
 
-The HTML paper at `paper/short_paper.html` is the source of record. When
-producing journal-submission Word documents, ALWAYS build TWO files via the
-`html2doc` skill:
+There are two HTML sources of record in `paper/`, each producing its own
+main + SI Word pair via the `html2doc` skill:
+
+### 1. Long-form preprint (`paper/short_paper.html`)
 
 | File | Contents | Notes |
 |---|---|---|
-| `paper/short_paper.docx` | Title, authors, abstract, sections 1-7 (Intro through Conclusion), References. | Main "Article" upload at most journals. |
-| `paper/short_paper_SI.docx` | "Supplementary Information for: ..." title block, Appendix A-F, References (duplicated for self-containment). | Separate "Supplementary Information" upload. |
+| `paper/short_paper.docx` | Title, authors, abstract, sections 1-7 (Intro through Conclusion), References. | Long-form preprint version (~14k words main text). |
+| `paper/short_paper_SI.docx` | "Supplementary Information for: ..." title block, Appendix A-F, References (duplicated for self-containment). | Long-form preprint SI. |
 
-Never produce a single combined Word file for journal submission. Reviewers,
-editors, and the journal's typesetting pipeline expect main + SI as separate
-files.
+Built by `paper/_split_html.py` -> html2doc pipeline.
+
+### 2. NMI-compliant submission (`paper/NMIPaper.html` + `paper/NMIPaperSI.html`)
+
+| File | Contents | Notes |
+|---|---|---|
+| `paper/NMIPaper.docx` | NMI Article: title, authors, affiliations, abstract (<=150 w), bold first paragraph, unheaded introduction, Results (subheaded), Discussion (no subheadings), References (50 max), inline Table 1, 5 main figures, Methods (with subheadings; Data + Code availability at end), Methods references, Acknowledgements, Funding, Author contributions, Competing interests, Additional information, Extended Data legends (10 max). Main text ~2,500 words; whole document fits NMI Article limits. | Submission-ready manuscript. |
+| `paper/NMIPaperSI.docx` | "Supplementary Information for: ..." title block, full Appendix A-F (the long-form's appendix lifted verbatim), References. | Submission-ready Supplementary Information. |
+
+Built directly by html2doc on each of `NMIPaper.html` and `NMIPaperSI.html`
+(no splitter needed; each HTML is already self-contained).
+
+### NMI limits (verified)
+
+| Metric | NMI limit | DGLD's NMI version |
+|---|---|---|
+| Abstract | <=150 words | 134 |
+| Bold first paragraph | 75-100 words | 84 |
+| Main text (intro + Results + Discussion) | <=3,500 words | 2,462 |
+| References | ~50 recommended | exactly 50 |
+| Display items in main | 6 max | 5 figures + 1 table = 6 |
+| Extended Data items | 10 max | 9 figures + 1 table = 10 |
+
+Both pairs are committed so GitHub Pages serves all four `.docx` files as
+downloads from `paper/short_paper.html` (top-right corner).
+
+Never produce a single combined Word file. Reviewers, editors, and the
+journal's typesetting pipeline expect main + SI as separate files.
 
 ### How to build
 
