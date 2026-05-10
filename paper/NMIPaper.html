@@ -32,8 +32,16 @@ figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem;text-align:left;
 table{border-collapse:collapse;margin:1rem 0;font-size:.88rem;width:100%}
 table th,table td{border-bottom:1px solid var(--rule);padding:.4rem .55rem;text-align:left}
 table th{font-weight:600;background:#f6f3ed}
-.abstract{background:#f6f3ed;border-left:4px solid var(--accent);padding:.9rem 1.1rem;margin:1.5rem 0;font-size:.95rem}
-.abstract h2{margin-top:0;font-size:.9rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);border:none;padding:0}
+.abstract{background:#f6f3ed;border-left:4px solid var(--accent);padding:1.1rem 1.3rem;margin:1.8rem 0;font-size:.98rem;line-height:1.6}
+.abstract h2{margin:0 0 .6rem 0;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);border:none;padding:0}
+.abstract p{text-align:left;hyphens:none;margin:.5rem 0}
+.toc{background:#fafaf6;border:1px solid var(--rule);border-radius:.4rem;padding:.7rem 1rem;margin:1.5rem 0 2rem 0;font-size:.88rem}
+.toc-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.4rem;display:block}
+.toc ol{margin:0;padding-left:1.2rem;column-count:2;column-gap:1.5rem}
+.toc li{margin-bottom:.2rem}
+.toc a{color:var(--accent);text-decoration:none}
+.toc a:hover{text-decoration:underline}
+@media (max-width:42rem){.toc ol{column-count:1}}
 .refs li{margin-bottom:.4rem;font-size:.86rem}
 .cite{font-size:.82em;color:var(--accent);text-decoration:none}
 .cite:hover{text-decoration:underline}
@@ -72,13 +80,45 @@ table th{font-weight:600;background:#f6f3ed}
 <!-- ─────────────────────────── Abstract ─────────────────────────── -->
 <div class="abstract">
 <h2>Abstract</h2>
-<p>No new HMX-class energetic material has been disclosed in fifteen years. Generative-ML approaches face a sparse-label bottleneck: of \(\sim\)66,000 labelled CHNO molecules, only \(\sim\)3,000 carry experimental or DFT-quality measurements, so naive training either memorises the high-performance tail or extrapolates without calibration. We introduce <strong>domain-gated latent diffusion (DGLD)</strong>, a recipe combining a four-tier label-trust gate at training time, a multi-task score model with selectable per-head sample-time steering, and a chemistry validation funnel ending in first-principles DFT audit. DGLD yields twelve DFT-confirmed novel leads. The headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches calibrated density 2.09 g/cm<sup>3</sup> and Kamlet&ndash;Jacobs detonation velocity 8.25 km/s while remaining structurally dissimilar from the entire labelled corpus (Tanimoto 0.27). Across SMILES-LSTM, SELFIES-GA, REINVENT 4 and MolMIM baselines, DGLD is the only method to produce molecules simultaneously novel and on-target under DFT validation.</p>
+<p>No new HMX-class energetic material has been disclosed in fifteen years. Generative-ML approaches face a sparse-label bottleneck: of about 66,000 labelled CHNO molecules, only about 3,000 carry experimental or DFT-quality measurements, so naive training either memorises the high-performance tail or extrapolates without calibration. We introduce <strong>domain-gated latent diffusion (DGLD)</strong>, a recipe combining a four-tier label-trust gate at training time, a multi-task score model with selectable per-head sample-time steering, and a chemistry validation funnel ending in first-principles DFT audit. DGLD yields twelve DFT-confirmed novel leads. The headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches calibrated density 2.09&nbsp;g/cm&sup3; and Kamlet&ndash;Jacobs detonation velocity 8.25&nbsp;km/s while remaining structurally dissimilar from the entire labelled corpus (Tanimoto 0.27). Across SMILES-LSTM, SELFIES-GA, REINVENT&nbsp;4 and MolMIM baselines, DGLD is the only method to produce molecules simultaneously novel and on-target under DFT validation.</p>
 </div>
 
 <!-- ─────────────────────────── Bold first paragraph ─────────────────────────── -->
 <div class="lede">
 <p>Energetic-materials performance gains translate into reduced propellant mass, smaller warheads and more efficient civilian gas-generators, yet no new HMX-class compound has been disclosed in fifteen years. Here we present domain-gated latent diffusion (DGLD), a tier-gated generative recipe that produces twelve DFT-confirmed novel CHNO leads, including 3,4,5-trinitro-1,2-isoxazole at calibrated detonation velocity 8.25 km/s and Tanimoto 0.27 to all 65,980 training molecules. Across four strong baselines (SMILES-LSTM, MolMIM, SELFIES-GA, REINVENT 4) DGLD is the only method that generates molecules simultaneously novel and on-target under first-principles audit.</p>
 </div>
+
+<nav class="toc" aria-label="Article contents">
+  <span class="toc-label">Article contents</span>
+  <ol>
+    <li><a href="#sec-results">Results</a>
+      <ol style="column-count:1;padding-left:1rem;font-size:.85em;">
+        <li><a href="#sec-results">Productive-quadrant generation</a></li>
+        <li><a href="#sec-results">Twelve DFT-confirmed leads</a></li>
+        <li><a href="#sec-results">Calibrated DFT validation</a></li>
+        <li><a href="#sec-results">Novelty and synthesisability</a></li>
+        <li><a href="#sec-results">Component contributions</a></li>
+      </ol>
+    </li>
+    <li><a href="#sec-disc">Discussion</a></li>
+    <li><a href="#sec-refs">References</a></li>
+    <li><a href="#sec-methods"><strong>Methods</strong></a>
+      <ol style="column-count:1;padding-left:1rem;font-size:.85em;">
+        <li>Dataset and four-tier label hierarchy</li>
+        <li>Latent encoder (LIMO)</li>
+        <li>Two complementary denoisers</li>
+        <li>Multi-task score model and self-distillation</li>
+        <li>Sampling with multi-task steering</li>
+        <li>Validation funnel</li>
+        <li>Six-anchor DFT calibration</li>
+        <li>Compute footprint</li>
+        <li>Data and code availability</li>
+      </ol>
+    </li>
+    <li><a href="#sec-acks">Acknowledgements, contributions, additional information</a></li>
+    <li><a href="#sec-edlegends">Extended Data legends</a></li>
+  </ol>
+</nav>
 
 <!-- ─────────────────────────── Introduction (unheaded) ─────────────────────────── -->
 <p>The space of synthesisable CHNO molecules with the right balance of crystal density, oxygen balance, heat of formation and detonation kinetics is vast, but every existing computational family has a fundamental limitation. Empirical formulae such as Kamlet&ndash;Jacobs<a class="cite" href="#ref-kamlet1968">1</a> are accurate within their training regime but miss the high-nitrogen tail. Discriminative property surrogates<a class="cite" href="#ref-casey2020">2</a><a class="cite" href="#ref-zhou2023unimol">3</a> score candidates but do not propose them. Generative language models trained on energetic corpora memorise training molecules. Standard diffusion guidance<a class="cite" href="#ref-ho2022cfg">4</a><a class="cite" href="#ref-dhariwal2021">5</a> fails silently when the trajectory is as short as molecular generation requires. Compounding these challenges, the labelled corpus is tier-stratified: of \(\sim\)66,000 labelled rows only \(\sim\)3,000 come from experiment or DFT, with the remainder from regime-limited Kamlet&ndash;Jacobs values and 3D-CNN surrogates of sharply lower reliability.</p>
