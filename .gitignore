@@ -60,3 +60,11 @@ NUL.log
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Paper build artefacts (built on demand from short_paper.html via the
+# html2doc skill; see paper/README.md and CLAUDE.md)
+paper/_body.html
+paper/_supplementary.html
+paper/short_paper.docx
+paper/short_paper_SI.docx
+paper/short_paper.pdf
