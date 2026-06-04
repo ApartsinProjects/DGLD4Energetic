@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Cover letter: Domain-gated latent diffusion discovers novel HMX-class energetic materials</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+:root {
+  --fg:#111418; --soft:#2c3138; --muted:#5a626c;
+  --accent:#14385c; --rule:#d1d4d8; --bg:#ffffff;
+}
+html { scroll-behavior:smooth; }
+body {
+  font:11.5pt/1.55 "Charter","Iowan Old Style","Source Serif Pro",Georgia,"Times New Roman",serif;
+  color:var(--fg); background:var(--bg);
+  max-width:720px; margin:2.2rem auto; padding:0 1.4rem;
+  -webkit-font-smoothing:antialiased;
+}
+header.letterhead {
+  border-bottom:1.5px solid var(--rule);
+  padding-bottom:.75rem;
+  margin-bottom:1.6rem;
+}
+header.letterhead .lh-name {
+  font-size:1.15rem; font-weight:600; color:var(--accent); letter-spacing:.01em;
+}
+header.letterhead .lh-affil {
+  font-size:.9rem; color:var(--muted); font-style:italic; line-height:1.45; margin-top:.15rem;
+}
+header.letterhead .lh-contact {
+  font-size:.86rem; color:var(--muted); margin-top:.25rem;
+}
+.meta {
+  font-size:.95rem; margin:1.3rem 0 1.6rem 0; line-height:1.55;
+}
+.meta .date { color:var(--muted); }
+.meta .addressee { margin-top:.55rem; }
+.meta .subject {
+  margin-top:.9rem; padding:.55rem .8rem;
+  background:#f5f6f8; border-left:3px solid var(--accent);
+  font-size:.98rem;
+}
+.meta .subject strong { color:var(--accent); }
+.salutation { margin:1.4rem 0 .9rem 0; }
+p {
+  margin:0; text-indent:1.4em; text-align:justify; hyphens:auto;
+}
+.salutation + p, p.flush, h3 + p, ul + p, table + p {
+  text-indent:0;
+}
+p + p { margin-top:.55rem; }
+h3 {
+  font-size:1.0rem; color:var(--accent);
+  margin:1.5rem 0 .35rem 0; font-weight:600;
+  letter-spacing:.01em;
+}
+ul.compact {
+  margin:.35rem 0 .85rem 1.3rem; padding:0;
+  font-size:.96rem; line-height:1.5;
+}
+ul.compact li { margin-bottom:.18rem; }
+.signature {
+  margin-top:1.8rem; padding-top:1rem; border-top:1px solid var(--rule);
+  font-size:.96rem;
+}
+.signature .sig-name { font-weight:600; }
+.signature .sig-line { color:var(--muted); font-style:italic; }
+.signature .sig-line small { font-style:normal; }
+em.emph { color:var(--accent); font-style:normal; font-weight:600; }
+@media print {
+  body { font-size:10.5pt; max-width:none; margin:0; padding:0; }
+  header.letterhead { page-break-after:avoid; }
+}
+</style>
+</head>
+<body>
+
+<header class="letterhead">
+  <div class="lh-name">Yehudit Aperstein, Ph.D.</div>
+  <div class="lh-affil">
+    Department of Intelligent Systems<br>
+    Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel
+  </div>
+  <div class="lh-contact">apersteiny@afeka.ac.il</div>
+</header>
+
+<div class="meta">
+  <div class="date">2 June 2026</div>
+  <div class="addressee">
+    The Editors<br>
+    <em>Nature Machine Intelligence</em>
+  </div>
+  <div class="subject">
+    <strong>Re:</strong> Submission of original Article:
+    &ldquo;Domain-gated latent diffusion discovers novel HMX-class energetic
+    materials with first-principles validation&rdquo;
+  </div>
+</div>
+
+<p class="salutation">Dear Editor,</p>
+
+<p class="flush">
+We submit for your consideration our manuscript, &ldquo;Domain-gated latent
+diffusion discovers novel HMX-class energetic materials with first-principles
+validation.&rdquo; The work presents a generative machine-learning recipe that
+produces twelve novel high-performance energetic compounds, each confirmed by
+density-functional theory against six experimental anchors.
+</p>
+
+<p>
+No new HMX-class energetic material has been disclosed in fifteen years, yet
+performance gains in this regime translate directly to reduced propellant
+mass, smaller warheads, more efficient civilian gas-generators such as
+automotive airbags, and safer mining and demolition operations. Generative
+machine learning has redrawn pharmaceutical and small-molecule design, but the
+central premise of those successes, a deep well of trustworthy property
+measurements, does not hold for explosives chemistry. Of roughly 66,000
+labelled CHNO molecules with reported detonation properties, only about 3,000
+carry experimental or DFT-quality values; the remaining stratum of
+literature-derived and surrogate labels is too noisy to drive a generator
+and too informative to discard. Standard recipes either memorise the
+high-performance tail or extrapolate without calibration.
+</p>
+
+<p>
+<em class="emph">Domain-gated latent diffusion (DGLD)</em> turns this label-quality
+stratification from a liability into a usable training signal. A four-tier
+label-trust gate routes only the trusted tier into the conditional-gradient
+branch; noisier tiers train the unconditional prior via classifier-free
+guidance dropout. A multi-task score model adds independently-switchable
+sample-time steering on viability, sensitivity, and hazard. Every candidate
+passes a four-stage validation funnel ending in B3LYP/$\omega$B97X-D3BJ
+density-functional theory, calibrated against six experimental anchors. DGLD
+yields twelve DFT-confirmed novel leads at calibrated densities 1.84&ndash;2.09
+g/cm<sup>3</sup> and Kamlet&ndash;Jacobs detonation velocities in the HMX class.
+The headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches 2.09 g/cm<sup>3</sup>
+and 8.25 km/s while remaining structurally dissimilar from the entire
+65,980-row labelled corpus (max-Tanimoto 0.27) and absent from PubChem.
+</p>
+
+<p>
+Against four no-diffusion baselines run on the same corpus (SMILES-LSTM,
+MolMIM 70&nbsp;M, REINVENT&nbsp;4, SELFIES-GA), DGLD is the only method
+that produces molecules simultaneously novel and on-target under
+first-principles validation. SMILES-LSTM exact-rediscovers training
+molecules; MolMIM is novel but below HMX; REINVENT&nbsp;4 peaks at
+9.02&nbsp;km/s; SELFIES-GA shows a 3.5&nbsp;km/s surrogate-to-DFT collapse.
+The tier-gating mechanism is in principle domain-agnostic: any generative-ML
+problem with stratified label trust (drug discovery, where bioactivity sits
+above QSAR; computational materials, where measured sits above computed sits
+above inferred) should admit the same recipe with only the validation funnel
+changing.
+End-to-end reproduction fits within roughly 45 GPU-hours on commodity
+datacentre instances; all code, data, and trained model checkpoints are
+released under permissive open licences.
+</p>
+
+<p>
+This work sits at <em>Nature Machine Intelligence</em>'s intersection of
+methodological advance and physical-sciences impact. It contributes both a
+generative-ML recipe (label-quality gating in latent diffusion with
+switchable multi-task sample-time steering) and a substantive domain result
+(the first HMX-class lead set produced by a generative model and confirmed
+by first-principles audit). It should interest readers working on generative
+models for the physical sciences, on label-noise-aware training under
+distributional sparsity, and on the broader project of moving
+machine-learning-driven materials discovery from in-silico screening to
+first-principles-validated leads.
+</p>
+
+<h3>Compliance and declarations</h3>
+<ul class="compact">
+  <li>The manuscript is original and is not under consideration at another journal.</li>
+  <li>All authors have read the manuscript and approve its submission.</li>
+  <li>The authors declare no competing interests.</li>
+  <li>The work received no specific external funding.</li>
+  <li>Code is released at
+    <a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>
+    under Apache-2.0; data and trained checkpoints at
+    <a href="https://doi.org/10.5281/zenodo.19821953">zenodo:10.5281/zenodo.19821953</a>
+    under CC-BY-4.0.
+  </li>
+  <li>No human subjects, no animals, no dual-use research of concern beyond the
+    chemistry-by-construction risk addressed in the manuscript&rsquo;s safety
+    statement.
+  </li>
+</ul>
+
+<h3>Suggested reviewers</h3>
+<p class="flush" style="font-size:.95rem;color:var(--soft);">
+We respectfully decline to suggest or exclude reviewers, leaving the choice
+of referees to the editorial office. We would, however, be pleased to provide
+clarifications, additional analyses, or revised computations on request.
+</p>
+
+<div class="signature">
+  <p class="flush">Sincerely,</p>
+  <p class="flush sig-name" style="margin-top:1.4rem;">Yehudit Aperstein, Ph.D.</p>
+  <p class="flush sig-line">
+    on behalf of all authors<br>
+    <small>Yehudit Aperstein<sup>1,*,&dagger;</sup>, Alexander Apartsin<sup>2,*</sup></small><br>
+    <small><sup>1</sup>Department of Intelligent Systems, Afeka Tel-Aviv College of Engineering, Israel.</small><br>
+    <small><sup>2</sup>School of Computer Science, Faculty of Sciences, HIT&ndash;Holon Institute of Technology, Israel.</small><br>
+    <small><sup>*</sup>Equal contribution. <sup>&dagger;</sup>Corresponding author.</small>
+  </p>
+</div>
+
+</body>
+</html>
