@@ -47,7 +47,7 @@ def main():
     for r in mol["per_run"]:
         cond_to_vals.setdefault(r["condition"], []).append(r["top1_composite"])
 
-    # Hardcoded baselines from Table 6a (paper short_paper.html ~line 605).
+    # Hardcoded baselines from Table 6a (paper long_paper.html ~line 605).
     # REINVENT 4: top-1 composite 0.42 (N-fraction proxy per Table 6a footnote
     # double-dagger), n_seeds=3; std across seeds not available from
     # reinvent_unimol_top100.json (single seed scored), use 0.05 placeholder.

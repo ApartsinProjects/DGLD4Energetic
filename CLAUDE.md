@@ -7,12 +7,12 @@ Project-scoped instructions. These override generic defaults.
 There are two HTML sources of record in `paper/`, each producing its own
 main + SI Word pair via the `html2doc` skill:
 
-### 1. Long-form preprint (`paper/short_paper.html`)
+### 1. Long-form preprint (`paper/long_paper.html`)
 
 | File | Contents | Notes |
 |---|---|---|
-| `paper/short_paper.docx` | Title, authors, abstract, sections 1-7 (Intro through Conclusion), References. | Long-form preprint version (~14k words main text). |
-| `paper/short_paper_SI.docx` | "Supplementary Information for: ..." title block, Appendix A-F, References (duplicated for self-containment). | Long-form preprint SI. |
+| `paper/long_paper.docx` | Title, authors, abstract, sections 1-7 (Intro through Conclusion), References. | Long-form preprint version (~14k words main text). |
+| `paper/long_paper_SI.docx` | "Supplementary Information for: ..." title block, Appendix A-F, References (duplicated for self-containment). | Long-form preprint SI. |
 
 Built by `paper/_split_html.py` -> html2doc pipeline.
 
@@ -38,7 +38,7 @@ Built directly by html2doc on each of `NMIPaper.html` and `NMIPaperSI.html`
 | Extended Data items | 10 max | 9 figures + 1 table = 10 |
 
 Both pairs are committed so GitHub Pages serves all four `.docx` files as
-downloads from `paper/short_paper.html` (top-right corner).
+downloads from `paper/long_paper.html` (top-right corner).
 
 Never produce a single combined Word file. Reviewers, editors, and the
 journal's typesetting pipeline expect main + SI as separate files.
@@ -53,8 +53,8 @@ SKILL=/c/Users/apart/.claude/skills/html2doc
 
 for stem in body supplementary; do
   case $stem in
-    body)          OUT=short_paper.docx ;;
-    supplementary) OUT=short_paper_SI.docx ;;
+    body)          OUT=long_paper.docx ;;
+    supplementary) OUT=long_paper_SI.docx ;;
   esac
   IN=_${stem}.html
   NODE_PATH="$SKILL/node_modules" node "$SKILL/scripts/katex_to_mathml.js" \
@@ -77,13 +77,13 @@ and SI.
 ### What to commit
 
 The two final Word files **are committed** so the published HTML paper can
-serve them as downloads (top-right corner of `short_paper.html`, served by
+serve them as downloads (top-right corner of `long_paper.html`, served by
 GitHub Pages):
 
-- `paper/short_paper.docx`
-- `paper/short_paper_SI.docx`
+- `paper/long_paper.docx`
+- `paper/long_paper_SI.docx`
 
-Rebuild and re-commit both whenever `short_paper.html` changes. The HTML is
+Rebuild and re-commit both whenever `long_paper.html` changes. The HTML is
 still the source of record; the .docx files are derived snapshots that need
 to stay in sync.
 
@@ -92,7 +92,7 @@ to stay in sync.
 Build intermediates are gitignored (see `.gitignore`):
 
 - `paper/_body.html`, `paper/_supplementary.html` (split intermediates)
-- `paper/short_paper.pdf` (if produced)
+- `paper/long_paper.pdf` (if produced)
 - `paper/~$*.docx` (Word lock files while a doc is open)
 
 ## Author list
@@ -112,4 +112,4 @@ paper.
 
 Public on GitHub at `github.com/ApartsinProjects/DGLD4Energetic`. Pages
 deployed at `apartsinprojects.github.io/DGLD4Energetic/` (root index.html
-redirects to `paper/short_paper.html`).
+redirects to `paper/long_paper.html`).

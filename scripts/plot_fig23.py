@@ -282,7 +282,7 @@ fig.legend(
 )
 
 # Footer source-note removed; the same information lives in the figcaption
-# inside short_paper.html. Removing it eliminates the overlap with the
+# inside long_paper.html. Removing it eliminates the overlap with the
 # bottom-left Method legend and gives the legends the full bottom strip.
 
 # Reserve room at the bottom for the legends

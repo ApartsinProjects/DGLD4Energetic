@@ -26,7 +26,7 @@ DGLD_CONDS = {"C0_unguided", "C1_viab", "C1_viab_sens", "C2_viab_sens",
 LSTM_CONDS = {"smiles_lstm_samples"}
 MOLMIM_CONDS = {"molmim_samples"}
 
-# Hardcoded baseline points (Table 6a / short_paper.html ~line 605).
+# Hardcoded baseline points (Table 6a / long_paper.html ~line 605).
 # REINVENT 4 top-1 (Table 6a; seed-42 aminotetrazine top-1 by composite):
 #   D=9.02 km/s, rho=1.853 g/cm^3, P=34.5 GPa, max-Tanimoto=0.57 -> novelty=0.43.
 # SELFIES-GA 40k best-novel from baseline_bundle/results/selfies_ga_competitor_dft.json:

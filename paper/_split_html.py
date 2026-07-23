@@ -1,11 +1,11 @@
-"""Split short_paper.html into a main-body HTML and a Supplementary HTML.
+"""Split long_paper.html into a main-body HTML and a Supplementary HTML.
 
 Project convention (see ../CLAUDE.md): every Word build for journal submission
 produces two .docx files:
 
-  - short_paper.docx       Main article: title, authors, abstract, sections
+  - long_paper.docx       Main article: title, authors, abstract, sections
                            1-7, references.
-  - short_paper_SI.docx    Supplementary Information: title (with "SI for:"
+  - long_paper_SI.docx    Supplementary Information: title (with "SI for:"
                            prefix), Appendix A-F, references (duplicated for
                            reviewer self-containment).
 
@@ -15,7 +15,7 @@ on each output afterwards.
 
 Usage:
     python _split_html.py
-        Reads short_paper.html, writes _body.html and _supplementary.html.
+        Reads long_paper.html, writes _body.html and _supplementary.html.
 """
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).parent
-SRC = HERE / "short_paper.html"
+SRC = HERE / "long_paper.html"
 OUT_BODY = HERE / "_body.html"
 OUT_SI = HERE / "_supplementary.html"
 
@@ -44,7 +44,7 @@ def find_line_index(lines: list[str], pattern: re.Pattern) -> int:
 def strip_html_only_chrome(text: str) -> str:
     """Remove HTML-only UI elements that don't belong in the Word builds.
 
-    Currently strips the top-right "Word downloads" aside from short_paper.html
+    Currently strips the top-right "Word downloads" aside from long_paper.html
     so the .docx outputs don't carry self-referential download links.
     """
     return re.sub(
