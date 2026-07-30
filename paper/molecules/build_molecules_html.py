@@ -125,7 +125,7 @@ DISCUSSION_OPENING = (
     'gate: routing only the ~3,000 experimental and DFT rows into the conditional gradient, while '
     'the ~63,000 lower-confidence rows train only the unconditional prior, prevents miscalibrated '
     'Kamlet&ndash;Jacobs and surrogate labels from steering generation toward physically implausible '
-    'high-scoring regions&mdash;the failure mode visible in the SELFIES-GA baseline, whose best novel '
+    'high-scoring regions, the failure mode visible in the SELFIES-GA baseline, whose best novel '
     'candidate loses 3.5&nbsp;km&nbsp;s<sup>&minus;1</sup> under DFT audit.</p>\n'
     '<p>Relative to prior work, DGLD occupies a distinct position. Discriminative property surrogates '
     'score candidates but do not propose them; generative language models trained on energetic '
@@ -134,8 +134,8 @@ DISCUSSION_OPENING = (
     'requires. By coupling generative inverse design to a graded validation funnel that ends in '
     'density-functional theory, DGLD converts a sparse-label liability into a usable training signal '
     'and returns a ranked, physics-checked candidate list rather than an unvalidated pool. Because '
-    'the gating mechanism depends only on the availability of a trust hierarchy over labels&mdash;not on '
-    'any energetic-materials-specific structure&mdash;the recipe should transfer to other data-limited '
+    'the gating mechanism depends only on the availability of a trust hierarchy over labels (not on '
+    'any energetic-materials-specific structure), the recipe should transfer to other data-limited '
     'inverse-design settings, with only the validation funnel changing per domain.</p>'
 )
 
@@ -382,8 +382,8 @@ ablations. File: <code>molecules_paper_SI.html</code> (compiled to <code>molecul
 <h2>Author Contributions</h2>
 <p>Conceptualization, Y.A. and A.A.; methodology, Y.A. and A.A.; software, Y.A. and A.A.;
 validation, Y.A. and A.A.; formal analysis, Y.A. and A.A.; investigation, Y.A. and A.A.;
-data curation, Y.A. and A.A.; writing&mdash;original draft preparation, Y.A. and A.A.;
-writing&mdash;review and editing, Y.A. and A.A.; visualization, Y.A. and A.A. All authors have read
+data curation, Y.A. and A.A.; writing, original draft preparation, Y.A. and A.A.;
+writing, review and editing, Y.A. and A.A.; visualization, Y.A. and A.A. All authors have read
 and agreed to the published version of the manuscript.</p>
 
 <h2>Funding</h2>
@@ -399,8 +399,8 @@ and agreed to the published version of the manuscript.</p>
 <p>Trained model checkpoints (the LIMO VAE, two conditional latent denoisers DGLD-H and DGLD-P,
 two multi-head latent score models, the SELFIES alphabet, and run metadata) are deposited on Zenodo
 under CC-BY-4.0 at DOI <a href="https://doi.org/10.5281/zenodo.19821953">10.5281/zenodo.19821953</a>.
-All code&mdash;LIMO fine-tuning, denoiser and score-model training, sampling, the validation funnel, and
-the figure-generation pipeline&mdash;is released at
+All code (LIMO fine-tuning, denoiser and score-model training, sampling, the validation funnel, and
+the figure-generation pipeline) is released at
 <a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>
 under Apache-2.0. The labelled master, the augmented unlabelled corpus, and the 918 hard-negative
 latents are redistributed in canonicalised form with row-level provenance in the same deposit.</p>

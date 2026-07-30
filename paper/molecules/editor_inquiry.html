@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Pre-submission inquiry to Dr. Guanjie Wang — Molecules Special Issue</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+:root{--fg:#111418;--muted:#555;--accent:#0b5394;--rule:#d5d8dc;}
+body{font:11.5pt/1.55 "Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;color:var(--fg);
+  max-width:720px;margin:2.2rem auto;padding:0 1.4rem}
+header{border-bottom:1.5px solid var(--accent);padding-bottom:.7rem;margin-bottom:1.4rem}
+header .from{font-size:.9rem;color:var(--muted);line-height:1.45}
+.meta{font-size:.95rem;margin:1.1rem 0 1.4rem}
+.meta .subject{margin-top:.7rem;padding:.5rem .8rem;background:#f4f6f8;border-left:3px solid var(--accent)}
+p{margin:.7rem 0;text-align:justify;hyphens:auto}
+.abstract{background:#f4f6f8;border:1px solid var(--rule);padding:.8rem 1rem;margin:1rem 0;font-size:.92rem}
+.abstract .lab{font-weight:700;color:var(--accent)}
+.sig{margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--rule);font-size:.95rem;line-height:1.5}
+.sig .name{font-weight:700}
+.sig .corr{color:var(--muted);font-size:.86rem}
+.note{background:#fff8e6;border-left:3px solid #d9a441;padding:.55rem .85rem;margin:1.1rem 0;font-size:.85rem;color:#5a4a1a}
+@media print{body{max-width:none;margin:0}.note{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="from">
+    Yehudit Aperstein, Ph.D. &middot; Department of Intelligent Systems, Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel<br>
+    Alexander Apartsin, Ph.D. &middot; School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel<br>
+    Correspondence: apersteiny@afeka.ac.il
+  </div>
+</header>
+
+<div class="meta">
+  <div>To: Dr. Guanjie Wang, Guest Editor</div>
+  <div>Special Issue &ldquo;AI in Materials Design and Discovery&rdquo;, <em>Molecules</em> (MDPI)</div>
+  <div class="subject"><strong>Subject:</strong> Pre-submission inquiry: suitability and APC consideration</div>
+</div>
+
+<p>Dear Dr. Wang,</p>
+
+<p>We are writing to ask whether our manuscript, &ldquo;<strong>Domain-Gated Latent Diffusion for the
+Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</strong>,&rdquo;
+would be a suitable contribution to the Special Issue &ldquo;AI in Materials Design and Discovery&rdquo;
+in <em>Molecules</em>, for which you serve as Guest Editor.</p>
+
+<p>The work sits squarely at the intersection of the themes the Special Issue highlights: generative
+<strong>inverse design</strong> of molecules, <strong>data-driven discovery</strong> from
+reliability-stratified data, <strong>high-throughput screening</strong>, and the
+<strong>integration of first-principles calculations with machine learning</strong>. It addresses a
+central obstacle in data-sparse materials research: how to exploit a large but reliability-stratified
+molecular corpus without allowing lower-confidence estimates to distort the search for candidates with
+targeted physical properties. Our method unifies reliability-aware (label-gated) learning, directed
+exploration of a molecular latent space, chemistry-based filtering, and quantum-mechanical (DFT)
+verification within a single, reproducible pipeline.</p>
+
+<p>The outcome is concrete and, we believe, of broad interest to the issue&rsquo;s readership: twelve
+novel, DFT-confirmed leads, including HMX-class candidates obtained by a generative model and confirmed
+by first-principles audit. Unlike the baseline generators we evaluated on the same corpus, our approach
+consistently identifies molecules that are both structurally novel and competitive on the targeted
+performance properties. All code, model checkpoints, and validation resources are released publicly,
+which we hope will make the contribution easy to reproduce, extend, and cite. On these grounds we are
+optimistic that the paper would be a strong fit for the Special Issue and could become one of its more
+visible and well-cited contributions.</p>
+
+<div class="abstract">
+  <p><span class="lab">Abstract.</span> The design of new high-energy-density materials is a
+  data-limited inverse-design problem: of approximately 66,000 labelled CHNO molecules, only about 3,000
+  carry experimental or DFT-quality property values, so generative models trained on the full mixture
+  either memorise the high-performance tail or extrapolate without calibration, and no new HMX-class
+  compound has been disclosed in fifteen years. We introduce <strong>Domain-Gated Latent Diffusion
+  (DGLD)</strong>, a data-driven framework that couples generative inverse design to first-principles
+  validation. A four-tier label-trust gate routes only high-quality labels into the conditional gradient
+  while noisy labels train the unconditional prior; a multi-task score model supplies independently
+  switchable sample-time steering over viability, sensitivity, and hazard; and a four-stage screening
+  funnel (SMARTS gate, Pareto reranker, GFN2-xTB triage, and B3LYP/def2-TZVP density-functional theory)
+  validates every candidate. DGLD yields twelve DFT-confirmed novel leads; the headline compound,
+  3,4,5-trinitro-1,2-isoxazole, reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a
+  Kamlet&ndash;Jacobs detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally
+  distinct from all 65,980 training molecules (nearest-neighbour Tanimoto 0.27). A co-headline lead,
+  4-nitro-1,2,3,5-oxatriazole, reaches a calibrated detonation velocity of 9.00&nbsp;km&nbsp;s<sup>&minus;1</sup>
+  from a chemotype family distinct from that of the headline compound. Against four baselines on the same
+  corpus, DGLD is the only method generating molecules simultaneously novel and on-target under
+  first-principles validation. Code, model checkpoints, and mined hard negatives are released openly on
+  Zenodo.</p>
+</div>
+
+<p>We would be very grateful for your view on whether the manuscript is appropriate for the Special Issue
+and of interest to its readership.</p>
+
+<p>If you would welcome a submission, we would also like to respectfully ask whether a
+<strong>substantial reduction in the Article Processing Charge</strong> (or, if at all possible, a
+<strong>full waiver</strong>) could be considered. Neither of our institutions provides funding for
+article processing charges, and the study was carried out without external publication support. We would,
+of course, be glad to discuss this further.</p>
+
+<p>Thank you very much for considering our inquiry. We would be pleased to send the complete manuscript
+and Supplementary Information at your convenience.</p>
+
+<div class="sig">
+  <p>With kind regards,</p>
+  <p class="name">Yehudit Aperstein, Ph.D.</p>
+  <div class="corr">Corresponding author &middot; Department of Intelligent Systems, Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel &middot; apersteiny@afeka.ac.il</div>
+  <p class="name" style="margin-top:.8rem;">Alexander Apartsin, Ph.D.</p>
+  <div class="corr">School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel</div>
+</div>
+
+<div class="note">
+  Editing note (not part of the letter): correspondence is marked to Y.A. to match the manuscript&rsquo;s
+  corresponding author. If A.A. will send the inquiry instead, swap the correspondence line. The APC is
+  2,700&nbsp;CHF; MDPI waivers/discounts are granted at the Editorial Office&rsquo;s discretion and are more
+  likely when requested before submission, as here.
+</div>
+
+</body>
+</html>
