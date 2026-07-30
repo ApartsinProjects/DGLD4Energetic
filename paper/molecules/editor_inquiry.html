@@ -45,40 +45,20 @@ Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Vali
 would be a suitable contribution to the Special Issue &ldquo;AI in Materials Design and Discovery&rdquo;
 in <em>Molecules</em>, for which you serve as Guest Editor.</p>
 
-<p>The study addresses a central obstacle in data-sparse materials research: how to exploit a large but
-reliability-stratified molecular corpus without allowing lower-confidence estimates to distort the search
-for candidates with targeted physical properties. We develop a generative approach to molecular inverse
-design that gates learning by label reliability, explores a molecular latent space under switchable
-property and safety guidance, screens candidates through chemistry-based filters, and verifies each
-survivor by quantum-mechanical (density-functional theory) calculation, all within a single reproducible
-pipeline.</p>
-
-<p>The outcome is concrete: twelve novel, DFT-confirmed leads, including HMX-class candidates obtained by
-a generative model and confirmed by first-principles audit. Unlike the baseline generators we evaluated on
-the same corpus, our approach consistently identifies molecules that are both structurally novel and
-competitive on the targeted performance properties. All code, model checkpoints, and validation resources
-are released publicly, so the results are straightforward to reproduce and to build on.</p>
+<p>The paper concerns a recurring obstacle in data-limited materials discovery: searching a large but
+unevenly reliable molecular dataset for candidates with targeted physical properties, without letting the
+weaker data mislead the search. We address it with a generative design method that trains on
+reliability-graded data and validates every candidate with quantum-chemistry calculations.</p>
 
 <div class="abstract">
-  <p><span class="lab">Abstract.</span> The design of new high-energy-density materials is a
-  data-limited inverse-design problem: of approximately 66,000 labelled CHNO molecules, only about 3,000
-  carry experimental or DFT-quality property values, so generative models trained on the full mixture
-  either memorise the high-performance tail or extrapolate without calibration, and no new HMX-class
-  compound has been disclosed in fifteen years. We introduce <strong>Domain-Gated Latent Diffusion
-  (DGLD)</strong>, a data-driven framework that couples generative inverse design to first-principles
-  validation. A four-tier label-trust gate routes only high-quality labels into the conditional gradient
-  while noisy labels train the unconditional prior; a multi-task score model supplies independently
-  switchable sample-time steering over viability, sensitivity, and hazard; and a four-stage screening
-  funnel (SMARTS gate, Pareto reranker, GFN2-xTB triage, and B3LYP/def2-TZVP density-functional theory)
-  validates every candidate. DGLD yields twelve DFT-confirmed novel leads; the headline compound,
-  3,4,5-trinitro-1,2-isoxazole, reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a
-  Kamlet&ndash;Jacobs detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally
-  distinct from all 65,980 training molecules (nearest-neighbour Tanimoto 0.27). A co-headline lead,
-  4-nitro-1,2,3,5-oxatriazole, reaches a calibrated detonation velocity of 9.00&nbsp;km&nbsp;s<sup>&minus;1</sup>
-  from a chemotype family distinct from that of the headline compound. Against four baselines on the same
-  corpus, DGLD is the only method generating molecules simultaneously novel and on-target under
-  first-principles validation. Code, model checkpoints, and mined hard negatives are released openly on
-  Zenodo.</p>
+  <p><span class="lab">Abstract.</span> No new HMX-class energetic material has been reported in fifteen
+  years, in part because reliable property data are scarce. We introduce Domain-Gated Latent Diffusion
+  (DGLD), a machine-learning method that designs new candidate molecules while letting only trustworthy
+  data guide the search and validating each proposal with quantum-chemistry calculations. DGLD produced
+  twelve new, computationally confirmed candidates in the HMX performance class, several of them
+  chemically distinct from anything in the training set. Unlike the other generators we tested, it
+  reliably proposes molecules that are both genuinely novel and on-target. The code and models are
+  released openly.</p>
 </div>
 
 <p>We would be very grateful for your view on whether the manuscript is appropriate for the Special Issue
