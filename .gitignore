@@ -70,3 +70,4 @@ paper/_supplementary.html
 paper/long_paper.pdf
 # Word lock files (Word holds a hidden file while a doc is open)
 paper/~$*.docx
+_zenodo_release/
