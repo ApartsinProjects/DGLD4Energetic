@@ -131,21 +131,48 @@ def remap_refs(s):
     s = re.sub(r'§([A-F])\.\d+', 'the Supplementary Information', s)
     # Experiments SS5.x -> Section 2.x  (both § glyph and &sect;)
     s = re.sub(r'(?:§|&sect;)\s*5\.(\d+)', r'Section&nbsp;2.\1', s)
-    # Dataset/Methodology §3.x / §4.x -> "the Methods (Section 4)"  (before bare 3/4)
-    s = re.sub(r'(?:§|&sect;)\s*[34]\.\d+', 'the Methods (Section&nbsp;4)', s)
+    # Dataset/Methodology §3.x / §4.x -> "Section 4" (Materials and Methods)
+    s = re.sub(r'(?:§|&sect;)\s*[34]\.\d+', 'Section&nbsp;4', s)
     # Related work §2.x -> Section 1.1  (before bare 2)
     s = re.sub(r'(?:§|&sect;)\s*2\.\d+', 'Section&nbsp;1.1', s)
     # ---- bare section numbers (no subsection) ----
     s = re.sub(r'(?:§|&sect;)\s*5\b', 'Section&nbsp;2', s)        # Experiments  -> Results
     s = re.sub(r'(?:§|&sect;)\s*6\b', 'Section&nbsp;3', s)        # Limitations  -> Discussion
     s = re.sub(r'(?:§|&sect;)\s*7(?:\.1)?\b', 'Section&nbsp;5', s)# Conclusion   -> Conclusions
-    s = re.sub(r'(?:§|&sect;)\s*[34]\b', 'the Methods (Section&nbsp;4)', s)  # Dataset/Method
+    s = re.sub(r'(?:§|&sect;)\s*[34]\b', 'Section&nbsp;4', s)     # Dataset/Method
     s = re.sub(r'(?:§|&sect;)\s*2\b', 'Section&nbsp;1.1', s)      # Related work
+    # tidy artifacts from ref substitution: double article "the Section 4" and
+    # "the the ..." (arises when a preceding "the" met a remapped ref phrase).
+    s = s.replace('the Section&nbsp;4', 'Section&nbsp;4')
+    s = re.sub(r'\bthe the\b', 'the', s)
     return s
 
 # ---------------------------------------------------------------------------
 # 3) Assemble body in MDPI order, then renumber figures & tables by appearance.
 # ---------------------------------------------------------------------------
+# --- Appendix figures used PLAIN global numbers (e.g. 18, 26) that collide with
+#     the renumbered main figures. Relabel them to the supplementary S-series
+#     (Figure S1, S2, ...) across BOTH documents *before* the main renumber, so
+#     main-body references to them no longer clash with the new main figures.
+app_fig_nums = list(dict.fromkeys(re.findall(r'<strong>Figure(?:&nbsp;|\s+)(\d+)\.', appendix_html)))
+APP_FIG_MAP = {old: f'S{i + 1}' for i, old in enumerate(app_fig_nums)}
+
+def apply_fig_refmap(s, mapping):
+    """Rewrite figure captions and inline 'Figure N'/'Fig. N' refs via mapping."""
+    s = re.sub(r'(<strong>Figure(?:&nbsp;|\s+))(\d+)(\.)',
+               lambda m: m.group(1) + mapping.get(m.group(2), m.group(2)) + m.group(3), s)
+    s = re.sub(r'\b(Figure|Fig\.?)(&nbsp;|\s+)(\d+)\b',
+               lambda m: f'{m.group(1)}{m.group(2)}{mapping.get(m.group(3), m.group(3))}', s)
+    return s
+
+def apply_tab_refmap(s, mapping):
+    """Rewrite plain 'Table N' refs via mapping (leaves lettered 'Table B.1' alone)."""
+    s = re.sub(r'(<strong>Table(?:&nbsp;|\s+))(\d+)(\.)',
+               lambda m: m.group(1) + mapping.get(m.group(2), m.group(2)) + m.group(3), s)
+    s = re.sub(r'\b(Table)(&nbsp;|\s+)(\d+)\b',
+               lambda m: f'{m.group(1)}{m.group(2)}{mapping.get(m.group(3), m.group(3))}', s)
+    return s
+
 body_main = "\n".join([
     '<h2 id="sec-intro">1. Introduction</h2>', intro_body,
     '<h3>1.1. Related Work</h3>', related_body,
@@ -155,6 +182,8 @@ body_main = "\n".join([
     '<h2 id="sec-conc">5. Conclusions</h2>', conc_body,
 ])
 body_main = remap_refs(body_main)
+# main-body references to appendix figures 18/26 -> S1/S2 (before main renumber)
+body_main = apply_fig_refmap(body_main, APP_FIG_MAP)
 
 # Renumber figures: find caption labels "<strong>Figure N.</strong>" in order,
 # build old->new map, then rewrite BOTH captions and inline "Figure N"/"Fig. N" refs.
@@ -363,6 +392,12 @@ SI_TITLE = '''<header class="title">
 </header>
 '''
 appendix_out = remap_refs(appendix_html)
+# (1) relabel the SI's own figures (plain 18/26) to the S-series, captions + refs
+appendix_out = apply_fig_refmap(appendix_out, APP_FIG_MAP)
+# (2) remaining plain 'Figure N'/'Table N' in the SI are references to MAIN items;
+#     remap them to the renumbered main numbers so cross-refs stay correct.
+appendix_out = apply_fig_refmap(appendix_out, fmap)
+appendix_out = apply_tab_refmap(appendix_out, tmap)
 # retitle the "Appendix" h2 to a supplementary heading
 appendix_out = re.sub(r'<h2 id="sec-app">Appendix</h2>',
                       '<h2>Supplementary Notes</h2>', appendix_out, count=1)
