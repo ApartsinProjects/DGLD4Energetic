@@ -88,7 +88,7 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 
 <figure>
   <img src="../figs/fig_eda_atom_counts.png" width="1600" height="517" alt="Atom-composition descriptors" loading="lazy" style="max-width:100%; height:auto;" decoding="async">
-  <figcaption><strong>Figure A.1.</strong> Atom-composition statistics over a 30k subsample of the labelled corpus: molecular weight, nitro-group count, and joint C-vs-N atom counts. The corpus is heavily concentrated in CHNO chemistry with 2&ndash;6 nitro groups and MW between 150 and 350.</figcaption>
+  <figcaption><strong>Figure S1.</strong> Atom-composition statistics over a 30k subsample of the labelled corpus: molecular weight, nitro-group count, and joint C-vs-N atom counts. The corpus is heavily concentrated in CHNO chemistry with 2&ndash;6 nitro groups and MW between 150 and 350.</figcaption>
 </figure>
 
 
@@ -445,7 +445,7 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 
 <p>The v4b production-architecture sweep (50 samples per target, three quantile bands per property; full table in <code>experiments/diffusion_subset_cond_expanded_v4b_20260426T000541Z/cfg_sweep.md</code>) confirms that \(w=7\) gives the best mean per-property quantile match. Representative q90 (high-extreme) rows below illustrate the trade-off: density and detonation-velocity quantile error fall monotonically with increasing \(w\); HOF and detonation-pressure quantile errors are bowl-shaped, optimal near \(w \in [5, 7]\).</p>
 
-<table>
+<table><caption><strong>Table&nbsp;D.7.</strong> Per-property quantile-match error (mean relative error, %) for the v4b production-architecture classifier-free guidance-scale sweep, at guidance scales g = 2.0, 5.0, and 7.0; lower is better.</caption>
   <thead>
     <tr><th>Property</th><th>Target quantile</th><th>g=2.0 rel-err%</th><th>g=5.0 rel-err%</th><th>g=7.0 rel-err%</th></tr>
   </thead>
@@ -466,17 +466,17 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 <p>On a held-out probe of seven anchor energetics (RDX, HMX, TNT, FOX-7, PETN, TATB) and five known model-cheats (gem-tetranitro on C2; trinitromethane; gem-dinitro-cyclopropane; polyazene-NO<sub>2</sub> chain; tiny dinitromethane), the budget-137 model gave anchors viability \(\in\) [0.93, 0.99] and cheats \(\in\) [0.20, 0.84], while the budget-918 checkpoint gave anchors \(\in\) [0.86, 0.99] and cheats \(\in\) [0.12, 0.84]. Both discriminate, but the budget-918 checkpoint demoted the worst-offender model-cheat (gem-tetranitro) by an additional 0.10 absolute. The lesson is that the score-model viability head's discriminative power scales directly with the number of <em>structurally diverse</em> hard negatives encoded as training latents; the standard ZINC drug-like negatives we used to train the SMILES-space classifier are not enough; they are too far from the encoder's posterior to teach a useful gradient.</p>
 
 <h4>D.10&nbsp;Reproducibility across pool sizes</h4>
-<p>Top-1 composite at small pool size is sampling-noise-dominated: a single guidance configuration (\(s_{\text{viab}}=1.0, s_{\text{sens}}=0.3, s_{\text{SA}}=0.3\)) reaches top-1 composite 0.91 at pool=5&nbsp;000 but only 0.60&ndash;0.63 at pool=20&nbsp;000 / 40&nbsp;000; the 0.91 outlier is a small isoxazole-N-oxide (\(\rho=1.89, D=9.28\) km&nbsp;s<sup>&minus;1</sup>) that does not re-emerge at the larger sample size. The per-head guidance scale tunes the <em>distribution</em> of generated chemistry, but individual top-1 candidates are subject to the same combinatorial rarity that motivates the pool-size scaling of Section&nbsp;4. The composite-score distribution over the top-200 of an unguided pool=40&nbsp;000 run is shown in Fig&nbsp;S1. The recommended robust production recipe (moderate guidance, pool \(\ge\) 40&nbsp;000, Pareto reranker (scaffold-aware composite) as ranker, SA-gradient as a complementary run) is documented in Section&nbsp;4.</p>
+<p>Top-1 composite at small pool size is sampling-noise-dominated: a single guidance configuration (\(s_{\text{viab}}=1.0, s_{\text{sens}}=0.3, s_{\text{SA}}=0.3\)) reaches top-1 composite 0.91 at pool=5&nbsp;000 but only 0.60&ndash;0.63 at pool=20&nbsp;000 / 40&nbsp;000; the 0.91 outlier is a small isoxazole-N-oxide (\(\rho=1.89, D=9.28\) km&nbsp;s<sup>&minus;1</sup>) that does not re-emerge at the larger sample size. The per-head guidance scale tunes the <em>distribution</em> of generated chemistry, but individual top-1 candidates are subject to the same combinatorial rarity that motivates the pool-size scaling of Section&nbsp;4. The composite-score distribution over the top-200 of an unguided pool=40&nbsp;000 run is shown in Fig&nbsp;S2. The recommended robust production recipe (moderate guidance, pool \(\ge\) 40&nbsp;000, Pareto reranker (scaffold-aware composite) as ranker, SA-gradient as a complementary run) is documented in Section&nbsp;4.</p>
 <figure>
   <img src="../figs/fig5_score_dist.png" width="1273" height="674" alt="Score distribution" loading="lazy" style="max-width:100%; height:auto;" decoding="async">
-  <figcaption><strong>Figure S1.</strong> Distribution of composite scores over the top-200 of an unguided pool=40&nbsp;000 run after the Pareto scaffold-aware ranker (range [0.564, 0.831]).</figcaption>
+  <figcaption><strong>Figure S2.</strong> Distribution of composite scores over the top-200 of an unguided pool=40&nbsp;000 run after the Pareto scaffold-aware ranker (range [0.564, 0.831]).</figcaption>
 </figure>
 
-<p><strong>Pool-fusion provenance of the merged top-100.</strong> Applying Section&nbsp;4 pool-fusion recipe to (i) the unguided pool=40&nbsp;000 run, (ii) the unguided pool=80&nbsp;000 run, (iii) a guided pool=40&nbsp;000 run at \(s_{\text{viab}}\!=\!1.0, s_{\text{sens}}\!=\!0.3, s_{\text{SA}}\!=\!0\), and (iv) a guided pool=20&nbsp;000 run at \(s_{\text{SA}}\!=\!0.15\) yields 331 unique candidates. The top-100 by composite has range [0.564, 0.831]. Source breakdown: 89 from (i), 5 from (ii), 3 from (iii), 3 from (iv) (Fig&nbsp;S2). The Pareto reranker (scaffold-aware composite) is the dominant ranker; the largest contributor is the smallest unguided pool, while classifier-guided runs supply scaffold diversity at the top end. The trinitro-isoxazole rank-1 itself comes from a guided run.</p>
+<p><strong>Pool-fusion provenance of the merged top-100.</strong> Applying Section&nbsp;4 pool-fusion recipe to (i) the unguided pool=40&nbsp;000 run, (ii) the unguided pool=80&nbsp;000 run, (iii) a guided pool=40&nbsp;000 run at \(s_{\text{viab}}\!=\!1.0, s_{\text{sens}}\!=\!0.3, s_{\text{SA}}\!=\!0\), and (iv) a guided pool=20&nbsp;000 run at \(s_{\text{SA}}\!=\!0.15\) yields 331 unique candidates. The top-100 by composite has range [0.564, 0.831]. Source breakdown: 89 from (i), 5 from (ii), 3 from (iii), 3 from (iv) (Fig&nbsp;S3). The Pareto reranker (scaffold-aware composite) is the dominant ranker; the largest contributor is the smallest unguided pool, while classifier-guided runs supply scaffold diversity at the top end. The trinitro-isoxazole rank-1 itself comes from a guided run.</p>
 
 <figure>
   <img src="../figs/fig9_merged_provenance.png" width="1373" height="654" alt="Merged top-100 source breakdown" loading="lazy" style="max-width:100%; height:auto;" decoding="async">
-  <figcaption><strong>Figure S2.</strong> Source-pool contributions to the merged top-100. The unguided pool=40&nbsp;000 supplies 89 of the top-100; classifier-guided runs and the larger unguided pool contribute incremental scaffold diversity at the top.</figcaption>
+  <figcaption><strong>Figure S3.</strong> Source-pool contributions to the merged top-100. The unguided pool=40&nbsp;000 supplies 89 of the top-100; classifier-guided runs and the larger unguided pool contribute incremental scaffold diversity at the top.</figcaption>
 </figure>
 
 <h4>D.11&nbsp;Distribution-learning metrics</h4>
@@ -630,11 +630,11 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 </table>
 
 <h4>F.3&nbsp;Multi-head guidance vs unguided at matched compute</h4>
-<p>At pool=10&nbsp;000 each, with identical denoiser and only the sampler differing, multi-head guidance lifts max composite from 0.64 to 0.69, top-1 \(D\) from 8.94 to 9.51&nbsp;km&nbsp;s<sup>&minus;1</sup>, and top-1 \(P\) from 34.0 to 38.8&nbsp;GPa (Figure&nbsp;F.1).</p>
+<p>At pool=10&nbsp;000 each, with identical denoiser and only the sampler differing, multi-head guidance lifts max composite from 0.64 to 0.69, top-1 \(D\) from 8.94 to 9.51&nbsp;km&nbsp;s<sup>&minus;1</sup>, and top-1 \(P\) from 34.0 to 38.8&nbsp;GPa (Figure&nbsp;S4).</p>
 
 <figure>
   <img src="../figs/fig7_guided_vs_unguided.png" width="1444" height="734" alt="Guided vs unguided composite distribution" loading="lazy" style="max-width:100%; height:auto;" decoding="async">
-  <figcaption><strong>Figure F.1.</strong> Effect of multi-head score-model guidance on the composite-score distribution at matched compute (pool = 10&nbsp;000 each, post hard-gate filter). The denoiser is identical in both runs; only the sampler differs.</figcaption>
+  <figcaption><strong>Figure S4.</strong> Effect of multi-head score-model guidance on the composite-score distribution at matched compute (pool = 10&nbsp;000 each, post hard-gate filter). The denoiser is identical in both runs; only the sampler differs.</figcaption>
 </figure>
 
 <p>To isolate the contribution of multi-head score-model guidance at the larger pool size, a four-condition head-to-head was run at matched compute (pool=40&nbsp;000 each, identical CFG=7, identical DDIM steps=40, identical Pareto reranker, single seed). The four conditions are <strong>C0 unguided</strong> (classifier-free guidance only); <strong>C1 viab+sens</strong> (\(s_{\text{viab}}=1.0\), \(s_{\text{sens}}=0.3\)); <strong>C2 viab+sens+hazard</strong> (\(+s_{\text{hazard}}=1.0\)); <strong>C3 hazard-only</strong> (\(s_{\text{hazard}}=2.0\), other heads off).</p>
@@ -704,7 +704,7 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 
 <p>Without the tier-gate, the score model's performance head trains on Tier-C/D surrogate labels (sharply lower confidence than Tier-A/B experimental/DFT), and the guidance gradient pushes the sampler toward simple linear poly-N chains (top-1: guanidinium-class nitramine, 6 heavy atoms) rather than ring-bearing energetic scaffolds. The n_feasible keep rate rises to 53.9&nbsp;% (vs 4.6&nbsp;% in production) because the corrupted performance signal steers into a region of molecule space that is chemically plausible but performance-degenerate (high \(f_N\) by atom count, not by energetic architecture). The validation loss rises by 0.089 absolute, consistent with the perf head being trained on noisier targets.</p>
 
-<!-- ─────────────────────────── References ─────────────────────────── -->
+
 
 <h2 id="sec-refs">References</h2>
 <ol class="refs">

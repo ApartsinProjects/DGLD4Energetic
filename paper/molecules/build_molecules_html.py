@@ -190,14 +190,26 @@ def to_si_units(s):
 #     the renumbered main figures. Relabel them to the supplementary S-series
 #     (Figure S1, S2, ...) across BOTH documents *before* the main renumber, so
 #     main-body references to them no longer clash with the new main figures.
-app_fig_nums = list(dict.fromkeys(re.findall(r'<strong>Figure(?:&nbsp;|\s+)(\d+)\.', appendix_html)))
-APP_FIG_MAP = {old: f'S{i + 1}' for i, old in enumerate(app_fig_nums)}
+# The appendix figures use MIXED labels in the source: some plain-numbered (18, 26)
+# and some lettered (A.1, F.1). Map ALL of them to a clean supplementary S-series
+# (S1..Sn) in order of appearance, so the SI numbering is consistent.
+app_fig_labels = list(dict.fromkeys(
+    re.findall(r'<strong>Figure(?:&nbsp;|\s+)([0-9]+|[A-F]\.[0-9]+)\.', appendix_html)))
+APP_FIG_MAP = {old: f'S{i + 1}' for i, old in enumerate(app_fig_labels)}
+
+# Figure-label token: a plain number, an S-number, or a lettered appendix label.
+_FIGLAB = r'([0-9]+|[A-F]\.[0-9]+)'
 
 def apply_fig_refmap(s, mapping):
-    """Rewrite figure captions and inline 'Figure N'/'Fig. N' refs via mapping."""
-    s = re.sub(r'(<strong>Figure(?:&nbsp;|\s+))(\d+)(\.)',
+    """Rewrite figure captions and inline 'Figure N'/'Fig. N' refs via mapping.
+
+    Single pass (each label looked up once, so chained maps like 19->3, 3->10 do
+    not double-apply). Handles plain numbers and lettered labels (A.1, F.1); the
+    lookahead stops '18' from matching inside '180' and 'A.1' inside 'A.10'.
+    """
+    s = re.sub(r'(<strong>Figure(?:&nbsp;|\s+))' + _FIGLAB + r'(\.)',
                lambda m: m.group(1) + mapping.get(m.group(2), m.group(2)) + m.group(3), s)
-    s = re.sub(r'\b(Figure|Fig\.?)(&nbsp;|\s+)(\d+)\b',
+    s = re.sub(r'\b(Figure|Fig\.?)(&nbsp;|\s+)' + _FIGLAB + r'(?![0-9A-Za-z])',
                lambda m: f'{m.group(1)}{m.group(2)}{mapping.get(m.group(3), m.group(3))}', s)
     return s
 
@@ -211,7 +223,9 @@ def apply_tab_refmap(s, mapping):
 
 body_main = "\n".join([
     '<h2 id="sec-intro">1. Introduction</h2>', intro_body,
-    '<h3>1.1. Related Work</h3>', related_body,
+    '<h3>1.1. Related Work</h3>',
+    '<p>DGLD draws on, and departs from, several strands of prior work, reviewed below.</p>',
+    related_body,
     '<h2 id="sec-results">2. Results</h2>', results_body,
     '<h2 id="sec-discussion">3. Discussion</h2>', DISCUSSION_OPENING,
     '<h3>3.1. Limitations</h3>', discussion_body,
@@ -267,6 +281,7 @@ body_main, tmap = renumber_labels(body_main, 'Table')
 
 # Files live in paper/molecules/ ; images are in paper/figs/ -> use ../figs/
 body_main = body_main.replace('src="figs/', 'src="../figs/')
+body_main = re.sub(r'<!--.*?-->', '', body_main, flags=re.DOTALL)  # drop stale section-divider comments
 body_main = to_si_units(body_main)
 
 # ---------------------------------------------------------------------------
@@ -437,10 +452,20 @@ appendix_out = apply_fig_refmap(appendix_out, APP_FIG_MAP)
 #     remap them to the renumbered main numbers so cross-refs stay correct.
 appendix_out = apply_fig_refmap(appendix_out, fmap)
 appendix_out = apply_tab_refmap(appendix_out, tmap)
+# (3) the CFG-scale quantile table in the source (Section D.8) has no caption;
+#     add one for MDPI compliance.
+appendix_out = re.sub(
+    r'(<table[^>]*>)(\s*<thead>\s*<tr>\s*<th>\s*Property\s*</th>)',
+    r'\1<caption><strong>Table&nbsp;D.7.</strong> Per-property quantile-match error '
+    r'(mean relative error, %) for the v4b production-architecture classifier-free '
+    r'guidance-scale sweep, at guidance scales g = 2.0, 5.0, and 7.0; lower is '
+    r'better.</caption>\2',
+    appendix_out, count=1)
 # retitle the "Appendix" h2 to a supplementary heading
 appendix_out = re.sub(r'<h2 id="sec-app">Appendix</h2>',
                       '<h2>Supplementary Notes</h2>', appendix_out, count=1)
 appendix_out = appendix_out.replace('src="figs/', 'src="../figs/')
+appendix_out = re.sub(r'<!--.*?-->', '', appendix_out, flags=re.DOTALL)
 appendix_out = to_si_units(appendix_out)
 full_si = HEAD + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
 OUT_SI.write_text(full_si, encoding="utf-8")
