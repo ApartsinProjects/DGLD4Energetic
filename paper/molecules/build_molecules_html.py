@@ -1,0 +1,387 @@
+#!/usr/bin/env python
+"""Assemble an MDPI *Molecules* -structured manuscript HTML from long_paper.html.
+
+Strategy: reuse the long paper's body content VERBATIM (paragraphs, figures,
+tables, math, citations), but reorganise into the MDPI Article section order
+  1. Introduction  ->  2. Results  ->  3. Discussion
+  ->  4. Materials and Methods  ->  5. Conclusions
+and attach MDPI front matter (title/authors/abstract/keywords) and end matter
+(Author Contributions, Funding, Data Availability, Conflicts of Interest, etc.).
+The Appendix A-F is lifted out to a companion Supplementary Information file.
+
+Section cross-references (e.g. "SS5.3") are remapped to the new numbers, and
+figures/tables are renumbered sequentially by order of appearance. A verification
+pass at the end reports any leftover stale references.
+
+Run:  python build_molecules_html.py
+Reads ../long_paper.html ; writes ../molecules/molecules_paper.html and
+../molecules/molecules_paper_SI.html
+"""
+import re, pathlib, html as _html
+
+HERE = pathlib.Path(__file__).resolve().parent
+SRC  = HERE.parent / "long_paper.html"
+OUT_MAIN = HERE / "molecules_paper.html"
+OUT_SI   = HERE / "molecules_paper_SI.html"
+
+text = SRC.read_text(encoding="utf-8")
+lines = text.splitlines(keepends=True)
+
+def line_of(pat):
+    rx = re.compile(pat)
+    for i, l in enumerate(lines):
+        if rx.search(l):
+            return i
+    raise RuntimeError(f"pattern not found: {pat}")
+
+# --- structural breakpoints (match on stable heading text) ---
+i_intro   = line_of(r'<h2 id="sec-intro">1\.')
+i_related = line_of(r'>2\.&nbsp;Related work<')
+i_dataset = line_of(r'>3\.&nbsp;Dataset<')
+i_method  = line_of(r'>4\.&nbsp;Methodology<')
+i_exp     = line_of(r'>5\.&nbsp;Experiments<')
+i_limit   = line_of(r'<h2 id="sec-disc">6\.')
+i_conc    = line_of(r'<h2 id="sec-conc">7\.')
+i_appendix= line_of(r'<h2 id="sec-app">Appendix</h2>')
+i_refs    = line_of(r'<h2[^>]*>References</h2>')
+i_bodyend = line_of(r'</body>')
+
+def block(a, b):
+    return "".join(lines[a:b])
+
+intro_html    = block(i_intro, i_related)     # SS1 content (keeps Figs 1,2 + contribution list)
+related_html  = block(i_related, i_dataset)   # SS2 Related work
+dataset_html  = block(i_dataset, i_method)    # SS3 Dataset
+method_html   = block(i_method, i_exp)        # SS4 Methodology
+exp_html      = block(i_exp, i_limit)         # SS5 Experiments -> Results
+limit_html    = block(i_limit, i_conc)        # SS6 Limitations -> Discussion
+conc_html     = block(i_conc, i_appendix)     # SS7 Conclusion (incl 7.1)
+appendix_html = block(i_appendix, i_refs)     # Appendix A-F -> SI
+refs_html     = block(i_refs, i_bodyend)      # References list
+
+# ---------------------------------------------------------------------------
+# 1) Heading renumbering. We rewrite the top-level numbers and subsection
+#    numbers so the assembled document reads 1..5 with clean subsections.
+# ---------------------------------------------------------------------------
+
+def strip_h2(htmlblock):
+    """Remove the leading <h2>..</h2> heading from a section block."""
+    return re.sub(r'^\s*<h2[^>]*>.*?</h2>\s*', '', htmlblock, count=1, flags=re.DOTALL)
+
+# ---- Introduction: keep as-is (already "1. Introduction"), drop its number style to MDPI ----
+intro_body = strip_h2(intro_html)
+
+# ---- Related work -> fold under Introduction as "1.1. Related Work" ----
+related_body = strip_h2(related_html)
+# turn "2.N Title" h3 subheadings into "1.1.N Title"
+def _rel_sub(m):
+    n = m.group(1); title = m.group(2)
+    return f'<h3>1.1.{n}&nbsp;{title}</h3>'
+related_body = re.sub(r'<h3[^>]*>2\.(\d+)&nbsp;(.*?)</h3>', _rel_sub, related_body)
+
+# ---- Experiments -> "2. Results", subsections 5.N -> 2.N ----
+results_body = strip_h2(exp_html)
+def _res_sub(m):
+    return f'<h3>2.{m.group(1)}&nbsp;{m.group(2)}</h3>'
+results_body = re.sub(r'<h3[^>]*>5\.(\d+)&nbsp;(.*?)</h3>', _res_sub, results_body)
+
+# ---- Limitations -> "3. Discussion" ----
+discussion_body = strip_h2(limit_html)
+
+# ---- Materials and Methods = Dataset(SS3) + Methodology(SS4), renumbered 4.1.. ----
+dataset_body = strip_h2(dataset_html)
+method_body  = strip_h2(method_html)
+# Dataset subsections 3.N -> 4.(1..) ; Methodology 4.N -> 4.(k..)
+# We renumber sequentially: dataset gives 4.1 (main), 4.2, 4.3 ; methodology continues 4.4..4.15
+# First relabel dataset h3 "3.N Title" -> placeholder, methodology h3 "4.N Title" -> placeholder,
+# then assign sequential 4.k in document order over the concatenation.
+mm_concat = ('<p><em>Dataset construction (Section&nbsp;4.1&ndash;4.3) and the DGLD model, '
+             'sampler, and validation funnel (Section&nbsp;4.4 onward) are described below; '
+             'full per-component hyperparameters and the DFT protocol are in the Supplementary '
+             'Information.</em></p>\n'
+             + dataset_body + "\n" + method_body)
+# collapse any "3.N" and "4.N" h3 to sequential 4.k
+mm_counter = [0]
+def _mm_sub(m):
+    mm_counter[0] += 1
+    return f'<h3>4.{mm_counter[0]}&nbsp;{m.group(2)}</h3>'
+mm_concat = re.sub(r'<h3[^>]*>([34])\.(?:\d+)&nbsp;(.*?)</h3>', _mm_sub, mm_concat)
+
+# ---- Conclusion -> "5. Conclusions" ; drop 7.1 code/data (moves to Data Availability) ----
+conc_body = strip_h2(conc_html)
+conc_body = re.sub(r'<h3[^>]*>7\.1.*?</h3>.*', '', conc_body, flags=re.DOTALL)  # cut 7.1 subsection
+
+# ---------------------------------------------------------------------------
+# 2) Section cross-reference remap over the WHOLE assembled body.
+#    old-> new section numbers (as they appear in "SSX" or "Section X" refs):
+#      2.x (related) -> 1.1.x        3.x (dataset)  -> 4.x
+#      4.x (method)  -> 4.x (approx) 5.x (experim.) -> 2.x
+#      6 (limits)    -> 3            7 / 7.1 (concl)-> 5
+#    Appendix refs (A.., B.., C.., D.., E.., F..) -> "Supplementary Information"
+# ---------------------------------------------------------------------------
+# NOTE: dataset/method subsection numbers were re-sequenced to 4.k above, so a
+# purely numeric remap of "SS4.7" is unreliable. We therefore convert method/dataset
+# section refs to the generic "the Methods (Section 4)" and appendix refs to the SI.
+
+def remap_refs(s):
+    # Appendix references -> Supplementary Information
+    s = re.sub(r'\(?Appendix&nbsp;([A-F])(?:\.\d+)?\)?', 'the Supplementary Information', s)
+    s = re.sub(r'&sect;([A-F])\.\d+', 'the Supplementary Information', s)
+    s = re.sub(r'SS?([A-F])\.\d+', 'the Supplementary Information', s)
+    s = re.sub(r'§([A-F])\.\d+', 'the Supplementary Information', s)
+    # Experiments SS5.x -> Section 2.x  (both § glyph and &sect;)
+    s = re.sub(r'(?:§|&sect;)\s*5\.(\d+)', r'Section&nbsp;2.\1', s)
+    # Dataset/Methodology §3.x / §4.x -> "the Methods (Section 4)"  (before bare 3/4)
+    s = re.sub(r'(?:§|&sect;)\s*[34]\.\d+', 'the Methods (Section&nbsp;4)', s)
+    # Related work §2.x -> Section 1.1  (before bare 2)
+    s = re.sub(r'(?:§|&sect;)\s*2\.\d+', 'Section&nbsp;1.1', s)
+    # ---- bare section numbers (no subsection) ----
+    s = re.sub(r'(?:§|&sect;)\s*5\b', 'Section&nbsp;2', s)        # Experiments  -> Results
+    s = re.sub(r'(?:§|&sect;)\s*6\b', 'Section&nbsp;3', s)        # Limitations  -> Discussion
+    s = re.sub(r'(?:§|&sect;)\s*7(?:\.1)?\b', 'Section&nbsp;5', s)# Conclusion   -> Conclusions
+    s = re.sub(r'(?:§|&sect;)\s*[34]\b', 'the Methods (Section&nbsp;4)', s)  # Dataset/Method
+    s = re.sub(r'(?:§|&sect;)\s*2\b', 'Section&nbsp;1.1', s)      # Related work
+    return s
+
+# ---------------------------------------------------------------------------
+# 3) Assemble body in MDPI order, then renumber figures & tables by appearance.
+# ---------------------------------------------------------------------------
+body_main = "\n".join([
+    '<h2 id="sec-intro">1. Introduction</h2>', intro_body,
+    '<h3>1.1. Related Work</h3>', related_body,
+    '<h2 id="sec-results">2. Results</h2>', results_body,
+    '<h2 id="sec-discussion">3. Discussion</h2>', discussion_body,
+    '<h2 id="sec-methods">4. Materials and Methods</h2>', mm_concat,
+    '<h2 id="sec-conc">5. Conclusions</h2>', conc_body,
+])
+body_main = remap_refs(body_main)
+
+# Renumber figures: find caption labels "<strong>Figure N.</strong>" in order,
+# build old->new map, then rewrite BOTH captions and inline "Figure N"/"Fig. N" refs.
+fig_labels = re.findall(r'<strong>Figure\s+(\d+)\.', body_main)
+fig_map = {}
+for old in fig_labels:
+    if old not in fig_map:
+        fig_map[old] = str(len(fig_map) + 1)
+# apply (guard: rewrite longest-first to avoid partial clobber)
+def _renumber(s, mapping, word):
+    # captions
+    def caprepl(m):
+        return f'<strong>{word} {mapping.get(m.group(1), m.group(1))}.'
+    s = re.sub(rf'<strong>{word}\s+(\d+)\.', caprepl, s)
+    # inline refs "Figure N" / "Fig. N" / "Table N"
+    def refrepl(m):
+        pre = m.group(1); num = m.group(2)
+        return f'{pre}{mapping.get(num, num)}'
+    s = re.sub(rf'((?:{word}|{word[:3]}\.?)&nbsp;|(?:{word}|{word[:3]}\.?)\s+)(\d+)', refrepl, s)
+    return s
+
+# (figure inline refs handled generically below to avoid double touching captions)
+# Simpler robust approach: two-phase token replacement with sentinels.
+def renumber_labels(s, kind):
+    labels = re.findall(rf'<strong>{kind}\s+(\d+)\.', s)
+    mp = {}
+    for old in labels:
+        if old not in mp:
+            mp[old] = str(len(mp) + 1)
+    # sentinel captions + inline refs
+    # captions:
+    s = re.sub(rf'<strong>{kind}\s+(\d+)\.',
+               lambda m: f'<strong>{kind} {mp.get(m.group(1), m.group(1))}.', s)
+    # inline "Figure N", "Fig. N", "Fig N", "Table N"
+    abbr = 'Fig' if kind == 'Figure' else kind
+    s = re.sub(rf'\b(?:{kind}|{abbr}\.?)(&nbsp;|\s+)(\d+)\b',
+               lambda m: f'{kind}{m.group(1)}{mp.get(m.group(2), m.group(2))}', s)
+    # unwrap sentinels
+    s = s.replace('', '').replace('', '')
+    return s, mp
+
+body_main, fmap = renumber_labels(body_main, 'Figure')
+body_main, tmap = renumber_labels(body_main, 'Table')
+
+# Files live in paper/molecules/ ; images are in paper/figs/ -> use ../figs/
+body_main = body_main.replace('src="figs/', 'src="../figs/')
+
+# ---------------------------------------------------------------------------
+# 4) Front matter, end matter, and page shell (MDPI-flavoured, KaTeX-enabled).
+# ---------------------------------------------------------------------------
+HEAD = '''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>DGLD: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body,{delimiters:[
+          {left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},
+          {left:'\\\\[',right:'\\\\]',display:true},{left:'\\\\(',right:'\\\\)',display:false}],
+          throwOnError:false});"></script>
+<style>
+:root{--fg:#1a1a1a;--bg:#ffffff;--muted:#555;--accent:#0b5394;--rule:#d5d8dc;--mono:'JetBrains Mono','Consolas',monospace;}
+html{scroll-behavior:smooth}
+body{font:15px/1.55 'Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;color:var(--fg);background:var(--bg);max-width:50rem;margin:2rem auto;padding:0 1.2rem}
+header.title{text-align:left;margin-bottom:1.4rem;border-bottom:2px solid var(--accent);padding-bottom:1rem}
+header.title .artType{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:700}
+header.title h1{font-size:1.5rem;line-height:1.25;font-weight:700;margin:.4rem 0}
+header.title .authors{font-size:1.0rem;margin:.4rem 0 .1rem}
+header.title .affil{color:var(--muted);font-size:.86rem;font-style:italic;margin:.1rem 0}
+header.title .corr{color:var(--muted);font-size:.82rem;margin-top:.3rem}
+h2{font-size:1.12rem;margin-top:2.0rem;color:var(--accent);font-weight:700}
+h3{font-size:1.0rem;margin-top:1.3rem;color:#123;font-weight:700}
+h4{font-size:.94rem;margin-top:1.0rem;font-style:italic}
+p{margin:.6rem 0;text-align:justify;hyphens:auto}
+code,pre,.smi{font-family:var(--mono);font-size:.86em}
+pre{background:#f4f6f8;padding:.6rem .8rem;border-radius:.3rem;overflow:auto;border-left:3px solid var(--accent)}
+.smi{background:#f4f6f8;padding:.05em .25em;border-radius:.18em;font-size:.82em;word-break:break-all}
+table{border-collapse:collapse;margin:1rem 0;font-size:.86rem;width:100%}
+table caption{font-size:.84rem;text-align:left;margin-bottom:.3rem;color:var(--fg)}
+th,td{border:1px solid var(--rule);padding:.35rem .5rem;text-align:left}
+th{font-weight:700;background:#eef3f8}
+figure{margin:1.3rem 0;text-align:center}
+figure img{max-width:100%;height:auto}
+figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;padding:0 .4rem}
+.abstract{background:#f4f6f8;border:1px solid var(--rule);padding:.9rem 1.1rem;margin:1.2rem 0;font-size:.9rem}
+.abstract .lab{font-weight:700;color:var(--accent)}
+.keywords{font-size:.9rem;margin:.6rem 0 1.4rem}
+.keywords .lab{font-weight:700;color:var(--accent)}
+.cite{font-size:.9em;color:var(--accent);text-decoration:none}
+.endmatter h2{font-size:1.0rem;border:none;margin-top:1.3rem}
+.endmatter p{font-size:.9rem}
+.refs{font-size:.84rem}
+.refs li{margin-bottom:.35rem}
+.mdpi-note{background:#fff8e6;border-left:3px solid #d9a441;padding:.6rem .9rem;margin:1rem 0;font-size:.86rem}
+@media print{body{font-size:10pt;max-width:none}}
+</style>
+</head>
+<body>
+'''
+
+TITLEBLOCK = '''<header class="title">
+  <div class="artType">Article</div>
+  <h1>DGLD: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials</h1>
+  <p class="authors">Yehudit Aperstein <sup>1,</sup>* and Alexander Apartsin <sup>2</sup></p>
+  <p class="affil"><sup>1</sup> Department of Intelligent Systems, Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel</p>
+  <p class="affil"><sup>2</sup> School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel</p>
+  <p class="corr">* Correspondence: apersteiny@afeka.ac.il</p>
+</header>
+
+<div class="mdpi-note">
+  <strong>Draft for MDPI <em>Molecules</em> Special Issue "AI in Materials Design and Discovery".</strong>
+  This HTML is the editing source; the submission <code>.docx</code> is compiled from it via the
+  <code>html2doc</code> pipeline against the official <code>molecules-template.dot</code>. Figures and
+  tables were renumbered by order of appearance during the reformat from the long-form preprint;
+  a final numbering/cross-reference audit is pending before submission.
+</div>
+
+<div class="abstract">
+  <p><span class="lab">Abstract:</span> No new HMX-class energetic material has been disclosed in
+  fifteen years, and designing one is a sparse-label problem: of roughly 66,000 labelled CHNO
+  molecules only about 3,000 carry experimental or DFT-quality measurements, so generative models
+  trained on the full mixture either memorise the high-performance tail or extrapolate without
+  calibration. We introduce <strong>Domain-Gated Latent Diffusion (DGLD)</strong>: a four-tier
+  label-trust gate that routes only high-quality labels into the conditional gradient while noisy
+  labels train the unconditional prior; a multi-task score model whose viability, sensitivity, and
+  hazard heads supply independently switchable sample-time steering; and a four-stage
+  chemistry-validation funnel (SMARTS gate, Pareto reranker, GFN2-xTB triage, and B3LYP/def2-TZVP
+  density-functional theory audit). DGLD yields twelve DFT-confirmed novel leads. The headline
+  compound, 3,4,5-trinitro-1,2-isoxazole, reaches a calibrated crystal density of 2.09&nbsp;g&nbsp;cm<sup>-3</sup>
+  and a calibrated Kamlet-Jacobs detonation velocity of 8.25&nbsp;km&nbsp;s<sup>-1</sup>, and is structurally
+  distinct from all 65,980 training molecules (nearest-neighbour Tanimoto 0.27). Against four
+  no-diffusion baselines run on the same corpus, DGLD is the only method that generates molecules
+  simultaneously novel and on-target under first-principles validation. The tier-gating recipe is
+  domain-agnostic: any generative task with stratified label trust should admit the same approach
+  with only the validation funnel changing. Code, model checkpoints, and 918 mined hard negatives
+  are released openly.</p>
+</div>
+
+<p class="keywords"><span class="lab">Keywords:</span> generative models; latent diffusion;
+inverse molecular design; energetic materials; high-energy density materials; density functional
+theory; machine-learning-guided discovery; structure-property relationships; data-driven discovery</p>
+'''
+
+# End matter (MDPI standard blocks)
+ENDMATTER = '''
+<div class="endmatter">
+<h2>Supplementary Materials</h2>
+<p>The following supporting information can be downloaded alongside this article: Supplementary
+Information (Appendix&nbsp;A&ndash;F) containing full dataset provenance, complete model architecture and
+hyperparameter tables, the first-principles (DFT) methodology and uncertainty bounds, reproducibility
+details and superseded ablations, baseline-method example outputs, and the detailed per-condition
+ablations. File: <code>molecules_paper_SI.html</code> (compiled to <code>molecules_paper_SI.docx</code>).</p>
+
+<h2>Author Contributions</h2>
+<p>Conceptualization, Y.A. and A.A.; methodology, Y.A. and A.A.; software, Y.A. and A.A.;
+validation, Y.A. and A.A.; formal analysis, Y.A. and A.A.; investigation, Y.A. and A.A.;
+data curation, Y.A. and A.A.; writing&mdash;original draft preparation, Y.A. and A.A.;
+writing&mdash;review and editing, Y.A. and A.A.; visualization, Y.A. and A.A. All authors have read
+and agreed to the published version of the manuscript.</p>
+
+<h2>Funding</h2>
+<p>This research received no external funding.</p>
+
+<h2>Institutional Review Board Statement</h2>
+<p>Not applicable.</p>
+
+<h2>Informed Consent Statement</h2>
+<p>Not applicable.</p>
+
+<h2>Data Availability Statement</h2>
+<p>Trained model checkpoints (the LIMO VAE, two conditional latent denoisers DGLD-H and DGLD-P,
+two multi-head latent score models, the SELFIES alphabet, and run metadata) are deposited on Zenodo
+under CC-BY-4.0 at DOI <a href="https://doi.org/10.5281/zenodo.19821953">10.5281/zenodo.19821953</a>.
+All code&mdash;LIMO fine-tuning, denoiser and score-model training, sampling, the validation funnel, and
+the figure-generation pipeline&mdash;is released at
+<a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>
+under Apache-2.0. The labelled master, the augmented unlabelled corpus, and the 918 hard-negative
+latents are redistributed in canonicalised form with row-level provenance in the same deposit.</p>
+
+<h2>Conflicts of Interest</h2>
+<p>The authors declare no conflicts of interest.</p>
+</div>
+'''
+
+TAIL = "\n</body>\n</html>\n"
+
+# References: retitle to MDPI plain "References" (already <h2>References</h2>) and keep list.
+refs_out = refs_html
+refs_out = remap_refs(refs_out)
+
+full_main = HEAD + TITLEBLOCK + body_main + "\n" + refs_out + ENDMATTER + TAIL
+OUT_MAIN.write_text(full_main, encoding="utf-8")
+
+# ---------------------------------------------------------------------------
+# 5) Supplementary Information file: appendix A-F + references (self-contained).
+# ---------------------------------------------------------------------------
+SI_TITLE = '''<header class="title">
+  <div class="artType">Supplementary Information</div>
+  <h1>Supplementary Information for:<br>DGLD: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials</h1>
+  <p class="authors">Yehudit Aperstein <sup>1,</sup>* and Alexander Apartsin <sup>2</sup></p>
+  <p class="affil"><sup>1</sup> Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel; <sup>2</sup> Holon Institute of Technology (HIT), Holon, Israel</p>
+  <p class="corr">* Correspondence: apersteiny@afeka.ac.il</p>
+</header>
+'''
+appendix_out = remap_refs(appendix_html)
+# retitle the "Appendix" h2 to a supplementary heading
+appendix_out = re.sub(r'<h2 id="sec-app">Appendix</h2>',
+                      '<h2>Supplementary Notes</h2>', appendix_out, count=1)
+appendix_out = appendix_out.replace('src="figs/', 'src="../figs/')
+full_si = HEAD + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
+OUT_SI.write_text(full_si, encoding="utf-8")
+
+# ---------------------------------------------------------------------------
+# 6) Verification report.
+# ---------------------------------------------------------------------------
+def audit(name, s):
+    stale_para = re.findall(r'(?:§|&sect;)\s*[0-9A-F]', s)
+    stale_appendix = re.findall(r'Appendix&nbsp;[A-F]', s)
+    print(f"  {name}: {len(s):,} bytes")
+    print(f"    stale section-glyph refs (SS...) : {len(stale_para)}")
+    print(f"    leftover 'Appendix X' mentions   : {len(stale_appendix)}")
+
+print("Wrote:")
+audit(OUT_MAIN.name, full_main)
+audit(OUT_SI.name, full_si)
+print(f"  figures renumbered: {len(fmap)}  (map: {fmap})")
+print(f"  tables renumbered : {len(tmap)}  (map: {tmap})")
