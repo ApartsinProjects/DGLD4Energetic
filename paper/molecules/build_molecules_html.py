@@ -111,6 +111,34 @@ mm_concat = re.sub(r'<h3[^>]*>([34])\.(?:\d+)&nbsp;(.*?)</h3>', _mm_sub, mm_conc
 conc_body = strip_h2(conc_html)
 conc_body = re.sub(r'<h3[^>]*>7\.1.*?</h3>.*', '', conc_body, flags=re.DOTALL)  # cut 7.1 subsection
 
+# ---- Discussion: interpretive opening (grounded in the paper's own results),
+#      placed before the migrated Limitations content so Section 3 reads as an
+#      MDPI-style Discussion rather than a bare caveats list. ----
+DISCUSSION_OPENING = (
+    '<p>DGLD&rsquo;s central result is that tier-gated training and switchable sample-time '
+    'steering together let a latent diffusion model act as a <em>productive-quadrant generator</em>: '
+    'it proposes molecules that are simultaneously novel relative to the labelled corpus and '
+    'competitive with the HMX/CL-20 reference class under first-principles validation. The two '
+    'headline leads, L1 (3,4,5-trinitro-1,2-isoxazole) and E1 (4-nitro-1,2,3,5-oxatriazole), arise '
+    'from disjoint chemotype families on a single sampling run, which argues against reading either '
+    'placement as a sampling artefact. The mechanism that makes this possible is the label-trust '
+    'gate: routing only the ~3,000 experimental and DFT rows into the conditional gradient, while '
+    'the ~63,000 lower-confidence rows train only the unconditional prior, prevents miscalibrated '
+    'Kamlet&ndash;Jacobs and surrogate labels from steering generation toward physically implausible '
+    'high-scoring regions&mdash;the failure mode visible in the SELFIES-GA baseline, whose best novel '
+    'candidate loses 3.5&nbsp;km&nbsp;s<sup>&minus;1</sup> under DFT audit.</p>\n'
+    '<p>Relative to prior work, DGLD occupies a distinct position. Discriminative property surrogates '
+    'score candidates but do not propose them; generative language models trained on energetic '
+    'corpora tend to memorise, as the SMILES-LSTM baseline&rsquo;s 18.3% exact-rediscovery rate shows; '
+    'and standard classifier guidance degrades over the short trajectories molecular generation '
+    'requires. By coupling generative inverse design to a graded validation funnel that ends in '
+    'density-functional theory, DGLD converts a sparse-label liability into a usable training signal '
+    'and returns a ranked, physics-checked candidate list rather than an unvalidated pool. Because '
+    'the gating mechanism depends only on the availability of a trust hierarchy over labels&mdash;not on '
+    'any energetic-materials-specific structure&mdash;the recipe should transfer to other data-limited '
+    'inverse-design settings, with only the validation funnel changing per domain.</p>'
+)
+
 # ---------------------------------------------------------------------------
 # 2) Section cross-reference remap over the WHOLE assembled body.
 #    old-> new section numbers (as they appear in "SSX" or "Section X" refs):
@@ -147,6 +175,14 @@ def remap_refs(s):
     s = re.sub(r'\bthe the\b', 'the', s)
     return s
 
+def to_si_units(s):
+    """MDPI prefers SI unit style (g cm^-3, km s^-1) over the solidus form."""
+    s = s.replace('g/cm<sup>3</sup>', 'g&nbsp;cm<sup>&minus;3</sup>')
+    s = s.replace('km/s', 'km&nbsp;s<sup>&minus;1</sup>')
+    s = s.replace('kJ/mol', 'kJ&nbsp;mol<sup>&minus;1</sup>')
+    s = s.replace('kcal/mol', 'kcal&nbsp;mol<sup>&minus;1</sup>')
+    return s
+
 # ---------------------------------------------------------------------------
 # 3) Assemble body in MDPI order, then renumber figures & tables by appearance.
 # ---------------------------------------------------------------------------
@@ -177,7 +213,8 @@ body_main = "\n".join([
     '<h2 id="sec-intro">1. Introduction</h2>', intro_body,
     '<h3>1.1. Related Work</h3>', related_body,
     '<h2 id="sec-results">2. Results</h2>', results_body,
-    '<h2 id="sec-discussion">3. Discussion</h2>', discussion_body,
+    '<h2 id="sec-discussion">3. Discussion</h2>', DISCUSSION_OPENING,
+    '<h3>3.1. Limitations</h3>', discussion_body,
     '<h2 id="sec-methods">4. Materials and Methods</h2>', mm_concat,
     '<h2 id="sec-conc">5. Conclusions</h2>', conc_body,
 ])
@@ -230,6 +267,7 @@ body_main, tmap = renumber_labels(body_main, 'Table')
 
 # Files live in paper/molecules/ ; images are in paper/figs/ -> use ../figs/
 body_main = body_main.replace('src="figs/', 'src="../figs/')
+body_main = to_si_units(body_main)
 
 # ---------------------------------------------------------------------------
 # 4) Front matter, end matter, and page shell (MDPI-flavoured, KaTeX-enabled).
@@ -238,7 +276,7 @@ HEAD = '''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>DGLD: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials</title>
+<title>Domain-Gated Latent Diffusion for the Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -289,7 +327,7 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 
 TITLEBLOCK = '''<header class="title">
   <div class="artType">Article</div>
-  <h1>DGLD: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials</h1>
+  <h1>Domain-Gated Latent Diffusion for the Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</h1>
   <p class="authors">Yehudit Aperstein <sup>1,</sup>* and Alexander Apartsin <sup>2</sup></p>
   <p class="affil"><sup>1</sup> Department of Intelligent Systems, Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel</p>
   <p class="affil"><sup>2</sup> School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel</p>
@@ -305,29 +343,30 @@ TITLEBLOCK = '''<header class="title">
 </div>
 
 <div class="abstract">
-  <p><span class="lab">Abstract:</span> No new HMX-class energetic material has been disclosed in
-  fifteen years, and designing one is a sparse-label problem: of roughly 66,000 labelled CHNO
-  molecules only about 3,000 carry experimental or DFT-quality measurements, so generative models
-  trained on the full mixture either memorise the high-performance tail or extrapolate without
-  calibration. We introduce <strong>Domain-Gated Latent Diffusion (DGLD)</strong>: a four-tier
-  label-trust gate that routes only high-quality labels into the conditional gradient while noisy
-  labels train the unconditional prior; a multi-task score model whose viability, sensitivity, and
-  hazard heads supply independently switchable sample-time steering; and a four-stage
-  chemistry-validation funnel (SMARTS gate, Pareto reranker, GFN2-xTB triage, and B3LYP/def2-TZVP
-  density-functional theory audit). DGLD yields twelve DFT-confirmed novel leads. The headline
-  compound, 3,4,5-trinitro-1,2-isoxazole, reaches a calibrated crystal density of 2.09&nbsp;g&nbsp;cm<sup>-3</sup>
-  and a calibrated Kamlet-Jacobs detonation velocity of 8.25&nbsp;km&nbsp;s<sup>-1</sup>, and is structurally
-  distinct from all 65,980 training molecules (nearest-neighbour Tanimoto 0.27). Against four
-  no-diffusion baselines run on the same corpus, DGLD is the only method that generates molecules
-  simultaneously novel and on-target under first-principles validation. The tier-gating recipe is
-  domain-agnostic: any generative task with stratified label trust should admit the same approach
-  with only the validation funnel changing. Code, model checkpoints, and 918 mined hard negatives
-  are released openly.</p>
+  <p><span class="lab">Abstract:</span> The design of new high-energy-density materials is a
+  data-limited inverse-design problem: of roughly 66,000 labelled CHNO molecules only about 3,000
+  carry experimental or DFT-quality property values, so generative models trained on the full mixture
+  either memorise the high-performance tail or extrapolate without calibration, and no new HMX-class
+  compound has been disclosed in fifteen years. Here we introduce
+  <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, a data-driven framework that couples
+  generative inverse design to first-principles validation. A four-tier label-trust gate routes only
+  high-quality labels into the conditional gradient while noisy labels train the unconditional prior;
+  a multi-task score model supplies independently switchable sample-time steering over viability,
+  sensitivity, and hazard; and a four-stage screening funnel (SMARTS gate, Pareto reranker, GFN2-xTB
+  triage, and B3LYP/def2-TZVP density-functional theory) validates every candidate. DGLD yields
+  twelve DFT-confirmed novel leads; the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
+  calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
+  8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training molecules
+  (nearest-neighbour Tanimoto 0.27). Against four baselines on the same corpus, DGLD is the only
+  method generating molecules simultaneously novel and on-target under first-principles validation.
+  The label-gating recipe is domain-agnostic, requiring only a domain-appropriate validation funnel;
+  code, model checkpoints, and 918 mined hard negatives are released openly.</p>
 </div>
 
 <p class="keywords"><span class="lab">Keywords:</span> generative models; latent diffusion;
-inverse molecular design; energetic materials; high-energy density materials; density functional
-theory; machine-learning-guided discovery; structure-property relationships; data-driven discovery</p>
+inverse molecular design; high-throughput screening; energetic materials; high-energy density
+materials; density functional theory; materials informatics; structure&ndash;property relationships;
+data-driven discovery</p>
 '''
 
 # End matter (MDPI standard blocks)
@@ -385,7 +424,7 @@ OUT_MAIN.write_text(full_main, encoding="utf-8")
 # ---------------------------------------------------------------------------
 SI_TITLE = '''<header class="title">
   <div class="artType">Supplementary Information</div>
-  <h1>Supplementary Information for:<br>DGLD: Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials</h1>
+  <h1>Supplementary Information for:<br>Domain-Gated Latent Diffusion for the Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</h1>
   <p class="authors">Yehudit Aperstein <sup>1,</sup>* and Alexander Apartsin <sup>2</sup></p>
   <p class="affil"><sup>1</sup> Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel; <sup>2</sup> Holon Institute of Technology (HIT), Holon, Israel</p>
   <p class="corr">* Correspondence: apersteiny@afeka.ac.il</p>
@@ -402,6 +441,7 @@ appendix_out = apply_tab_refmap(appendix_out, tmap)
 appendix_out = re.sub(r'<h2 id="sec-app">Appendix</h2>',
                       '<h2>Supplementary Notes</h2>', appendix_out, count=1)
 appendix_out = appendix_out.replace('src="figs/', 'src="../figs/')
+appendix_out = to_si_units(appendix_out)
 full_si = HEAD + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
 OUT_SI.write_text(full_si, encoding="utf-8")
 
