@@ -411,14 +411,16 @@ and agreed to the published version of the manuscript.</p>
 <p>Not applicable.</p>
 
 <h2>Data Availability Statement</h2>
-<p>Trained model checkpoints (the LIMO VAE, two conditional latent denoisers DGLD-H and DGLD-P,
-two multi-head latent score models, the SELFIES alphabet, and run metadata) are deposited on Zenodo
-under CC-BY-4.0 at DOI <a href="https://doi.org/10.5281/zenodo.19821953">10.5281/zenodo.19821953</a>.
-All code (LIMO fine-tuning, denoiser and score-model training, sampling, the validation funnel, and
-the figure-generation pipeline) is released at
-<a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>
-under Apache-2.0. The labelled master, the augmented unlabelled corpus, and the 918 hard-negative
-latents are redistributed in canonicalised form with row-level provenance in the same deposit.</p>
+<p>All code, data, and trained models are released together as a single archived package on Zenodo at
+DOI <a href="https://doi.org/10.5281/zenodo.19821953">10.5281/zenodo.19821953</a> (code under Apache-2.0;
+data and model checkpoints under CC-BY-4.0). The package contains: the code (LIMO fine-tuning, denoiser
+and score-model training, sampling, the four-stage validation funnel, and the figure-generation
+pipeline); the trained checkpoints (the LIMO VAE, two conditional latent denoisers DGLD-H and DGLD-P,
+two multi-head latent score models, the SELFIES alphabet, and run metadata); and the data (the
+65,980-row labelled CHNO master, the augmented unlabelled corpus, and the 918 mined hard-negative
+latents), redistributed in canonicalised form with row-level provenance. The code is additionally
+mirrored at
+<a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>.</p>
 
 <h2>Conflicts of Interest</h2>
 <p>The authors declare no conflicts of interest.</p>
