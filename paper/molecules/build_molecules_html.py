@@ -124,9 +124,10 @@ conc_body = re.sub(r'<h3[^>]*>7\.1.*?</h3>.*', '', conc_body, flags=re.DOTALL)  
 #      MDPI-style Discussion rather than a bare caveats list. ----
 DISCUSSION_OPENING = (
     '<p>DGLD&rsquo;s central result is that tier-gated training and switchable sample-time '
-    'steering together let a latent diffusion model act as a <em>productive-quadrant generator</em>: '
-    'it proposes molecules that are simultaneously novel relative to the labelled corpus and '
-    'competitive with the HMX/PETN reference class under first-principles validation. The two '
+    'steering together make a latent diffusion model a <em>productive-quadrant generator</em>: '
+    'the tier gate keeps miscalibrated labels out of the conditional gradient, so sampling '
+    'concentrates where candidates are both novel and, under first-principles validation, '
+    'competitive with the HMX/PETN reference class. The two '
     'top-ranked leads, L1 (3,4,5-trinitro-1,2-isoxazole) and E1 (4-nitro-1,2,3,5-oxatriazole), come '
     'from disjoint chemotype families on a single sampling run, so DGLD&rsquo;s productive-quadrant '
     'coverage spans multiple scaffold classes. The mechanism that makes this possible is the label-trust '
@@ -416,25 +417,18 @@ TITLEBLOCK = '''<header class="title">
 <div class="abstract">
   <p><span class="lab">Abstract:</span> The design of new high-energy-density materials is a
   data-limited inverse-design problem: of roughly 66,000 CHNO molecules with reported detonation
-  properties, only about 3,000 carry trustworthy experimental or quantum-chemistry values, so generative models trained on the full mixture
-  either memorise the high-performance tail or extrapolate without calibration, and few new HMX-class
-  compounds have been disclosed in the past fifteen years. Here we introduce
-  <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, a data-driven framework that couples
-  generative inverse design to first-principles validation. A four-tier label-trust gate routes only
-  high-quality labels into the conditional gradient while noisy labels train the unconditional prior;
-  a multi-task score model supplies independently switchable sample-time steering over viability,
-  sensitivity, and hazard; and a four-stage screening funnel (a substructure-pattern (SMARTS) filter,
-  a Pareto reranker, semi-empirical GFN2-xTB triage, and two-level DFT (B3LYP/6-31G(d) geometry,
-  &omega;B97X-D3BJ/def2-TZVP single-point)) validates every candidate. DGLD yields
-  11 unique DFT-confirmed novel leads (12 lead cards); the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
-  calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
-  8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training molecules
-  (nearest-neighbour Tanimoto 0.27). On the identical Kamlet&ndash;Jacobs recipe the HMX and PETN reference
-  anchors calibrate to 7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, so this lead ranks with the strongest
-  anchors on the matched scale. Against four baselines on the same corpus, DGLD is the only
-  method whose novel candidates stay competitive with the calibrated HMX/PETN class under DFT validation.
-  The label-gating recipe is domain-agnostic, requiring only a domain-appropriate validation funnel;
-  code, model checkpoints, and 918 mined hard negatives are released openly.</p>
+  properties, only about 3,000 carry trustworthy experimental or quantum-chemistry values, so models trained on the full mixture memorise the high-performance tail or extrapolate without calibration. We introduce <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, coupling generative design to first-principles validation. A four-tier label-trust gate
+  routes only high-quality labels into the conditional gradient while noisy labels train the
+  unconditional prior; a score model adds switchable sample-time steering over viability, sensitivity, and hazard; and a four-stage funnel (SMARTS substructure filter, Pareto
+  reranker, GFN2-xTB triage, and two-level DFT: B3LYP/6-31G(d) geometry, &omega;B97X-D3BJ/def2-TZVP
+  single-point) validates every candidate. DGLD yields 11 unique DFT-confirmed novel leads; the
+  headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a calibrated density of
+  2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
+  8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training
+  molecules (nearest-neighbour Tanimoto 0.27). On the same recipe the HMX and PETN anchors calibrate to
+  7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, ranking it with the strongest anchors on that scale. Against four baselines on the same corpus, DGLD is the only method whose novel
+  candidates stay competitive under DFT validation. The recipe is domain-agnostic; code, model
+  checkpoints, and 918 mined hard negatives are released openly.</p>
 </div>
 
 <p class="keywords"><span class="lab">Keywords:</span> generative models; latent diffusion;
@@ -519,7 +513,7 @@ refs_out = refs_html
 refs_out = remap_refs(refs_out)
 
 full_main = HEAD + DOWNLOADS_ASIDE + TITLEBLOCK + body_main + "\n" + refs_out + ENDMATTER + TAIL
-full_main = _normalize_cites(full_main)   # citation-order renumber (Molecules order)
+full_main = _normalize_cites(full_main, keep_uncited=False)   # citation-order renumber (Molecules order); drop SI-only refs from the main list
 # (OUT_MAIN is written after the SI is built, so SI-table references in the main
 #  text can be renumbered to the S-series together with the SI captions.)
 

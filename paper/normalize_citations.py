@@ -18,7 +18,7 @@ import re, sys, pathlib
 CITE = re.compile(r'<a class="cite" href="#(ref-[a-z0-9-]+)">\[[^\]]*\]</a>')
 LI   = re.compile(r'<li id="(ref-[a-z0-9-]+)">.*?</li>', re.S)
 
-def normalize(html):
+def normalize(html, keep_uncited=True):
     m = re.search(r'<ol class="refs">(.*?)</ol>', html, re.S)
     if not m:
         raise SystemExit("no <ol class=\"refs\"> reference list found")
@@ -32,14 +32,17 @@ def normalize(html):
         if k not in seen:
             seen.add(k); order.append(k)
 
-    # 2) append any listed-but-uncited refs (keeps every entry present)
+    # 2) uncited-but-listed refs: keep them (default) or drop them. Dropping gives a
+    #    Vancouver-compliant "every listed reference is cited in text" list; used for the
+    #    Molecules main document, where SI-only citations must not appear in the main list.
     listed = LI.findall(m.group(1))
-    for k in listed:
-        if k not in seen:
-            seen.add(k); order.append(k)
+    if keep_uncited:
+        for k in listed:
+            if k not in seen:
+                seen.add(k); order.append(k)
     num = {k: i + 1 for i, k in enumerate(order)}
 
-    # 3) reorder the <li> entries to the new numbering
+    # 3) reorder the <li> entries to the new numbering (dropping any not in `order`)
     items = {mm.group(1): mm.group(0) for mm in LI.finditer(m.group(1))}
     missing = [k for k in order if k not in items]
     if missing:
