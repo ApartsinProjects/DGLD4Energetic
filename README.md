@@ -72,7 +72,7 @@ to wget. See `models/*.sidecar` for the schema.
 @article{aperstein2026dgld,
   title   = {Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials},
   author  = {Aperstein, Yehudit and Apartsin, Alexey},
-  journal = {Nature Machine Intelligence},
+  journal = {Molecules (submitted)},
   year    = {2026},
   doi     = {TBD},
   note    = {DOI 10.5281/zenodo.19821952 (companion repository).}

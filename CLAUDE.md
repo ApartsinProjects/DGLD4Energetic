@@ -16,29 +16,28 @@ main + SI Word pair via the `html2doc` skill:
 
 Built by `paper/_split_html.py` -> html2doc pipeline.
 
-### 2. NMI-compliant submission (`paper/NMIPaper.html` + `paper/NMIPaperSI.html`)
+### 2. Molecules submission (ACTIVE TARGET) (`paper/molecules/molecules_paper.html` + `_SI.html`)
 
-| File | Contents | Notes |
-|---|---|---|
-| `paper/NMIPaper.docx` | NMI Article: title, authors, affiliations, abstract (<=150 w), bold first paragraph, unheaded introduction, Results (subheaded), Discussion (no subheadings), References (50 max), inline Table 1, 5 main figures, Methods (with subheadings; Data + Code availability at end), Methods references, Acknowledgements, Funding, Author contributions, Competing interests, Additional information, Extended Data legends (10 max). Main text ~2,500 words; whole document fits NMI Article limits. | Submission-ready manuscript. |
-| `paper/NMIPaperSI.docx` | "Supplementary Information for: ..." title block, full Appendix A-F (the long-form's appendix lifted verbatim), References. | Submission-ready Supplementary Information. |
+The active submission target is an MDPI *Molecules* Article, generated from the
+long-form preprint by `paper/molecules/build_molecules_html.py` (HTML) then
+`build_molecules_docx.py` (Word, on the official `molecules-template.dot`):
 
-Built directly by html2doc on each of `NMIPaper.html` and `NMIPaperSI.html`
-(no splitter needed; each HTML is already self-contained).
+| File | Contents |
+|---|---|
+| `paper/molecules/molecules_paper.docx` | MDPI Article: abstract, keywords, 1. Introduction, 2. Results, 3. Discussion, 4. Materials and Methods, 5. Conclusions, end matter. |
+| `paper/molecules/molecules_paper_SI.docx` | Supplementary Information (Appendix A-F content; tables numbered Table S1..S29). |
 
-### NMI limits (verified)
+Conventions: SI tables are the S-series (`build_molecules_html.py`); the long-form
+preprint keeps its Appendix A-F lettering. Citations are renumbered per document
+by first appearance. Rebuild both from `long_paper.html` whenever it changes:
+`python build_molecules_html.py && python build_molecules_docx.py`.
 
-| Metric | NMI limit | DGLD's NMI version |
-|---|---|---|
-| Abstract | <=150 words | 134 |
-| Bold first paragraph | 75-100 words | 84 |
-| Main text (intro + Results + Discussion) | <=3,500 words | 2,462 |
-| References | ~50 recommended | exactly 50 |
-| Display items in main | 6 max | 5 figures + 1 table = 6 |
-| Extended Data items | 10 max | 9 figures + 1 table = 10 |
+GitHub Pages serves the Molecules page as the front (root `index.html` redirects
+to `molecules_paper.html`), with a top-right download panel (main/SI docx, SI
+html, cover letter).
 
-Both pairs are committed so GitHub Pages serves all four `.docx` files as
-downloads from `paper/long_paper.html` (top-right corner).
+The former **NMI-compliant submission is retired** to `paper/nmi_archive/`
+(the project retargeted from Nature Machine Intelligence to Molecules).
 
 Never produce a single combined Word file. Reviewers, editors, and the
 journal's typesetting pipeline expect main + SI as separate files.
