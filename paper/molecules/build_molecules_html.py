@@ -130,7 +130,8 @@ DISCUSSION_OPENING = (
     'competitive with the HMX/PETN reference class. The two '
     'top-ranked leads, L1 (3,4,5-trinitro-1,2-isoxazole) and E1 (4-nitro-1,2,3,5-oxatriazole), come '
     'from disjoint chemotype families on a single sampling run, so DGLD&rsquo;s productive-quadrant '
-    'coverage spans multiple scaffold classes. The mechanism that makes this possible is the label-trust '
+    'coverage spans multiple scaffold classes (E1&rsquo;s placement pending an oxatriazole-class DFT anchor). '
+    'The mechanism that makes this possible is the label-trust '
     'gate: routing only the ~3,000 rows that carry a trustworthy experimental or DFT label on the '
     'target detonation channels into the conditional gradient, while the remaining lower-confidence '
     'labels train only the unconditional prior, prevents miscalibrated '
@@ -427,7 +428,7 @@ TITLEBLOCK = '''<header class="title">
   8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training
   molecules (nearest-neighbour Tanimoto 0.27). On the same recipe the HMX and PETN anchors calibrate to
   7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, ranking it with the strongest anchors on that scale. Against four baselines on the same corpus, DGLD is the only method whose novel
-  candidates stay competitive under DFT validation. The recipe is domain-agnostic; code, model
+  candidates are shown to stay competitive under DFT validation. The recipe is domain-agnostic; code, model
   checkpoints, and 918 mined hard negatives are released openly.</p>
 </div>
 
@@ -553,7 +554,7 @@ appendix_out = appendix_out.replace('src="figs/', 'src="../figs/')
 appendix_out = re.sub(r'<!--.*?-->', '', appendix_out, flags=re.DOTALL)
 appendix_out = to_si_units(appendix_out)
 full_si = HEAD + SI_DOWNLOADS_ASIDE + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
-full_si = _normalize_cites(full_si)       # citation-order renumber (SI order)
+full_si = _normalize_cites(full_si, keep_uncited=False)   # citation-order renumber (SI order); SI list = SI-cited refs only (self-contained, no main-only dead entries)
 
 # Renumber the Supplementary tables (appendix lettering -> Table S1, S2, ...) in
 # both documents, then write both.
