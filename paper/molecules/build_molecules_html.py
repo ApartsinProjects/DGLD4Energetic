@@ -127,9 +127,9 @@ DISCUSSION_OPENING = (
     'steering together let a latent diffusion model act as a <em>productive-quadrant generator</em>: '
     'it proposes molecules that are simultaneously novel relative to the labelled corpus and '
     'competitive with the HMX/PETN reference class under first-principles validation. The two '
-    'headline leads, L1 (3,4,5-trinitro-1,2-isoxazole) and E1 (4-nitro-1,2,3,5-oxatriazole), arise '
-    'from disjoint chemotype families on a single sampling run, which argues against reading either '
-    'placement as a sampling artefact. The mechanism that makes this possible is the label-trust '
+    'top-ranked leads, L1 (3,4,5-trinitro-1,2-isoxazole) and E1 (4-nitro-1,2,3,5-oxatriazole), come '
+    'from disjoint chemotype families on a single sampling run, so DGLD&rsquo;s productive-quadrant '
+    'coverage spans multiple scaffold classes. The mechanism that makes this possible is the label-trust '
     'gate: routing only the ~3,000 rows that carry a trustworthy experimental or DFT label on the '
     'target detonation channels into the conditional gradient, while the remaining lower-confidence '
     'labels train only the unconditional prior, prevents miscalibrated '
@@ -424,15 +424,15 @@ TITLEBLOCK = '''<header class="title">
   high-quality labels into the conditional gradient while noisy labels train the unconditional prior;
   a multi-task score model supplies independently switchable sample-time steering over viability,
   sensitivity, and hazard; and a four-stage screening funnel (a substructure-pattern (SMARTS) filter,
-  a Pareto reranker, semi-empirical GFN2-xTB triage, and B3LYP/def2-TZVP density-functional theory)
-  validates every candidate. DGLD yields
+  a Pareto reranker, semi-empirical GFN2-xTB triage, and two-level DFT (B3LYP/6-31G(d) geometry,
+  &omega;B97X-D3BJ/def2-TZVP single-point)) validates every candidate. DGLD yields
   11 unique DFT-confirmed novel leads (12 lead cards); the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
   calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
   8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training molecules
   (nearest-neighbour Tanimoto 0.27). On the identical Kamlet&ndash;Jacobs recipe the HMX and PETN reference
   anchors calibrate to 7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, so this lead ranks with the strongest
   anchors on the matched scale. Against four baselines on the same corpus, DGLD is the only
-  method whose candidates are simultaneously novel and, under this first-principles validation, competitive with the calibrated HMX/PETN reference class.
+  method whose novel candidates stay competitive with the calibrated HMX/PETN class under DFT validation.
   The label-gating recipe is domain-agnostic, requiring only a domain-appropriate validation funnel;
   code, model checkpoints, and 918 mined hard negatives are released openly.</p>
 </div>
@@ -450,7 +450,7 @@ ENDMATTER = '''
 <p>The following supporting information can be downloaded alongside this article: Supplementary
 Information (Appendix&nbsp;A&ndash;F) containing full dataset provenance, complete model architecture and
 hyperparameter tables, the first-principles (DFT) methodology and uncertainty bounds, reproducibility
-details and superseded ablations, baseline-method example outputs, and the detailed per-condition
+details and extended ablations, baseline-method example outputs, and the detailed per-condition
 ablations. File: <code>molecules_paper_SI.html</code> (compiled to <code>molecules_paper_SI.docx</code>).</p>
 
 <h2>Author Contributions</h2>
