@@ -520,7 +520,7 @@ appendix_out = apply_tab_refmap(appendix_out, tmap)
 #     add one for MDPI compliance.
 appendix_out = re.sub(
     r'(<table[^>]*>)(\s*<thead>\s*<tr>\s*<th>\s*Property\s*</th>)',
-    r'\1<caption><strong>Table&nbsp;D.7.</strong> Per-property quantile-match error '
+    r'\1<caption><strong>Table&nbsp;D.3a.</strong> Per-property quantile-match error '
     r'(mean relative error, %) for the v4b production-architecture classifier-free '
     r'guidance-scale sweep, at guidance scales g = 2.0, 5.0, and 7.0; lower is '
     r'better.</caption>\2',
