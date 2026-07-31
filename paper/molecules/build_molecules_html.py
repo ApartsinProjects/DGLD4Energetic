@@ -412,7 +412,7 @@ and agreed to the published version of the manuscript.</p>
 
 <h2>Data Availability Statement</h2>
 <p>All code, data, and trained models are released together as a single archived package on Zenodo at
-DOI <a href="https://doi.org/10.5281/zenodo.19821953">10.5281/zenodo.19821953</a> (code under Apache-2.0;
+DOI <a href="https://doi.org/10.5281/zenodo.19821952">10.5281/zenodo.19821952</a> (code under Apache-2.0;
 data and model checkpoints under CC-BY-4.0). The package contains: the code (LIMO fine-tuning, denoiser
 and score-model training, sampling, the four-stage validation funnel, and the figure-generation
 pipeline); the trained checkpoints (the LIMO VAE, two conditional latent denoisers DGLD-H and DGLD-P,

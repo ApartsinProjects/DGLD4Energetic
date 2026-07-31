@@ -71,3 +71,6 @@ paper/long_paper.pdf
 # Word lock files (Word holds a hidden file while a doc is open)
 paper/~$*.docx
 _zenodo_release/
+
+# MDPI docx build intermediate (regenerated from molecules-template.dot)
+paper/molecules/_molecules_template.docx
