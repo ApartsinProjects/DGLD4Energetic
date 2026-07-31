@@ -488,13 +488,40 @@ mirrored at
 
 TAIL = "\n</body>\n</html>\n"
 
+def renumber_si_tables(main_s, si_s):
+    """Renumber the Supplementary tables from the appendix lettering (A.1, B.1a,
+    C.1b, D.4b, ...) to a clean Supplementary series (Table S1, S2, ...) in
+    physical order, updating captions and every 'Table X.Y' reference in both
+    documents. Main tables (1-9) and Supplementary *Section* labels are untouched.
+    """
+    LBL = r'[A-F]\.[0-9]+[a-z]?'
+    order = []
+    for m in re.finditer(r'<strong>Table(?:&nbsp;|\s)(' + LBL + r')\.', si_s):
+        if m.group(1) not in order:
+            order.append(m.group(1))
+    smap = {lbl: f'S{i+1}' for i, lbl in enumerate(order)}
+    if not smap:
+        return main_s, si_s
+    SEP = r'(?:\s*(?:,|&ndash;|&mdash;|-|and|&nbsp;)\s*)+'
+    def apply(s):
+        # captions first
+        s = re.sub(r'(<strong>Table)(?:&nbsp;|\s)(' + LBL + r')\.',
+                   lambda m: f'{m.group(1)}&nbsp;{smap.get(m.group(2), m.group(2))}.', s)
+        # then "Table X.Y" / "Tables X.Y and Z" / "Tables X.Y-X.Z" references
+        s = re.sub(r'\b(Tables?(?:&nbsp;|\s))((?:' + LBL + r')(?:' + SEP + LBL + r')*)',
+                   lambda m: m.group(1) + re.sub(LBL, lambda d: smap.get(d.group(0), d.group(0)), m.group(2)),
+                   s)
+        return s
+    return apply(main_s), apply(si_s)
+
 # References: retitle to MDPI plain "References" (already <h2>References</h2>) and keep list.
 refs_out = refs_html
 refs_out = remap_refs(refs_out)
 
 full_main = HEAD + DOWNLOADS_ASIDE + TITLEBLOCK + body_main + "\n" + refs_out + ENDMATTER + TAIL
 full_main = _normalize_cites(full_main)   # citation-order renumber (Molecules order)
-OUT_MAIN.write_text(full_main, encoding="utf-8")
+# (OUT_MAIN is written after the SI is built, so SI-table references in the main
+#  text can be renumbered to the S-series together with the SI captions.)
 
 # ---------------------------------------------------------------------------
 # 5) Supplementary Information file: appendix A-F + references (self-contained).
@@ -533,6 +560,11 @@ appendix_out = re.sub(r'<!--.*?-->', '', appendix_out, flags=re.DOTALL)
 appendix_out = to_si_units(appendix_out)
 full_si = HEAD + SI_DOWNLOADS_ASIDE + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
 full_si = _normalize_cites(full_si)       # citation-order renumber (SI order)
+
+# Renumber the Supplementary tables (appendix lettering -> Table S1, S2, ...) in
+# both documents, then write both.
+full_main, full_si = renumber_si_tables(full_main, full_si)
+OUT_MAIN.write_text(full_main, encoding="utf-8")
 OUT_SI.write_text(full_si, encoding="utf-8")
 
 # ---------------------------------------------------------------------------
