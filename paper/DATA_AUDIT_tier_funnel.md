@@ -17,6 +17,25 @@ sources (cm4c01978 XRD densities for A; EXPLO5 train/test for B; cm4c01978 K-J
 for C; 3D-CNN + generative-model predictions for D), but the *citation keys*
 ([60]/[15]/[62]) were kept as-is and should be verified against those sources.
 
+### Citation verification (2026) — result
+
+Verified each Table A.1 citation key against the data source-codes (via
+`apply_4tier_system.py`, `DATA_DESCRIPTION.md`, the repo's
+`docs/data_preprocessing_trail.md`, and the source-code identities):
+
+| Source-code (data) | real identity | tier | current cite | verdict |
+|---|---|---|---|---|
+| `cm4c01978_si_001` | **Davis, Marrs, Cawkwell & Manner 2024, *Chem. Mater.*** (`ref-mlcrystdens-cm-2024`, [71]) | A (XRD density, 12,040) + C (K-J, 35,965) | none | **gap - now added [71] to A and C** |
+| hand-compilation | Klapotke/Cooper/LLNL (`ref-emdb`, [60]) | A (~3,000 of 19,200) | [60] | ok but partial (kept) |
+| `train_set`/`test_set` | **EMDP** repo (github.com/ming1219/EMDP; a de-novo energetic-molecule dataset, cf. Liu 2025 npj `ref-npjcompmat2025`) | B (~1,900) | **[15] Casey 2020** | **MISATTRIBUTED - Casey 2020 is a 3D-CNN electronic-structure paper, not the EMDP thermochemical set; author to reassign to the EMDP/Liu 2025 citation** |
+| Kamlet-Jacobs method | Kamlet & Jacobs 1968 (`ref-kamlet1968detonation`, [62]) | C (method) | [62] | correct (method); [71] added for the data |
+| `3DCNN`,`MDGNN`,`denovo_*`,`generation`,`q-RASPR` | EMDP (ming1219) + in-house smoke ensemble | D (~47,000) | "this work" | ok; Casey 2020 [15] (3D-CNN methodology) arguably belongs here |
+
+**Applied:** Davis 2024 [71] added to Tier-A and Tier-C rows (long paper);
+Tier-A description corrected (it had said "hand-compilation" while counting
+19,200). **Left for author:** the Tier-B citation ([15] Casey 2020 -> EMDP/Liu
+2025), and mirroring both into `NMIPaperSI.html` (its ref-numbering differs).
+
 ### Original discrepancy (for the record)
 
 The manuscript previously reported **Tier-A ~3,000 / B ~9,000 / C ~25,000 /
