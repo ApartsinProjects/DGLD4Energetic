@@ -17,12 +17,17 @@ Run:  python build_molecules_html.py
 Reads ../long_paper.html ; writes ../molecules/molecules_paper.html and
 ../molecules/molecules_paper_SI.html
 """
-import re, pathlib, html as _html
+import re, sys, pathlib, html as _html
 
 HERE = pathlib.Path(__file__).resolve().parent
 SRC  = HERE.parent / "long_paper.html"
 OUT_MAIN = HERE / "molecules_paper.html"
 OUT_SI   = HERE / "molecules_paper_SI.html"
+
+# Citation-order renumbering (the Molecules section order differs from the long
+# paper's, so citations must be renumbered by first appearance per document).
+sys.path.insert(0, str(HERE.parent))
+from normalize_citations import normalize as _normalize_cites
 
 text = SRC.read_text(encoding="utf-8")
 lines = text.splitlines(keepends=True)
@@ -482,6 +487,7 @@ refs_out = refs_html
 refs_out = remap_refs(refs_out)
 
 full_main = HEAD + DOWNLOADS_ASIDE + TITLEBLOCK + body_main + "\n" + refs_out + ENDMATTER + TAIL
+full_main = _normalize_cites(full_main)   # citation-order renumber (Molecules order)
 OUT_MAIN.write_text(full_main, encoding="utf-8")
 
 # ---------------------------------------------------------------------------
@@ -520,6 +526,7 @@ appendix_out = appendix_out.replace('src="figs/', 'src="../figs/')
 appendix_out = re.sub(r'<!--.*?-->', '', appendix_out, flags=re.DOTALL)
 appendix_out = to_si_units(appendix_out)
 full_si = HEAD + SI_DOWNLOADS_ASIDE + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
+full_si = _normalize_cites(full_si)       # citation-order renumber (SI order)
 OUT_SI.write_text(full_si, encoding="utf-8")
 
 # ---------------------------------------------------------------------------
