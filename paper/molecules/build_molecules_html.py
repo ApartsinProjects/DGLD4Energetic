@@ -105,12 +105,15 @@ mm_concat = ('<p><em>Dataset construction (Section&nbsp;4.1&ndash;4.3) and the D
              'full per-component hyperparameters and the DFT protocol are in the Supplementary '
              'Information.</em></p>\n'
              + dataset_body + "\n" + method_body)
-# collapse any "3.N" and "4.N" h3 to sequential 4.k
+# collapse any "3.N" and "4.N" h3 to sequential 4.k, recording old->new so that
+# inline "&sect;3.N"/"&sect;4.N" references can be remapped to the same numbers.
 mm_counter = [0]
+mm_map = {}   # "3.N" / "4.N"  ->  "4.k"
 def _mm_sub(m):
     mm_counter[0] += 1
-    return f'<h3>4.{mm_counter[0]}&nbsp;{m.group(2)}</h3>'
-mm_concat = re.sub(r'<h3[^>]*>([34])\.(?:\d+)&nbsp;(.*?)</h3>', _mm_sub, mm_concat)
+    mm_map[f'{m.group(1)}.{m.group(2)}'] = f'4.{mm_counter[0]}'
+    return f'<h3>4.{mm_counter[0]}&nbsp;{m.group(3)}</h3>'
+mm_concat = re.sub(r'<h3[^>]*>([34])\.(\d+)&nbsp;(.*?)</h3>', _mm_sub, mm_concat)
 
 # ---- Conclusion -> "5. Conclusions" ; drop 7.1 code/data (moves to Data Availability) ----
 conc_body = strip_h2(conc_html)
@@ -123,12 +126,13 @@ DISCUSSION_OPENING = (
     '<p>DGLD&rsquo;s central result is that tier-gated training and switchable sample-time '
     'steering together let a latent diffusion model act as a <em>productive-quadrant generator</em>: '
     'it proposes molecules that are simultaneously novel relative to the labelled corpus and '
-    'competitive with the HMX/CL-20 reference class under first-principles validation. The two '
+    'competitive with the HMX/PETN reference class under first-principles validation. The two '
     'headline leads, L1 (3,4,5-trinitro-1,2-isoxazole) and E1 (4-nitro-1,2,3,5-oxatriazole), arise '
     'from disjoint chemotype families on a single sampling run, which argues against reading either '
     'placement as a sampling artefact. The mechanism that makes this possible is the label-trust '
-    'gate: routing only the ~3,000 experimental and DFT rows into the conditional gradient, while '
-    'the ~63,000 lower-confidence rows train only the unconditional prior, prevents miscalibrated '
+    'gate: routing only the ~3,000 rows that carry a trustworthy experimental or DFT label on the '
+    'target detonation channels into the conditional gradient, while the remaining lower-confidence '
+    'labels train only the unconditional prior, prevents miscalibrated '
     'Kamlet&ndash;Jacobs and surrogate labels from steering generation toward physically implausible '
     'high-scoring regions, the failure mode visible in the SELFIES-GA baseline, whose best novel '
     'candidate loses 3.5&nbsp;km&nbsp;s<sup>&minus;1</sup> under DFT audit.</p>\n'
@@ -157,15 +161,20 @@ DISCUSSION_OPENING = (
 # section refs to the generic "the Methods (Section 4)" and appendix refs to the SI.
 
 def remap_refs(s):
-    # Appendix references -> Supplementary Information
-    s = re.sub(r'\(?Appendix&nbsp;([A-F])(?:\.\d+)?\)?', 'the Supplementary Information', s)
-    s = re.sub(r'&sect;([A-F])\.\d+', 'the Supplementary Information', s)
-    s = re.sub(r'SS?([A-F])\.\d+', 'the Supplementary Information', s)
-    s = re.sub(r'§([A-F])\.\d+', 'the Supplementary Information', s)
-    # Experiments SS5.x -> Section 2.x  (both § glyph and &sect;)
+    # Appendix / SI-section references -> "Supplementary Section X.Y". Keep the
+    # specific label (the SI retains its lettered A-F subsections) and do NOT
+    # consume surrounding parentheses (the old rule ate the closing paren).
+    s = re.sub(r'Appendix(?:&nbsp;|\s+)([A-F](?:\.\d+)?)', r'Supplementary&nbsp;Section&nbsp;\1', s)
+    s = re.sub(r'(?:§|&sect;)\s*([A-F]\.\d+)', r'Supplementary&nbsp;Section&nbsp;\1', s)
+    s = re.sub(r'\bSS([A-F]\.\d+)', r'Supplementary&nbsp;Section&nbsp;\1', s)
+    # Experiments §5.x -> Section 2.x
     s = re.sub(r'(?:§|&sect;)\s*5\.(\d+)', r'Section&nbsp;2.\1', s)
-    # Dataset/Methodology §3.x / §4.x -> "Section 4" (Materials and Methods)
-    s = re.sub(r'(?:§|&sect;)\s*[34]\.\d+', 'Section&nbsp;4', s)
+    # Dataset/Methodology §3.x / §4.x -> the renumbered Materials-and-Methods
+    # subsection (via the map built during the methods renumber); fall back to
+    # the bare section if a subsection is not in the map.
+    def _mm_ref(m):
+        return 'Section&nbsp;' + mm_map.get(f'{m.group(1)}.{m.group(2)}', '4')
+    s = re.sub(r'(?:§|&sect;)\s*([34])\.(\d+)', _mm_ref, s)
     # Related work §2.x -> Section 1.1  (before bare 2)
     s = re.sub(r'(?:§|&sect;)\s*2\.\d+', 'Section&nbsp;1.1', s)
     # ---- bare section numbers (no subsection) ----
@@ -174,9 +183,11 @@ def remap_refs(s):
     s = re.sub(r'(?:§|&sect;)\s*7(?:\.1)?\b', 'Section&nbsp;5', s)# Conclusion   -> Conclusions
     s = re.sub(r'(?:§|&sect;)\s*[34]\b', 'Section&nbsp;4', s)     # Dataset/Method
     s = re.sub(r'(?:§|&sect;)\s*2\b', 'Section&nbsp;1.1', s)      # Related work
-    # tidy artifacts from ref substitution: double article "the Section 4" and
-    # "the the ..." (arises when a preceding "the" met a remapped ref phrase).
+    # tidy artifacts: double article "the Section 4", a degenerate "Section 4
+    # and Section 4" (Dataset+Methodology both fold into Materials and Methods),
+    # and a stray "the the".
     s = s.replace('the Section&nbsp;4', 'Section&nbsp;4')
+    s = re.sub(r'Section&nbsp;4(?:\.\d+)? and Section&nbsp;4\b', 'Section&nbsp;4', s)
     s = re.sub(r'\bthe the\b', 'the', s)
     return s
 
@@ -402,31 +413,26 @@ TITLEBLOCK = '''<header class="title">
   <p class="corr">* Correspondence: apersteiny@afeka.ac.il</p>
 </header>
 
-<div class="mdpi-note">
-  <strong>Draft for MDPI <em>Molecules</em> Special Issue "AI in Materials Design and Discovery".</strong>
-  This HTML is the editing source; the submission <code>.docx</code> is compiled from it via the
-  <code>html2doc</code> pipeline against the official <code>molecules-template.dot</code>. Figures and
-  tables were renumbered by order of appearance during the reformat from the long-form preprint;
-  a final numbering/cross-reference audit is pending before submission.
-</div>
-
 <div class="abstract">
   <p><span class="lab">Abstract:</span> The design of new high-energy-density materials is a
   data-limited inverse-design problem: of roughly 66,000 CHNO molecules with reported detonation
   properties, only about 3,000 carry trustworthy experimental or quantum-chemistry values, so generative models trained on the full mixture
-  either memorise the high-performance tail or extrapolate without calibration, and no new HMX-class
-  compound has been disclosed in fifteen years. Here we introduce
+  either memorise the high-performance tail or extrapolate without calibration, and few new HMX-class
+  compounds have been disclosed in the past fifteen years. Here we introduce
   <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, a data-driven framework that couples
   generative inverse design to first-principles validation. A four-tier label-trust gate routes only
   high-quality labels into the conditional gradient while noisy labels train the unconditional prior;
   a multi-task score model supplies independently switchable sample-time steering over viability,
-  sensitivity, and hazard; and a four-stage screening funnel (SMARTS gate, Pareto reranker, GFN2-xTB
-  triage, and B3LYP/def2-TZVP density-functional theory) validates every candidate. DGLD yields
+  sensitivity, and hazard; and a four-stage screening funnel (a substructure-pattern (SMARTS) filter,
+  a Pareto reranker, semi-empirical GFN2-xTB triage, and B3LYP/def2-TZVP density-functional theory)
+  validates every candidate. DGLD yields
   11 unique DFT-confirmed novel leads (12 lead cards); the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
   calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
   8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training molecules
-  (nearest-neighbour Tanimoto 0.27). Against four baselines on the same corpus, DGLD is the only
-  method generating molecules simultaneously novel and on-target under first-principles validation.
+  (nearest-neighbour Tanimoto 0.27). On the identical Kamlet&ndash;Jacobs recipe the HMX and PETN reference
+  anchors calibrate to 7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, so this lead ranks with the strongest
+  anchors on the matched scale. Against four baselines on the same corpus, DGLD is the only
+  method whose candidates are simultaneously novel and, under this first-principles validation, competitive with the calibrated HMX/PETN reference class.
   The label-gating recipe is domain-agnostic, requiring only a domain-appropriate validation funnel;
   code, model checkpoints, and 918 mined hard negatives are released openly.</p>
 </div>
