@@ -113,7 +113,7 @@ figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem;text-align:left;
   outputs, model checkpoints (LIMO encoder, two denoisers, score model at rounds 0/1/2),
   the 918 self-distillation hard-negative latents, per-step training curves, and the
   full labelled-master corpus are deposited on Zenodo
-  (<a href="https://doi.org/10.5281/zenodo.19821953">10.5281/zenodo.19821953</a>, CC-BY-4.0).
+  (<a href="https://doi.org/10.5281/zenodo.19821952">10.5281/zenodo.19821952</a>, CC-BY-4.0).
   All code is on GitHub (<a href="https://github.com/ApartsinProjects/DGLD4Energetic">ApartsinProjects/DGLD4Energetic</a>, Apache-2.0).
 </p>
 
@@ -148,10 +148,10 @@ figcaption{font-size:.85rem;color:var(--muted);margin-top:.4rem;text-align:left;
   <caption><strong>Table&nbsp;1.1.</strong> Per-source provenance of the labelled master, the unlabelled SMILES dump, and the motif-augmented expansion. Per-source row counts are post-canonicalisation and post-charge-filter and pre-cross-source-deduplication.</caption>
   <thead><tr><th>Role</th><th>Source</th><th>Approx. rows contributed</th><th>Tier(s)</th><th>Citation</th></tr></thead>
   <tbody>
-    <tr><td>Labelled master (energetics)</td><td>Hand-compilation of experimental \(\rho\), HOF, \(D\), \(P\) for known nitro / nitramine / azide / tetrazole compounds, drawn from Klap&ouml;tke (2019), Cooper (1996), and the LLNL Explosives Handbook (Dobratz &amp; Crawford 1985)</td><td>~3&nbsp;000</td><td>A</td><td><a class="cite" href="#ref-emdb">[1]</a></td></tr>
-    <tr><td>Labelled master</td><td>Casey&nbsp;et&nbsp;al. 2020 detonation-property dataset (curated CHNO + CHNOClF subset, B3LYP/6-31G* HOF + experimentally-anchored densities)</td><td>~9&nbsp;000</td><td>B</td><td><a class="cite" href="#ref-casey2020prediction">[2]</a></td></tr>
-    <tr><td>Labelled master</td><td>Kamlet&ndash;Jacobs derived rows: density and HOF from literature compilations propagated through the K-J equation to give surrogate \(D, P\)</td><td>~25&nbsp;000</td><td>C</td><td><a class="cite" href="#ref-kamlet1968detonation">[3]</a></td></tr>
-    <tr><td>Labelled master</td><td>3D-CNN smoke-model surrogate (in-house ensemble trained on the union of A+B+C, eight outputs, 5-fold CV \(R^2 = 0.84\&ndash;0.92\)) used to label rows that have no other source</td><td>~30&nbsp;000</td><td>D</td><td>this work</td></tr>
+    <tr><td>Labelled master (energetics)</td><td>Hand-compilation of experimental \(\rho\), HOF, \(D\), \(P\) for known nitro / nitramine / azide / tetrazole compounds, drawn from Klap&ouml;tke (2019), Cooper (1996), and the LLNL Explosives Handbook (Dobratz &amp; Crawford 1985)</td><td>~19&nbsp;200</td><td>A</td><td><a class="cite" href="#ref-emdb">[1]</a></td></tr>
+    <tr><td>Labelled master</td><td>Thermochemical detonation-property dataset (curated CHNO + CHNOClF subset; HOF, \(D\), \(P\) on an EXPLO5 train/test split)</td><td>~1&nbsp;900</td><td>B</td><td><a class="cite" href="#ref-casey2020prediction">[2]</a></td></tr>
+    <tr><td>Labelled master</td><td>Kamlet&ndash;Jacobs derived rows: density and HOF from literature compilations propagated through the K-J equation to give surrogate \(D, P\)</td><td>~12&nbsp;000</td><td>C</td><td><a class="cite" href="#ref-kamlet1968detonation">[3]</a></td></tr>
+    <tr><td>Labelled master</td><td>ML surrogate labels: in-house 3D-CNN smoke ensemble (trained on the union of A+B+C, eight outputs, 5-fold CV \(R^2 = 0.84\text{--}0.92\)) plus generative-model predictions (MDGNN, de-novo RL/TL sampling, q-RASPR), used to label rows with no higher-tier source</td><td>~47&nbsp;000</td><td>D</td><td>this work</td></tr>
     <tr><td>Negatives for viability classifier</td><td>ZINC-15 random subsample (drug-like, neutral, MW &lt; 500), used as inert chemistry against which the RandomForest viability classifier is trained</td><td>80&nbsp;000</td><td>n/a</td><td><a class="cite" href="#ref-sterling2015zinc">[4]</a></td></tr>
     <tr><td>Hard negatives</td><td>Cheats mined from earlier generation pools (gem-tetranitro on small rings, polyazene chains, trinitromethane, gem-dinitrocyclopropane, etc.), encoded through LIMO and used as viab=0 latents in score-model training</td><td>918</td><td>n/a</td><td>this work, Methods (main paper)</td></tr>
     <tr><td>Hazard SMARTS catalog</td><td>NIST CAMEO Chemicals reactivity database + ChemAxon &ldquo;dangerous reactivity&rdquo; SMARTS, distilled into the Bruns&ndash;Watson demerit catalog used by the SMARTS gate</td><td>n/a (rules)</td><td>n/a</td><td><a class="cite" href="#ref-cameo">[5]</a>, <a class="cite" href="#ref-bruns2020watson">[6]</a></td></tr>

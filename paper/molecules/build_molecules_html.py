@@ -279,6 +279,23 @@ def renumber_labels(s, kind):
 body_main, fmap = renumber_labels(body_main, 'Figure')
 body_main, tmap = renumber_labels(body_main, 'Table')
 
+# Multi-figure references ("Figs 3 and 4", "Figs 6-15", "Figures 8, 9 and 11")
+# are skipped by the single-ref pass in renumber_labels (its regex only matches
+# singular "Fig N"/"Figure N"), so their numbers survive un-renumbered. Remap
+# every number inside a plural Figs/Figures list-or-range span using the same
+# old->new map. Safe because these spans were untouched above (no double-apply).
+def remap_fig_lists(s, mp):
+    SEP = r'(?:\s*(?:,|&ndash;|&mdash;|-|and|&nbsp;)\s*)+'
+    def repl(m):
+        # remap only standalone figure numbers; the lookbehind keeps the digit
+        # inside an S-series label ('S1') or lettered label ('A.1') untouched.
+        return m.group(1) + re.sub(r'(?<![A-Za-z.])\d+',
+                                   lambda d: mp.get(d.group(0), d.group(0)),
+                                   m.group(2))
+    return re.sub(r'\b((?:Figures|Figs)\.?(?:&nbsp;|\s+))((?:\d+)(?:' + SEP + r'\d+)*)',
+                  repl, s)
+body_main = remap_fig_lists(body_main, fmap)
+
 # Files live in paper/molecules/ ; images are in paper/figs/ -> use ../figs/
 body_main = body_main.replace('src="figs/', 'src="../figs/')
 body_main = re.sub(r'<!--.*?-->', '', body_main, flags=re.DOTALL)  # drop stale section-divider comments
@@ -481,9 +498,11 @@ SI_TITLE = '''<header class="title">
 appendix_out = remap_refs(appendix_html)
 # (1) relabel the SI's own figures (plain 18/26) to the S-series, captions + refs
 appendix_out = apply_fig_refmap(appendix_out, APP_FIG_MAP)
+appendix_out = remap_fig_lists(appendix_out, APP_FIG_MAP)   # plural SI-own refs
 # (2) remaining plain 'Figure N'/'Table N' in the SI are references to MAIN items;
 #     remap them to the renumbered main numbers so cross-refs stay correct.
 appendix_out = apply_fig_refmap(appendix_out, fmap)
+appendix_out = remap_fig_lists(appendix_out, fmap)          # plural main-figure refs
 appendix_out = apply_tab_refmap(appendix_out, tmap)
 # (3) the CFG-scale quantile table in the source (Section D.8) has no caption;
 #     add one for MDPI compliance.

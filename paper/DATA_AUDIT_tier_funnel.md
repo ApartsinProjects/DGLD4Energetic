@@ -4,11 +4,23 @@ Generated during the consistency audit. These items were **verified against the
 committed experiment data across five repos** but **not applied** to the paper,
 because doing so correctly requires an authoring decision (see each item).
 
-## 1. Four-tier label counts (Table 1 and Table A.1) — DO NOT match the data
+## 1. Four-tier label counts — CORRECTED (2026) to the committed data
 
-The manuscript reports **Tier-A ~3,000 / B ~9,000 / C ~25,000 / D ~30,000** in
-both `Table 1` (post-dedup, per-tier) and `Table A.1` (pre-dedup, per-source,
-attributed to specific citations). These numbers:
+**Status: applied.** Table 1, Table A.1 (long paper + NMI), and the NMI tier
+prose now read **A ~19,200 / B ~1,900 / C ~12,000 / D ~47,000** (rows carrying
+>=1 label at that tier, per `apply_4tier_system.py` on the committed
+65,980-row master), with a caption noting the counts do not partition the master
+and that only ~3,000 rows carry a trusted A/B label on the target detonation
+channels. **Author check still needed on the source->citation attributions in
+Table A.1** (see below): the row descriptions were updated to the actual tiering
+sources (cm4c01978 XRD densities for A; EXPLO5 train/test for B; cm4c01978 K-J
+for C; 3D-CNN + generative-model predictions for D), but the *citation keys*
+([60]/[15]/[62]) were kept as-is and should be verified against those sources.
+
+### Original discrepancy (for the record)
+
+The manuscript previously reported **Tier-A ~3,000 / B ~9,000 / C ~25,000 /
+D ~30,000** in both `Table 1` and `Table A.1`. These numbers:
 
 - appear **only in the prose** — no script, log, JSON, or notebook computes them;
 - are **internally flagged** as unreconciled in
