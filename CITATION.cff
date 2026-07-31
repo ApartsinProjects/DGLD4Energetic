@@ -14,7 +14,7 @@ authors:
     given-names: Alexey
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.19821953
+    value: 10.5281/zenodo.19821952
     description: Zenodo archive of model checkpoints and data
 preferred-citation:
   type: article

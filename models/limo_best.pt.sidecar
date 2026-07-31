@@ -1,0 +1,7 @@
+filename:   limo_best.pt
+size_mb:    406
+md5:        87432163172bd4ec5d9834e89d6ca115
+role:       LIMO SELFIES-VAE (encoder + decoder)
+zenodo_doi: 10.5281/zenodo.19821952
+url:        https://zenodo.org/record/21708802/files/limo_best.pt
+download:   wget -O models/limo_best.pt https://zenodo.org/record/21708802/files/limo_best.pt

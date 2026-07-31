@@ -23,7 +23,7 @@ Suggested attribution:
 
   Aperstein, Y.; Apartsin, A. (2026). Domain-Gated Latent Diffusion
   for the Discovery of Novel Energetic Materials. Companion data set, DOI
-  10.5281/zenodo.19821953. CC BY 4.0.
+  10.5281/zenodo.19821952. CC BY 4.0.
 
 Per-row provenance for training-set labels (Klapotke 2019, Cooper 1996, LLNL
 UCRL-52997 1985, Casey 2020, ZINC-15) is documented in `data/README.md`.

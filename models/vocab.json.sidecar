@@ -1,0 +1,7 @@
+filename:   vocab.json
+size_mb:    1
+md5:        ae3247d62a3e373452c9c213bfd444dd
+role:       SELFIES token vocabulary
+zenodo_doi: 10.5281/zenodo.19821952
+url:        https://zenodo.org/record/21708802/files/vocab.json
+download:   wget -O models/vocab.json https://zenodo.org/record/21708802/files/vocab.json

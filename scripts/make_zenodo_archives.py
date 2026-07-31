@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Build upload-ready archives for the DGLD Zenodo deposit.
 
-The Zenodo record (DOI 10.5281/zenodo.19821953) already holds the trained model
+The Zenodo record (DOI 10.5281/zenodo.19821952) already holds the trained model
 checkpoints. This script packages the two remaining components named in the paper's
 Data Availability Statement so the record can be completed as a new version:
 

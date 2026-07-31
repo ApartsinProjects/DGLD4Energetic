@@ -30,7 +30,7 @@ dynamic = ["dependencies"]
 Homepage = "https://github.com/ApartsinProjects/DGLD4Energetic"
 Repository = "https://github.com/ApartsinProjects/DGLD4Energetic"
 Issues = "https://github.com/ApartsinProjects/DGLD4Energetic/issues"
-Zenodo = "https://doi.org/10.5281/zenodo.19821953"
+Zenodo = "https://doi.org/10.5281/zenodo.19821952"
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements.txt"] }

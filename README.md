@@ -4,7 +4,7 @@
 
 **Domain-Gated Latent Diffusion for the Discovery of Novel Energetic Materials**
 
-[Draft paper](https://apartsinprojects.github.io/DGLD4Energetic/paper/long_paper.html) · [Zenodo DOI 10.5281/zenodo.19821953] · [BibTeX](#citation)
+[Draft paper](https://apartsinprojects.github.io/DGLD4Energetic/paper/long_paper.html) · [Zenodo DOI 10.5281/zenodo.19821952] · [BibTeX](#citation)
 
 > 12 DFT-confirmed novel CHNO leads. Headline compound L1 (3,4,5-trinitro-1,2-isoxazole)
 > at rho = 2.09 g/cm^3, D = 8.25 km/s, max-Tanimoto 0.27 to all 65,980 training molecules.
@@ -62,7 +62,7 @@ python scripts/plot_fig1.py            # writes figures/novelty_vs_D.png
 
 ## Hosting
 
-Large files on Zenodo (DOI 10.5281/zenodo.19821953); pointer files in `models/` and `data/`.
+The complete artifact bundle (code, configs, result data, raw training datasets, and all trained model checkpoints) is archived as a single Zenodo record, concept DOI **10.5281/zenodo.19821952** (resolves to the latest version). This git repository is the runnable code mirror; large binaries live on Zenodo, with pointer files in `models/` and `data/`.
 Each sidecar is a small text file with the canonical filename, size, SHA-256, and the Zenodo URL
 to wget. See `models/*.sidecar` for the schema.
 
@@ -75,7 +75,7 @@ to wget. See `models/*.sidecar` for the schema.
   journal = {Nature Machine Intelligence},
   year    = {2026},
   doi     = {TBD},
-  note    = {DOI 10.5281/zenodo.19821953 (companion repository).}
+  note    = {DOI 10.5281/zenodo.19821952 (companion repository).}
 }
 ```
 

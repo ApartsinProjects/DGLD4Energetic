@@ -1,0 +1,7 @@
+filename:   meta.json
+size_mb:    1
+md5:        794887e4f3b6e46298bd2cacc8a5e923
+role:       Run metadata
+zenodo_doi: 10.5281/zenodo.19821952
+url:        https://zenodo.org/record/21708802/files/meta.json
+download:   wget -O models/meta.json https://zenodo.org/record/21708802/files/meta.json

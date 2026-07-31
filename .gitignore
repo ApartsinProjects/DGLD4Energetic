@@ -74,3 +74,8 @@ _zenodo_release/
 
 # MDPI docx build intermediate (regenerated from molecules-template.dot)
 paper/molecules/_molecules_template.docx
+
+# session scratch (never commit)
+SESSION_STATE.md
+session2.txt
+session_handover.txt

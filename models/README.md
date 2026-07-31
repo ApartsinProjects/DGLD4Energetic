@@ -1,7 +1,7 @@
 # models/
 
 This directory holds **sidecar pointer files** only. Actual checkpoint
-binaries live on Zenodo (DOI 10.5281/zenodo.19821953); the repo never
+binaries live on Zenodo (DOI 10.5281/zenodo.19821952); the repo never
 commits files larger than ~10 MB.
 
 Total checkpoint size on Zenodo: ~5 GB.
@@ -14,8 +14,8 @@ Each sidecar is a plain-text file named `<filename>.sidecar`:
 filename:   denoiser_dgld_h.pt
 size_mb:    682
 sha256:     <64-hex-digit>
-zenodo_doi: 10.5281/zenodo.19821953
-url:        https://zenodo.org/record/19821953/files/denoiser_dgld_h.pt
+zenodo_doi: 10.5281/zenodo.19821952
+url:        https://zenodo.org/record/21708802/files/denoiser_dgld_h.pt
 download:   wget -O models/denoiser_dgld_h.pt <url>
 ```
 
@@ -24,22 +24,14 @@ Zenodo. They are filled in lockstep with the public-visibility flip.
 
 ## Inventory
 
-| File                               | Size | Role                                             |
-|------------------------------------|------|--------------------------------------------------|
-| `limo_vae.pt`                      | 388 MB | LIMO VAE (encoder + decoder)                  |
-| `denoiser_dgld_h.pt`               | 682 MB | Production denoiser, hazard-aware (v4b)       |
-| `denoiser_dgld_p.pt`               | 682 MB | Predecessor denoiser (v3)                     |
-| `denoiser_v4b_seed1.pt`            | 681 MB | T3 multi-seed denoiser (seed 1)               |
-| `denoiser_v4b_seed2.pt`            | 681 MB | T3 multi-seed denoiser (seed 2)               |
-| `denoiser_v4b_seed42.pt`           | 681 MB | T3 multi-seed denoiser (seed 42)              |
-| `score_model_6head.pt`             |  30 MB | Production score model (6 heads)              |
-| `score_model_5head.pt`             |  30 MB | Predecessor score model (5 heads)             |
-| `random_forest_viability.pkl`      |   5 MB | RF viability classifier                       |
-| `smoke_ensemble_fold1.pt`          | 200 MB | Smoke-test ensemble fold 1                    |
-| `smoke_ensemble_fold2.pt`          | 200 MB | Smoke-test ensemble fold 2                    |
+| File | Size | Role |
+|---|---|---|
+| `limo_best.pt` | 406 MB | LIMO SELFIES-VAE (encoder + decoder) |
+| `v3_best.pt` | 715 MB | Conditional latent denoiser, v3 (DGLD-P predecessor) |
+| `v4b_best.pt` | 715 MB | Production conditional latent denoiser, v4b (DGLD-H) |
+| `score_model_v3e.pt` | 31 MB | Multi-task latent score model, v3e (5-head predecessor) |
+| `score_model_v3f.pt` | 32 MB | Production multi-task latent score model, v3f (6-head) |
+| `vocab.json` | 1 MB | SELFIES token vocabulary |
+| `meta.json` | 1 MB | Run metadata |
 
-## Bulk download
-
-```bash
-bash ../scripts/download_assets.sh
-```
+Data archives (CSVs, hard-negative latents, code/results zips) are in the same Zenodo record; see the paper's Data Availability Statement.
