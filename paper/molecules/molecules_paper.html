@@ -45,10 +45,29 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 .refs{font-size:.84rem}
 .refs li{margin-bottom:.35rem}
 .mdpi-note{background:#fff8e6;border-left:3px solid #d9a441;padding:.6rem .9rem;margin:1rem 0;font-size:.86rem}
-@media print{body{font-size:10pt;max-width:none}}
+.downloads{position:fixed;top:1rem;right:1rem;z-index:100;
+  display:flex;flex-direction:column;gap:.25rem;
+  background:rgba(255,255,255,.94);border:1px solid var(--rule);
+  border-radius:.4rem;padding:.55rem .75rem;font-size:.82rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.downloads .label{font-size:.68rem;color:var(--muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:.15rem}
+.downloads a{color:var(--accent);text-decoration:none;display:block;line-height:1.35}
+.downloads a:hover{text-decoration:underline}
+.downloads .ext{color:var(--muted);font-size:.75em}
+@media print{body{font-size:10pt;max-width:none}.downloads{display:none}}
+@media (max-width:60rem){.downloads{position:static;margin:0 auto 1rem auto;max-width:48rem;box-shadow:none;border-radius:.3rem}}
 </style>
 </head>
 <body>
+<aside class="downloads no-docx no-print" aria-label="Downloads for this submission">
+  <span class="label">Submission files</span>
+  <a href="molecules_paper.docx" download>Main article <span class="ext">(.docx)</span></a>
+  <a href="molecules_paper_SI.docx" download>Supplementary Information <span class="ext">(.docx)</span></a>
+  <a href="molecules_paper_SI.html">Supplementary Information <span class="ext">(.html)</span></a>
+  <a href="cover_letter.html">Cover letter <span class="ext">(.html)</span></a>
+</aside>
+
 <header class="title">
   <div class="artType">Article</div>
   <h1>Domain-Gated Latent Diffusion for the Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</h1>
@@ -68,8 +87,8 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 
 <div class="abstract">
   <p><span class="lab">Abstract:</span> The design of new high-energy-density materials is a
-  data-limited inverse-design problem: of roughly 66,000 labelled CHNO molecules only about 3,000
-  carry experimental or DFT-quality property values, so generative models trained on the full mixture
+  data-limited inverse-design problem: of roughly 66,000 CHNO molecules with reported detonation
+  properties, only about 3,000 carry trustworthy experimental or quantum-chemistry values, so generative models trained on the full mixture
   either memorise the high-performance tail or extrapolate without calibration, and no new HMX-class
   compound has been disclosed in fifteen years. Here we introduce
   <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, a data-driven framework that couples
@@ -78,7 +97,7 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
   a multi-task score model supplies independently switchable sample-time steering over viability,
   sensitivity, and hazard; and a four-stage screening funnel (SMARTS gate, Pareto reranker, GFN2-xTB
   triage, and B3LYP/def2-TZVP density-functional theory) validates every candidate. DGLD yields
-  twelve DFT-confirmed novel leads; the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
+  11 unique DFT-confirmed novel leads (12 lead cards); the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
   calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
   8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training molecules
   (nearest-neighbour Tanimoto 0.27). Against four baselines on the same corpus, DGLD is the only
@@ -96,7 +115,7 @@ data-driven discovery</p>
 
 <p>We introduce <strong>Domain-Gated Latent Diffusion (DGLD)</strong>. At training time, a four-tier label-trust hierarchy gates which examples drive the conditional gradient (experimental and DFT labels) and which train only the unconditional prior (Kamlet&ndash;Jacobs and surrogate labels), preventing miscalibrated data from corrupting the generation signal. At sample time, a multi-task score model with six property and safety heads injects per-step steering into the diffusion trajectory; each head acts as an independent on/off switch without retraining the backbone. Decoded candidates pass through a four-stage validation funnel: a SMARTS chemistry gate, a Pareto reranker, semi-empirical GFN2-xTB triage, and full DFT audit (B3LYP/6-31G(d) + \(\omega\)B97X-D3BJ/def2-TZVP).</p>
 
-<p>DGLD yields 12 DFT-confirmed novel leads; the headline compound, trinitro-1,2-isoxazole (L1), reaches \(\rho_{\text{cal}} = 2.09\)&nbsp;g&nbsp;cm<sup>&minus;3</sup> and \(D_{\text{K-J,cal}} = 8.25\)&nbsp;km&nbsp;s<sup>&minus;1</sup>, placing it within the HMX/CL-20 performance band at max-Tanimoto 0.27 to our 65&nbsp;980-row labelled corpus (Section&nbsp;2.2). DGLD behaves as a <em>productive-quadrant generator</em>: it samples molecules that are simultaneously novel relative to the labelled master and competitive with the HMX/CL-20 reference class on predicted detonation performance. Across three strong baselines, DGLD is the only method with consistent novel productive-quadrant coverage (simultaneously novel and on-target for performance): SMILES-LSTM memorises 18.3% of outputs exactly; SELFIES-GA returns 74% corpus rediscoveries and its best novel candidate collapses from \(D_{\text{surrogate}} = 9.73\) to \(D_{\text{DFT}} = 6.28\)&nbsp;km&nbsp;s<sup>&minus;1</sup> under DFT audit (a 3.5&nbsp;km&nbsp;s<sup>&minus;1</sup> surrogate artefact); REINVENT&nbsp;4 generates novel high-N heterocycles but peaks at \(D = 9.02\)&nbsp;km&nbsp;s<sup>&minus;1</sup>. A second lead, E1 (4-nitro-1,2,3,5-oxatriazole), reaches \(D_{\text{K-J,cal}} = 9.00\)&nbsp;km&nbsp;s<sup>&minus;1</sup> from a chemically distinct scaffold family, pending thermal stability confirmation and an oxatriazole-class DFT anchor (Section&nbsp;3). The tier-gating recipe is domain-agnostic; only the validation funnel changes per application.</p>
+<p>DGLD yields 11 unique DFT-confirmed novel leads (12 lead cards; L3 and L16 are the same compound); the headline compound, trinitro-1,2-isoxazole (L1), reaches \(\rho_{\text{cal}} = 2.09\)&nbsp;g&nbsp;cm<sup>&minus;3</sup> and \(D_{\text{K-J,cal}} = 8.25\)&nbsp;km&nbsp;s<sup>&minus;1</sup>, placing it within the HMX/CL-20 performance band at max-Tanimoto 0.27 to our 65&nbsp;980-row labelled corpus (Section&nbsp;2.2). DGLD behaves as a <em>productive-quadrant generator</em>: it samples molecules that are simultaneously novel relative to the labelled master and competitive with the HMX/CL-20 reference class on predicted detonation performance. Across three strong baselines, DGLD is the only method with consistent novel productive-quadrant coverage (simultaneously novel and on-target for performance): SMILES-LSTM memorises 18.3% of outputs exactly; SELFIES-GA returns 75% (75/100) corpus rediscoveries and its best novel candidate collapses from \(D_{\text{surrogate}} = 9.73\) to \(D_{\text{DFT}} = 6.28\)&nbsp;km&nbsp;s<sup>&minus;1</sup> under DFT audit (a 3.5&nbsp;km&nbsp;s<sup>&minus;1</sup> surrogate artefact); REINVENT&nbsp;4 generates novel high-N heterocycles but peaks at \(D = 9.02\)&nbsp;km&nbsp;s<sup>&minus;1</sup>. A second lead, E1 (4-nitro-1,2,3,5-oxatriazole), reaches \(D_{\text{K-J,cal}} = 9.00\)&nbsp;km&nbsp;s<sup>&minus;1</sup> from a chemically distinct scaffold family, pending thermal stability confirmation and an oxatriazole-class DFT anchor (Section&nbsp;3). The tier-gating recipe is domain-agnostic; only the validation funnel changes per application.</p>
 
 <figure>
   <img src="../figs/novelty_vs_D.png" width="1600" height="492" alt="Headline figure: novelty vs predicted properties" loading="lazy" style="max-width:100%; height:auto;" decoding="async">
@@ -247,7 +266,7 @@ Classifier-free guidance avoids the separately-trained property predictor requir
 <p><strong>Literature context for L1.</strong> The polynitroisoxazole family is established in the energetic-materials literature (<a class="cite" href="#ref-sabatini2018">[sabatini2018]</a><a class="cite" href="#ref-konnov2025nitroisoxazole">[konnov2025]</a>); the isomeric 3,4,5-trinitro-1<em>H</em>-pyrazole <a class="cite" href="#ref-herve2010">[herve2010]</a> is the closest fully-substituted ring previously characterised. The 3,4,5-trinitro-1,2-isoxazole isomer DGLD proposes is absent from the 65&nbsp;980-row labelled master (max-Tanimoto 0.27) and from PubChem; it is therefore a chemotype-class rediscovery with a positionally novel substitution pattern.</p>
 
 <h3>2.4&nbsp;Novelty, synthesisability, and scaffold diversity</h3>
-<p>Three audits frame the merged top-100 against PubChem, public USPTO retrosynthesis templates, and a scaffold-distinct E-set extension. The headline is that DGLD generates a chemotype distribution (10 DFT leads / 8 Bemis&ndash;Murcko scaffolds / 6 families), not a single isoxazole hit.</p>
+<p>Three audits frame the merged top-100 against PubChem, public USPTO retrosynthesis templates, and a scaffold-distinct E-set extension. The headline is that DGLD generates a chemotype distribution (the scaffold-distinct E-set extension, E1&ndash;E10: 10 DFT leads / 8 Bemis&ndash;Murcko scaffolds / 6 families), not a single isoxazole hit.</p>
 
 <h4>Novelty audit</h4>
 <p>Of the merged top-100, <strong>96/97 are absent from PubChem</strong> <a class="cite" href="#ref-kim2023pubchem">[23]</a> (PUG REST on canonical SMILES; 3 transient REST errors excluded; the one rediscovery is 1-nitro-1H-tetrazol-1-amine at rank 56). Independently, <strong>97/100 are absent from the 65&nbsp;980-row labelled master</strong>; the three rediscoveries (dinitramide, 1,2-dinitrohydrazine, N,N&prime;-dinitrocarbodiimide) confirm the model rediscovers established high-density CHNO motifs. <strong>Zero of the 100 candidates lie within Tanimoto 0.70 of any training row, and zero are exact matches in the 694&nbsp;518-row augmented corpus</strong> (Table&nbsp;3); the candidates are <em>more</em> distant from the augmented corpus than from the labelled master alone, despite the augmented corpus being &gt;10× larger. The strengthened SMARTS catalog (N-nitroimines and open-chain polyazene/azo-nitro motifs) retains 77/100 of the merged top-100; the rank-1 trinitro-isoxazole survives (per-class breakdown in the Supplementary Information.</p>
@@ -265,12 +284,12 @@ Classifier-free guidance avoids the separately-trained property predictor requir
 <p>AiZynthFinder <a class="cite" href="#ref-genheden2020aizynth">[68]</a> with public USPTO expansion + filter policies and the ZINC in-stock catalog (200 MCTS iter, 300&nbsp;s/target) was applied to L1, L4, L5 and then extended to the remaining nine chem-pass leads. <strong>L1 returns 9 productive routes; the top route is 4 steps with state score 0.50</strong> (Table&nbsp;4). L4, L5, and the nine extension leads return zero productive routes within budget; reproduced at 5× budget (1000 MCTS iter, 1800&nbsp;s) on L4/L5. The L1 disconnection sequence (electrophilic ring-nitration; Boc protection; DPPA-mediated Curtius rearrangement on 4,5-dinitro-1,2-isoxazole-3-carboxylic acid), its hazard caveats (acyl-azide intermediate at primary-explosive class), and the ZINC catalog gap on energetic-domain intermediates are documented in the Supplementary Information. The 1/12 hit rate quantifies a public-USPTO drug-domain template-database gap, not unsynthesisability of the candidates; an energetics-domain template extension is flagged as community follow-up in Section&nbsp;3.</p>
 
 <table>
-  <caption><strong>Table 4.</strong> AiZynthFinder retrosynthetic search on three representative leads (L1 aromatic, L4 5-ring N-rich, L5 open-chain), 200 MCTS iterations / 300&nbsp;s, USPTO templates + ZINC in-stock catalog. State score 0.05 = "target node only" baseline.</caption>
+  <caption><strong>Table 4.</strong> AiZynthFinder retrosynthetic search on three representative leads (L1 aromatic, L4 5-ring N-rich, L5 open-chain), 200 MCTS iterations / 300&nbsp;s, USPTO templates + ZINC in-stock catalog. State score 0.049 = "target node only" baseline.</caption>
   <thead><tr><th>ID</th><th>Scaffold</th><th>Routes found</th><th>Top-route steps</th><th>State score</th></tr></thead>
   <tbody>
     <tr><td>L1</td><td>aromatic isoxazole</td><td><strong>9</strong></td><td>4</td><td>0.50</td></tr>
-    <tr><td>L4</td><td>tetrazoline nitramine</td><td>0 (only target node)</td><td>n/a</td><td>0.05</td></tr>
-    <tr><td>L5</td><td>acyl oxime nitrate</td><td>0 (only target node)</td><td>n/a</td><td>0.05</td></tr>
+    <tr><td>L4</td><td>tetrazoline nitramine</td><td>0 (only target node)</td><td>n/a</td><td>0.049</td></tr>
+    <tr><td>L5</td><td>acyl oxime nitrate</td><td>0 (only target node)</td><td>n/a</td><td>0.049</td></tr>
   </tbody>
 </table>
 
@@ -396,7 +415,7 @@ Classifier-free guidance avoids the separately-trained property predictor requir
 
 <p>The 1.5&ndash;2 km&nbsp;s<sup>&minus;1</sup> Kamlet&ndash;Jacobs vs 3D-CNN residual reported in Section&nbsp;2.3 is consistent with the typical disagreement between Kamlet&ndash;Jacobs and full Chapman&ndash;Jouguet thermochemical-equilibrium codes (EXPLO5, Sucesk&aacute; et&nbsp;al.; Cheetah-2, Fried&ndash;Howard) on high-N CHNO compounds: published benchmarks place this disagreement in the 0.3&ndash;1.5 km&nbsp;s<sup>&minus;1</sup> band for typical organic explosives and at the higher end (1&ndash;2 km&nbsp;s<sup>&minus;1</sup>) for compounds with N-fraction \(\gtrsim 0.4\), where the K-J fixed-product-distribution assumption breaks down. The population-level Section&nbsp;2.3 evidence (Pearson \(r(f_N, \text{residual})=+0.43\), \(p\lt 10^{-26}\)) is itself a regime-aware reproduction of the same effect on 575 Tier-A experimental rows. Definitive absolute-\(D\) numbers for the top lead therefore require either a thermochemical-equilibrium CJ recompute (EXPLO5, Cheetah-2, or the open-source Cantera SDT) on the calibrated DFT inputs, or experimental synthesis; the 3D-CNN \(D\) should be read as relative-ranking-grade, not absolute-value-grade.</p>
 
-<p><strong>Retrosynthetic accessibility under public USPTO templates is a known weakness for energetic-materials chemistry.</strong> AiZynthFinder finds a 4-step productive route only for L1 of the 12 DFT-confirmed leads. The 11 negative results reflect the drug-domain bias of the public template database (Reaxys-/USPTO-derived), not unsynthesisability of the candidates; energetic-domain templates (nitration, N<sub>2</sub>O<sub>5</sub> nitrolysis, ring-cyclisation) would be required for an informative retro-screen.</p>
+<p><strong>Retrosynthetic accessibility under public USPTO templates is a known weakness for energetic-materials chemistry.</strong> AiZynthFinder finds a 4-step productive route only for L1 of the 12 DFT-confirmed lead cards. The 11 negative results reflect the drug-domain bias of the public template database (Reaxys-/USPTO-derived), not unsynthesisability of the candidates; energetic-domain templates (nitration, N<sub>2</sub>O<sub>5</sub> nitrolysis, ring-cyclisation) would be required for an informative retro-screen.</p>
 
 <p>The statistical scope of the headline numbers is bounded as follows. the Supplementary Information reports a 4-condition&nbsp;&times;&nbsp;3-seed head-to-head at pool=10k with a no-diffusion SMILES-LSTM baseline, and the Supplementary Information reports the single-seed pool=40k head-to-head used for the merged top-100; tables elsewhere use a single sampling seed. 89/100 of the merged top-100 come from a single unguided pool reranked by the Pareto-reranker scaffold composite, so the headline novelty/stability numbers reflect this single sampling stream, with the multi-seed the Supplementary Information matrix as the variance estimate. Each denoiser was originally one \(\sim\)6&nbsp;hr training run; we have since retrained the v4b production architecture at two additional seeds and resampled the production C2 condition (Hz-C2 viab+sens+hazard, pool = 10k per seed). Across the resulting 3 denoiser seeds, top-1 \(D\) = 9.38 \(\pm\) 0.01&nbsp;km&nbsp;s<sup>&minus;1</sup> (relative s.d. 0.1%), top-1 \(\rho\) = 1.92 \(\pm\) 0.01&nbsp;g&nbsp;cm<sup>&minus;3</sup>, top-1 \(P\) = 38.8 \(\pm\) 0.07&nbsp;GPa. The denoiser-init seed variance is far smaller than the across-condition C0 \(\to\) C2 spread (\(\sim\)1% of mean), so the production C2 lift is not an artefact of a particular denoiser-init seed.</p>
 
@@ -610,7 +629,7 @@ is computed, then a Pareto front over (\(-\)perf, \(-\)viab, sens, alerts) is us
 
 
 <h2 id="sec-conc">5. Conclusions</h2>
-<p>DGLD demonstrates that a label-quality gate at training time, multi-head score-model guidance at sample time, and a four-stage chemistry-validation funnel are sufficient to produce novel CHNO leads in the HMX/CL-20 performance band on commodity hardware. Twelve leads are DFT-confirmed local minima; the headline compound (L1, 3,4,5-trinitro-1,2-isoxazole) reaches \(\rho_{\text{cal}} = 2.09\)&nbsp;g&nbsp;cm<sup>&minus;3</sup> and \(D_{\text{K-J,cal}} = 8.25\)&nbsp;km&nbsp;s<sup>&minus;1</sup> and is structurally dissimilar from all 65&nbsp;980 training molecules (nearest-neighbour Tanimoto 0.27). Three strong baselines fail the novel-and-on-target test on the same compute: SMILES-LSTM memorises 18.3% of outputs; SELFIES-GA produces 74% corpus rediscoveries, with its best novel candidate collapsing from \(D_{\text{surrogate}}=9.73\) to \(D_{\text{DFT}}=6.28\)&nbsp;km&nbsp;s<sup>&minus;1</sup> under DFT audit (a 3.5&nbsp;km&nbsp;s<sup>&minus;1</sup> surrogate artefact); REINVENT&nbsp;4 generates novel high-N heterocycles but peaks at \(D=9.02\)&nbsp;km&nbsp;s<sup>&minus;1</sup>. Across all four baselines, DGLD is the only method with consistent productive-quadrant coverage confirmed at DFT level. (Kamlet&ndash;Jacobs relative ranking throughout; absolute \(D\) requires a thermochemical-equilibrium solver, Section&nbsp;3.)</p>
+<p>DGLD demonstrates that a label-quality gate at training time, multi-head score-model guidance at sample time, and a four-stage chemistry-validation funnel are sufficient to produce novel CHNO leads in the HMX/CL-20 performance band on commodity hardware. Twelve lead cards (11 unique compounds; L3 and L16 coincide) are DFT-confirmed local minima; the headline compound (L1, 3,4,5-trinitro-1,2-isoxazole) reaches \(\rho_{\text{cal}} = 2.09\)&nbsp;g&nbsp;cm<sup>&minus;3</sup> and \(D_{\text{K-J,cal}} = 8.25\)&nbsp;km&nbsp;s<sup>&minus;1</sup> and is structurally dissimilar from all 65&nbsp;980 training molecules (nearest-neighbour Tanimoto 0.27). Three strong baselines fail the novel-and-on-target test on the same compute: SMILES-LSTM memorises 18.3% of outputs; SELFIES-GA produces 75% (75/100) corpus rediscoveries, with its best novel candidate collapsing from \(D_{\text{surrogate}}=9.73\) to \(D_{\text{DFT}}=6.28\)&nbsp;km&nbsp;s<sup>&minus;1</sup> under DFT audit (a 3.5&nbsp;km&nbsp;s<sup>&minus;1</sup> surrogate artefact); REINVENT&nbsp;4 generates novel high-N heterocycles but peaks at \(D=9.02\)&nbsp;km&nbsp;s<sup>&minus;1</sup>. Across all four baselines, DGLD is the only method with consistent productive-quadrant coverage confirmed at DFT level. (Kamlet&ndash;Jacobs relative ranking throughout; absolute \(D\) requires a thermochemical-equilibrium solver, Section&nbsp;3.)</p>
 
 <p>A second lead, E1 (4-nitro-1,2,3,5-oxatriazole), reaches \(D_{\text{K-J,cal}} = 9.00\)&nbsp;km&nbsp;s<sup>&minus;1</sup> and \(\rho_{\text{cal}} = 2.04\)&nbsp;g&nbsp;cm<sup>&minus;3</sup> from a chemotype family disjoint from the L1 isoxazole class, promoting E1 to co-headline status pending thermal stability confirmation and a 1,2,3,5-oxatriazole-class DFT anchor (Section&nbsp;3). Two leads from two distinct scaffold families on a single sampling run rules out the alternative reading that L1's productive-quadrant placement is a sampling artefact.</p>
 

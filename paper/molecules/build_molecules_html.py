@@ -334,10 +334,41 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 .refs{font-size:.84rem}
 .refs li{margin-bottom:.35rem}
 .mdpi-note{background:#fff8e6;border-left:3px solid #d9a441;padding:.6rem .9rem;margin:1rem 0;font-size:.86rem}
-@media print{body{font-size:10pt;max-width:none}}
+.downloads{position:fixed;top:1rem;right:1rem;z-index:100;
+  display:flex;flex-direction:column;gap:.25rem;
+  background:rgba(255,255,255,.94);border:1px solid var(--rule);
+  border-radius:.4rem;padding:.55rem .75rem;font-size:.82rem;
+  box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.downloads .label{font-size:.68rem;color:var(--muted);letter-spacing:.06em;
+  text-transform:uppercase;margin-bottom:.15rem}
+.downloads a{color:var(--accent);text-decoration:none;display:block;line-height:1.35}
+.downloads a:hover{text-decoration:underline}
+.downloads .ext{color:var(--muted);font-size:.75em}
+@media print{body{font-size:10pt;max-width:none}.downloads{display:none}}
+@media (max-width:60rem){.downloads{position:static;margin:0 auto 1rem auto;max-width:48rem;box-shadow:none;border-radius:.3rem}}
 </style>
 </head>
 <body>
+'''
+
+DOWNLOADS_ASIDE = '''<aside class="downloads no-docx no-print" aria-label="Downloads for this submission">
+  <span class="label">Submission files</span>
+  <a href="molecules_paper.docx" download>Main article <span class="ext">(.docx)</span></a>
+  <a href="molecules_paper_SI.docx" download>Supplementary Information <span class="ext">(.docx)</span></a>
+  <a href="molecules_paper_SI.html">Supplementary Information <span class="ext">(.html)</span></a>
+  <a href="cover_letter.html">Cover letter <span class="ext">(.html)</span></a>
+</aside>
+
+'''
+
+SI_DOWNLOADS_ASIDE = '''<aside class="downloads no-docx no-print" aria-label="Downloads for this submission">
+  <span class="label">Submission files</span>
+  <a href="molecules_paper.html">Main article <span class="ext">(.html)</span></a>
+  <a href="molecules_paper.docx" download>Main article <span class="ext">(.docx)</span></a>
+  <a href="molecules_paper_SI.docx" download>Supplementary Information <span class="ext">(.docx)</span></a>
+  <a href="cover_letter.html">Cover letter <span class="ext">(.html)</span></a>
+</aside>
+
 '''
 
 TITLEBLOCK = '''<header class="title">
@@ -359,8 +390,8 @@ TITLEBLOCK = '''<header class="title">
 
 <div class="abstract">
   <p><span class="lab">Abstract:</span> The design of new high-energy-density materials is a
-  data-limited inverse-design problem: of roughly 66,000 labelled CHNO molecules only about 3,000
-  carry experimental or DFT-quality property values, so generative models trained on the full mixture
+  data-limited inverse-design problem: of roughly 66,000 CHNO molecules with reported detonation
+  properties, only about 3,000 carry trustworthy experimental or quantum-chemistry values, so generative models trained on the full mixture
   either memorise the high-performance tail or extrapolate without calibration, and no new HMX-class
   compound has been disclosed in fifteen years. Here we introduce
   <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, a data-driven framework that couples
@@ -369,7 +400,7 @@ TITLEBLOCK = '''<header class="title">
   a multi-task score model supplies independently switchable sample-time steering over viability,
   sensitivity, and hazard; and a four-stage screening funnel (SMARTS gate, Pareto reranker, GFN2-xTB
   triage, and B3LYP/def2-TZVP density-functional theory) validates every candidate. DGLD yields
-  twelve DFT-confirmed novel leads; the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
+  11 unique DFT-confirmed novel leads (12 lead cards); the headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a
   calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
   8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training molecules
   (nearest-neighbour Tanimoto 0.27). Against four baselines on the same corpus, DGLD is the only
@@ -433,7 +464,7 @@ TAIL = "\n</body>\n</html>\n"
 refs_out = refs_html
 refs_out = remap_refs(refs_out)
 
-full_main = HEAD + TITLEBLOCK + body_main + "\n" + refs_out + ENDMATTER + TAIL
+full_main = HEAD + DOWNLOADS_ASIDE + TITLEBLOCK + body_main + "\n" + refs_out + ENDMATTER + TAIL
 OUT_MAIN.write_text(full_main, encoding="utf-8")
 
 # ---------------------------------------------------------------------------
@@ -469,7 +500,7 @@ appendix_out = re.sub(r'<h2 id="sec-app">Appendix</h2>',
 appendix_out = appendix_out.replace('src="figs/', 'src="../figs/')
 appendix_out = re.sub(r'<!--.*?-->', '', appendix_out, flags=re.DOTALL)
 appendix_out = to_si_units(appendix_out)
-full_si = HEAD + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
+full_si = HEAD + SI_DOWNLOADS_ASIDE + SI_TITLE + appendix_out + "\n" + refs_out + TAIL
 OUT_SI.write_text(full_si, encoding="utf-8")
 
 # ---------------------------------------------------------------------------
