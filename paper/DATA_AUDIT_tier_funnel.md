@@ -31,10 +31,19 @@ Verified each Table A.1 citation key against the data source-codes (via
 | Kamlet-Jacobs method | Kamlet & Jacobs 1968 (`ref-kamlet1968detonation`, [62]) | C (method) | [62] | correct (method); [71] added for the data |
 | `3DCNN`,`MDGNN`,`denovo_*`,`generation`,`q-RASPR` | EMDP (ming1219) + in-house smoke ensemble | D (~47,000) | "this work" | ok; Casey 2020 [15] (3D-CNN methodology) arguably belongs here |
 
-**Applied:** Davis 2024 [71] added to Tier-A and Tier-C rows (long paper);
+**Applied:** Davis 2024 added to Tier-A and Tier-C (long paper + NMI SI);
 Tier-A description corrected (it had said "hand-compilation" while counting
-19,200). **Left for author:** the Tier-B citation ([15] Casey 2020 -> EMDP/Liu
-2025), and mirroring both into `NMIPaperSI.html` (its ref-numbering differs).
+19,200); **Tier-B reassigned from Casey 2020 to Liu 2025** (the EMDP de-novo
+dataset, `ref-npjcompmat2025`); Casey 2020 moved to Tier-D as the 3D-CNN
+methodology reference. NMI SI reference list extended with Davis 2024 ([17]) and
+Liu 2025 ([18]).
+
+**Note (pre-existing, separate):** in `long_paper.html` the *displayed* citation
+numbers do not match the reference-list order (e.g. `ref-emdb` is the 58th entry
+but renders as "[60]"; `ref-npjcompmat2025` still renders as the literal
+placeholder "[npjcompmat2025]"). The bibliography is mid-conversion and needs a
+full numbering-normalization pass; the edits above use each ref's existing
+display style and correct `href` anchors, so navigation is right regardless.
 
 ### Original discrepancy (for the record)
 
