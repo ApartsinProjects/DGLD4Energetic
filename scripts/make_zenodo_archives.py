@@ -28,7 +28,7 @@ EXCLUDE_GLOBS = ['*.pyc', '*.pyo', '~$*', '.DS_Store', 'SESSION_STATE.md',
                  'session2.txt', 'session_handover.txt']
 
 CODE = {
-    'dirs':  ['dgld', 'scripts', 'docs', 'models'],   # models/ = README + .sidecar pointers to the checkpoints
+    'dirs':  ['dgld', 'scripts', 'docs', 'models', 'baselines'],  # models/ = README + .sidecar pointers; baselines/ = baseline generators
     'files': ['pyproject.toml', 'README.md', 'LICENSE', 'CITATION.cff',
               'requirements.txt', 'requirements-train.txt', 'AGENTS.md'],
 }
