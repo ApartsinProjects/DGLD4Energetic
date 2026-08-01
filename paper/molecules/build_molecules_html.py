@@ -419,7 +419,7 @@ TITLEBLOCK = '''<header class="title">
 
 <div class="abstract">
   <p><span class="lab">Abstract:</span> Designing high-energy-density materials is data-limited: of
-  ~66,000 CHNO molecules with reported detonation properties, only ~3,000 carry trustworthy experimental or DFT values, so models memorise the high-performance tail
+  ~66,000 CHNO molecules with reported detonation properties, only ~3,000 carry trustworthy experimental or density functional theory (DFT) values, so models memorise the high-performance tail
   or extrapolate uncalibrated. We introduce <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, coupling
   generative design to first-principles validation. A four-tier label-trust gate routes only high-quality
   labels into the conditional gradient while noisy labels train the unconditional prior; a score model adds switchable steering over viability, sensitivity, and hazard; and a four-stage funnel
