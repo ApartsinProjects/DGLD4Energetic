@@ -424,7 +424,7 @@ TITLEBLOCK = '''<header class="title">
   while noisy labels train the unconditional prior; a score model adds switchable sample-time steering
   over viability, sensitivity, and hazard; and a four-stage funnel (SMARTS filter, Pareto reranker,
   GFN2-xTB triage, and two-level DFT: B3LYP/6-31G(d) geometry, &omega;B97X-D3BJ/def2-TZVP single-point)
-  validates every candidate. DGLD yields 11 unique DFT-confirmed novel leads; the headline compound,
+  validates every candidate. DGLD yields 10 unique DFT-confirmed novel leads; the headline compound,
   3,4,5-trinitro-1,2-isoxazole, reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup>
   and a Kamlet&ndash;Jacobs detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup>, and is
   structurally distinct from all 65,980 training molecules (Tanimoto 0.27). On the same recipe the HMX
