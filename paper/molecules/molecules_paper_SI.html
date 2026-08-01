@@ -459,11 +459,11 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 <h4>D.8&nbsp;CFG-scale ablation</h4>
 <p>Three runs at \(w\in\{5,7,9\}\) with pool=8&nbsp;000 each. Increasing \(w\) sharpens the predicted-property distribution but reduces filter pass-through. \(w=7\) is the empirical optimum: 983 final candidates and a top score of 0.70. \(w=9\) drops to 427 surviving candidates with a slightly worse top score. \(w=5\) over-explores: 528 final candidates, top score 0.92 (main Figure&nbsp;23).</p>
 
-<p>The v4b production-architecture sweep (50 samples per target, three quantile bands per property; full table in <code>experiments/diffusion_subset_cond_expanded_v4b_20260426T000541Z/cfg_sweep.md</code>) confirms that \(w=7\) gives the best mean per-property quantile match. Representative q90 (high-extreme) rows below illustrate the trade-off: density and detonation-velocity quantile error fall monotonically with increasing \(w\); HOF and detonation-pressure quantile errors are bowl-shaped, optimal near \(w \in [5, 7]\).</p>
+<p>The v4b production-architecture sweep (50 samples per target, three quantile bands per property; full table in <code>experiments/diffusion_subset_cond_expanded_v4b_20260426T000541Z/cfg_sweep.md</code>) confirms that \(w=7\) gives the best mean per-property quantile match. Representative q90 (high-extreme) rows below illustrate the trend: all four quantile errors fall monotonically as \(w\) increases from 2 to 7; the density and detonation-velocity errors decline steadily, while the HOF and detonation-pressure errors are front-loaded (most of the gain is realised by \(w=5\), with only a marginal further improvement at \(w=7\)). Candidate survival, not quantile error, is what caps the production setting at \(w=7\) (Section&nbsp;4.15, Figure&nbsp;23).</p>
 
 <table><caption><strong>Table&nbsp;S17.</strong> Per-property quantile-match error (mean relative error, %) for the v4b production-architecture classifier-free guidance-scale sweep, at guidance scales g = 2.0, 5.0, and 7.0; lower is better.</caption>
   <thead>
-    <tr><th>Property</th><th>Target quantile</th><th>g=2.0 rel-err%</th><th>g=5.0 rel-err%</th><th>g=7.0 rel-err%</th></tr>
+    <tr><th>Property</th><th>Target quantile</th><th>w=2.0 rel-err%</th><th>w=5.0 rel-err%</th><th>w=7.0 rel-err%</th></tr>
   </thead>
   <tbody>
     <tr><td>density</td><td>q90 (target +1.83)</td><td>19</td><td>14</td><td>12</td></tr>
