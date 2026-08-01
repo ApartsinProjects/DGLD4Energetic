@@ -130,8 +130,9 @@ DISCUSSION_OPENING = (
     'competitive with the HMX/PETN reference class. The top-ranked novel lead '
     'L1 (3,4,5-trinitro-1,2-isoxazole) and the independently recovered known oxatriazole '
     'E1 (4-nitro-1,2,3,5-oxatriazole, PubChem CID&nbsp;57438703) come '
-    'from disjoint chemotype families on a single sampling run, so DGLD&rsquo;s productive-quadrant '
-    'coverage spans multiple scaffold classes (E1&rsquo;s placement pending an oxatriazole-class DFT anchor). '
+    'from disjoint chemotype families on a single sampling run, external evidence that DGLD&rsquo;s '
+    'scaffold reach spans multiple chemotype classes; the 10 novel L-set leads themselves cover several '
+    'scaffolds (E1&rsquo;s placement pending an oxatriazole-class DFT anchor). '
     'The mechanism that makes this possible is the label-trust '
     'gate: routing only the ~3,000 rows that carry a trustworthy experimental or DFT label on the '
     'target detonation channels into the conditional gradient, while the remaining lower-confidence '
@@ -327,7 +328,7 @@ HEAD = '''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Domain-Gated Latent Diffusion for the Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</title>
+<title>Domain-Gated Latent Diffusion: Generative Inverse Design of HMX-Class Energetic Materials with First-Principles Validation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -409,7 +410,7 @@ SI_DOWNLOADS_ASIDE = '''<aside class="downloads no-docx no-print" aria-label="Do
 
 TITLEBLOCK = '''<header class="title">
   <div class="artType">Article</div>
-  <h1>Domain-Gated Latent Diffusion for the Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</h1>
+  <h1>Domain-Gated Latent Diffusion: Generative Inverse Design of HMX-Class Energetic Materials with First-Principles Validation</h1>
   <p class="authors">Yehudit Aperstein <sup>1,</sup>* and Alexander Apartsin <sup>2</sup></p>
   <p class="affil"><sup>1</sup> Department of Intelligent Systems, Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel</p>
   <p class="affil"><sup>2</sup> School of Computer Science, Faculty of Sciences, Holon Institute of Technology (HIT), Holon, Israel</p>
@@ -417,21 +418,19 @@ TITLEBLOCK = '''<header class="title">
 </header>
 
 <div class="abstract">
-  <p><span class="lab">Abstract:</span> Designing new high-energy-density materials is a
-  data-limited inverse problem: of ~66,000 CHNO molecules with reported detonation properties,
-  only ~3,000 carry trustworthy experimental or quantum-chemistry values, so models trained on it memorise the high-performance tail or extrapolate without calibration. We introduce
-  <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, coupling generative design to first-principles
-  validation. A four-tier label-trust gate routes only high-quality labels into the conditional gradient
-  while noisy labels train the unconditional prior; a score model adds switchable sample-time steering
-  over viability, sensitivity, and hazard; and a four-stage funnel (SMARTS filter, Pareto reranker,
-  GFN2-xTB triage, and two-level DFT: B3LYP/6-31G(d) geometry, &omega;B97X-D3BJ/def2-TZVP single-point)
-  validates every candidate. DGLD yields 10 unique DFT-confirmed novel leads; the headline compound,
-  3,4,5-trinitro-1,2-isoxazole, reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup>
-  and a Kamlet&ndash;Jacobs detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup>, and is
-  structurally distinct from all 65,980 training molecules (Tanimoto 0.27). On the same recipe the HMX
-  and PETN anchors calibrate to 7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, so it ranks among the strongest anchors. Against four baselines on the same corpus, DGLD is the only method whose novel
-  candidates are shown to stay competitive under DFT validation. The recipe is domain-agnostic; code,
-  model checkpoints, and 918 mined hard negatives are released openly.</p>
+  <p><span class="lab">Abstract:</span> Designing high-energy-density materials is data-limited: of
+  ~66,000 CHNO molecules with reported detonation properties, only ~3,000 carry trustworthy experimental or DFT values, so models memorise the high-performance tail
+  or extrapolate uncalibrated. We introduce <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, coupling
+  generative design to first-principles validation. A four-tier label-trust gate routes only high-quality
+  labels into the conditional gradient while noisy labels train the unconditional prior; a score model adds switchable steering over viability, sensitivity, and hazard; and a four-stage funnel
+  (SMARTS filter, Pareto reranker, GFN2-xTB triage, two-level DFT) validates every candidate. DGLD yields
+  10 unique DFT-confirmed leads, novel against PubChem; the headline compound, 3,4,5-trinitro-1,2-isoxazole,
+  reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs
+  detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup>, and is distinct from all 65,980 training molecules (Tanimoto 0.27). On the same recipe the HMX and PETN anchors calibrate to
+  7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, ranking it with the strongest anchors. Against four
+  baselines on the same corpus, DGLD is the only method whose novel candidates are shown to stay
+  competitive under DFT validation. The label-trust gate is domain-agnostic, transferring to any inverse-design task with abundant weak and scarce trustworthy labels; code, model checkpoints,
+  and 918 mined hard negatives are released openly under a permanent DOI.</p>
 </div>
 
 <p class="keywords"><span class="lab">Keywords:</span> generative models; latent diffusion;
@@ -525,7 +524,7 @@ full_main = _normalize_cites(full_main, keep_uncited=False)   # citation-order r
 # ---------------------------------------------------------------------------
 SI_TITLE = '''<header class="title">
   <div class="artType">Supplementary Information</div>
-  <h1>Supplementary Information for:<br>Domain-Gated Latent Diffusion for the Inverse Design of Novel HMX-Class Energetic Materials with First-Principles Validation</h1>
+  <h1>Supplementary Information for:<br>Domain-Gated Latent Diffusion: Generative Inverse Design of HMX-Class Energetic Materials with First-Principles Validation</h1>
   <p class="authors">Yehudit Aperstein <sup>1,</sup>* and Alexander Apartsin <sup>2</sup></p>
   <p class="affil"><sup>1</sup> Afeka Tel-Aviv College of Engineering, Tel-Aviv, Israel; <sup>2</sup> Holon Institute of Technology (HIT), Holon, Israel</p>
   <p class="corr">* Correspondence: apersteiny@afeka.ac.il</p>
