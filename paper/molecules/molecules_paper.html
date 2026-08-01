@@ -183,7 +183,7 @@ Classifier-free guidance avoids the separately-trained property predictor requir
 </figure>
 
 
-<p>The top leads (Figure&nbsp;3, L1 and L3&ndash;L5) have viability 0.83&ndash;1.00, MW between 163 and 218&nbsp;Da, and oxygen balance within ±15&nbsp;%. Lead L1 is the aromatic trinitro-1,2-isoxazole, predicted at \(\rho=2.00\) g&nbsp;cm<sup>&minus;3</sup>, \(D=9.56\) km&nbsp;s<sup>&minus;1</sup>, \(P=40.5\) GPa on the Uni-Mol surrogate; its 6-anchor-calibrated Kamlet&ndash;Jacobs \(D=8.25\) km&nbsp;s<sup>&minus;1</sup> ranks with the calibrated HMX (7.52 km&nbsp;s<sup>&minus;1</sup>) and PETN (8.24 km&nbsp;s<sup>&minus;1</sup>) anchors (Section 2.3). The Pareto front contains 34 candidates with composite \(\ge\) 0.50 and viability \(\ge\) 0.83 (Figure&nbsp;4); the top-200 survivors populate the high-detonation corner of the \((D,P)\) plane (Figure&nbsp;2). Unguided single-objective ranking (without the gating layer) puts a polynitro-on-C2 model-cheat at the top; the gates correctly reject it (full SMARTS-trace and rejected-candidate property tabulation in Supplementary&nbsp;Section&nbsp;D.7).</p>
+<p>The top leads (Figure&nbsp;3, L1 and L3&ndash;L5) have viability 0.83&ndash;1.00, MW between 163 and 218&nbsp;Da, and oxygen balance within ±15&nbsp;%. Lead L1 is the aromatic trinitro-1,2-isoxazole, predicted at \(\rho=2.00\) g&nbsp;cm<sup>&minus;3</sup>, \(D=9.56\) km&nbsp;s<sup>&minus;1</sup>, \(P=40.5\) GPa on the Uni-Mol surrogate; its 6-anchor-calibrated Kamlet&ndash;Jacobs \(D=8.25\) km&nbsp;s<sup>&minus;1</sup> ranks with the calibrated HMX (7.52 km&nbsp;s<sup>&minus;1</sup>) and PETN (8.24 km&nbsp;s<sup>&minus;1</sup>) anchors (Section 2.3). The Pareto front contains 34 candidates with composite \(\ge\) 0.50 and viability \(\ge\) 0.83 (Figure&nbsp;4); the top-200 survivors populate the high-detonation corner of the \((D,P)\) plane (Figure&nbsp;2). Unguided single-objective ranking (without the gating layer) puts a polynitro-on-C2 gaming molecule at the top; the gates correctly reject it (full SMARTS-trace and rejected-candidate property tabulation in Supplementary&nbsp;Section&nbsp;D.7).</p>
 
 <figure>
   <img src="../figs/fig6_pareto_v2.png" width="1511" height="1014" alt="Pareto front of the gated reranker" loading="lazy" style="max-width:100%; height:auto;" decoding="async">
@@ -249,7 +249,7 @@ Classifier-free guidance avoids the separately-trained property predictor requir
   </tbody>
 </table>
 
-<p><strong>Literature context for L1.</strong> The polynitroisoxazole family is established in the energetic-materials literature (<a class="cite" href="#ref-sabatini2018">[63]</a><a class="cite" href="#ref-konnov2025nitroisoxazole">[64]</a>); the isomeric 3,4,5-trinitro-1<em>H</em>-pyrazole <a class="cite" href="#ref-herve2010">[65]</a> is the closest fully-substituted ring previously characterised. The 3,4,5-trinitro-1,2-isoxazole isomer DGLD proposes is absent from the 65&nbsp;980-row labelled master (max-Tanimoto 0.27) and from PubChem; it is therefore a chemotype-class rediscovery with a positionally novel substitution pattern.</p>
+<p><strong>Literature context for L1.</strong> The polynitroisoxazole family is established in the energetic-materials literature (<a class="cite" href="#ref-sabatini2016">[63]</a><a class="cite" href="#ref-konnov2025nitroisoxazole">[64]</a>); the isomeric 3,4,5-trinitro-1<em>H</em>-pyrazole <a class="cite" href="#ref-herve2010">[65]</a> is the closest fully-substituted ring previously characterised. The 3,4,5-trinitro-1,2-isoxazole isomer DGLD proposes is absent from the 65&nbsp;980-row labelled master (max-Tanimoto 0.27) and from PubChem; it is therefore a chemotype-class rediscovery with a positionally novel substitution pattern.</p>
 
 <h3>2.4&nbsp;Novelty, synthesisability, and scaffold diversity</h3>
 <p>Three audits frame the merged top-100 against PubChem, public USPTO retrosynthesis templates, and a scaffold-distinct E-set extension. A scaffold-diversity audit shows DGLD spans a chemotype distribution (the scaffold-distinct E-set extension, E1&ndash;E10: 10 DFT-validated candidates (7 novel, 3 known) / 8 Bemis&ndash;Murcko scaffolds / 7 families), not a single isoxazole hit.</p>
@@ -370,7 +370,7 @@ Classifier-free guidance avoids the separately-trained property predictor requir
     <tr><td><strong>Diffusion vs Gaussian prior</strong></td><td>conditional latent vs \(\mathcal{N}(0,I)\)</td><td>Top-1 \(D = 9.47\) vs \(9.02\)&nbsp;km&nbsp;s<sup>&minus;1</sup> (+0.45); 4.6&nbsp;% vs 48&nbsp;% keep-rate reversal shows the prior concentrates on the high-\(D\) tail.</td><td>F.2</td></tr>
     <tr><td><strong>Multi-head guidance</strong></td><td>C0 / C1 / C2 / C3 head combinations</td><td>Top-1 \(D\) nearly invariant (9.44&ndash;9.53&nbsp;km&nbsp;s<sup>&minus;1</sup>); guidance reduces scaffold count from 12 to 5 (production C2 default).</td><td>F.3</td></tr>
     <tr><td><strong>Hazard / SA axis (multi-seed)</strong></td><td>per-head scale grid &times; 3 seeds</td><td>Hz-C2 most novel (max-Tani 0.27 &plusmn; 0.03); SA-C3 worsens composite by 13&nbsp;% (production \(s_{\text{SA}} = 0\)).</td><td>F.4</td></tr>
-    <tr><td><strong>Self-distillation budget</strong></td><td>137 vs 918 hard negatives</td><td>Worst-offender model-cheat (gem-tetranitro) demoted by &minus;0.10 absolute at 918; required for steer-off.</td><td>F.1, D.9</td></tr>
+    <tr><td><strong>Self-distillation budget</strong></td><td>137 vs 918 hard negatives</td><td>Worst-offender gaming molecule (gem-tetranitro) demoted by &minus;0.10 absolute at 918; required for steer-off.</td><td>F.1, D.9</td></tr>
     <tr><td><strong>Pool fusion</strong></td><td>1 lane &times; 40k vs 5 lanes &times; 100k</td><td>Post-filter yield 966 &rarr; 4&thinsp;639 (4.8&times;); scaffolds 7 &rarr; 24; max \(D\) 9.51 &rarr; 9.79&nbsp;km&nbsp;s<sup>&minus;1</sup>.</td><td>F.5</td></tr>
     <tr><td><strong>CFG scale</strong></td><td>\(w \in \{5, 7, 9\}\)</td><td>\(w = 7\) is the empirical optimum (983 final candidates vs 528 at \(w = 5\), 427 at \(w = 9\)).</td><td>Section&nbsp;4.15, D.8</td></tr>
   </tbody>
@@ -535,7 +535,7 @@ where \(a \in \{0,1\}^6\) is the per-head <em>availability</em> mask (distinct f
 <p>The auxiliary multi-task heads (Performance, SA, SC) train on the shared trunk for regularisation only, not invoked in the production steering bus (Supplementary&nbsp;Section&nbsp;B.4). Two checkpoint variants (production 6-head hazard-aware and its 5-head predecessor) are released on Zenodo (Supplementary&nbsp;Section&nbsp;D.1).</p>
 
 <h3>4.11&nbsp;Self-distillation refinement of the viability head</h3>
-<p>Round-0 viability labels combine SMARTS pass/fail with a Random Forest classifier trained on (energetic corpus, ZINC drug-like), a coarse two-class boundary. Self-distillation closes the gap between that boundary and the latent regions the diffusion sampler actually inhabits, by mining the model's own false-positive cheats and re-feeding them as labelled hard negatives.</p>
+<p>Round-0 viability labels combine SMARTS pass/fail with a Random Forest classifier trained on (energetic corpus, ZINC drug-like), a coarse two-class boundary. Self-distillation closes the gap between that boundary and the latent regions the diffusion sampler actually inhabits, by mining the model's own surrogate-gaming false positives and re-feeding them as labelled hard negatives.</p>
 <p>The FROZEN banner of Figure&nbsp;19 is read literally. Across all rounds the LIMO encoder, LIMO decoder, Section&nbsp;4.8 denoisers, the Random Forest, and the SMARTS rulebook do not retrain. The score-model trunk and heads are the only thing that updates between rounds. Within the score model, hard-negative latents are labelled \(y_{\text{viab}} = 0\) only; the other heads see those rows with \(a_k = 0\) (unlabelled).</p>
 
 <p>The five-step protocol (sample &rarr; mine &rarr; encode &rarr; retrain &rarr; probe) is detailed in Supplementary&nbsp;Section&nbsp;B.1. The hard-negative ticker on Figure&nbsp;19 shows 0&nbsp;\(\to\)&nbsp;137&nbsp;\(\to\)&nbsp;918 cumulative negatives over rounds 0/1/2. (round-0 training uses 0 hard negatives; round-0 mining produces 137; round-1 training uses 137; round-1 mining cumulates to 918; round-2 / production training uses 918.)</p>
@@ -545,7 +545,7 @@ where \(a \in \{0,1\}^6\) is the per-head <em>availability</em> mask (distinct f
   <figcaption><strong>Figure 19.</strong> Three rounds of mine-then-retrain that refine the <strong>Viability head only</strong> of the Figure 18 score model; the denoiser (Figure 16) and LIMO VAE (Figure 14) are frozen. Each round samples, gates with Figure 21 (Filtering), encodes false-positives through frozen LIMO as viab\(=\)0 hard negatives, and folds them into the next round's training set (137 \(\to\) 918 negatives). Stopping criterion in Supplementary&nbsp;Section&nbsp;B.1.</figcaption>
 </figure>
 
-<p>The stopping criterion is shown in the right-margin box of Figure&nbsp;19: a held-out probe (7 anchors {RDX, HMX, TNT, FOX-7, PETN, TATB, NTO} and 5 cheats) must show every anchor at \(\ge\)&nbsp;0.86 AND every cheat at \(\le\)&nbsp;0.84. Empirically 3 rounds satisfy this; round&nbsp;2 (corpus + 918 hard negatives) is the production checkpoint. Pseudocode in Supplementary&nbsp;Section&nbsp;B.1.</p>
+<p>The stopping criterion is shown in the right-margin box of Figure&nbsp;19: a held-out probe (7 anchors {RDX, HMX, TNT, FOX-7, PETN, TATB, NTO} and 5 gaming molecules) must show every anchor at \(\ge\)&nbsp;0.86 AND every gaming molecule at \(\le\)&nbsp;0.84. Empirically 3 rounds satisfy this; round&nbsp;2 (corpus + 918 hard negatives) is the production checkpoint. Pseudocode in Supplementary&nbsp;Section&nbsp;B.1.</p>
 
 <h3>4.12&nbsp;Sampling</h3>
 <p>At sample time, three of the six trained heads (Viability, Sensitivity, Hazard) supply gradient steering signals at every DDIM (denoising diffusion implicit model) step on top of classifier-free guidance. The denoiser remains the same checkpoint as Section&nbsp;4.7; only the sampler changes.</p>
@@ -604,7 +604,7 @@ is computed, then a Pareto front over (\(-\)perf, \(-\)viab, sens, alerts) is us
   <figcaption><strong>Figure 24.</strong> Pool size vs. (i) best composite score over top-1 candidate, (ii) number of candidates passing every filter. Both curves are still moving at pool=40k; the M7 five-lane 100k run (Supplementary&nbsp;Section&nbsp;F.5) confirms the trend: 4&thinsp;639 passing candidates (4.8&times; the 40k baseline) with scaffold count expanding from 7 to 24.</figcaption>
 </figure>
 
-<p>The second bucket is stop-criterion-driven. The self-distillation round count was set by the held-out probe described in Section&nbsp;4.11, which requires every anchor at \(\ge\)&nbsp;0.86 and every cheat at \(\le\)&nbsp;0.84; the production budget-918 checkpoint is round 2 of self-distillation (round 0 = score-model trained on corpus only with Random-Forest-derived viability labels and 0 hard negatives, round 1 = corpus + 137 mined hard negatives, round 2 = corpus + 918 cumulative hard negatives + aromatic-heterocycle boost), the configuration that demotes the worst model-cheat (gem-tetranitro) furthest, to viability 0.74. The hard-negative count (918) is the cumulative round-2 mining yield, not a tuned target.</p>
+<p>The second bucket is stop-criterion-driven. The self-distillation round count was set by the held-out probe described in Section&nbsp;4.11, which requires every anchor at \(\ge\)&nbsp;0.86 and every gaming molecule at \(\le\)&nbsp;0.84; the production budget-918 checkpoint is round 2 of self-distillation (round 0 = score-model trained on corpus only with Random-Forest-derived viability labels and 0 hard negatives, round 1 = corpus + 137 mined hard negatives, round 2 = corpus + 918 cumulative hard negatives + aromatic-heterocycle boost), the configuration that demotes the worst gaming molecule (gem-tetranitro) furthest, to viability 0.74. The hard-negative count (918) is the cumulative round-2 mining yield, not a tuned target.</p>
 
 <p>The third bucket is inherited from prior work or community convention and is not retuned in this paper. The KL weight \(\beta = 0.01\) is the LIMO original; the DDPM uses the cosine \(T = 1000\) schedule of Ho et&nbsp;al. <a class="cite" href="#ref-ho2020ddpm">[22]</a>; the per-property dropout rate of 0.30 follows FiLM convention; the CFG dropout rate of 0.10 follows Ho and Salimans 2022; AdamW with peak LR \(10^{-4}\) on a cosine schedule plus EMA decay 0.999 is the standard diffusion-training recipe.</p>
 
@@ -631,6 +631,46 @@ is computed, then a Pareto front over (\(-\)perf, \(-\)viab, sens, alerts) is us
 
 <p>Three extensions would close the remaining gaps. First, replace the closed-form Kamlet&ndash;Jacobs step with a thermochemical-equilibrium covolume CJ solver. The open-source Cantera-based Shock and Detonation Toolbox is the practical path; EXPLO5 and Cheetah-2 are commercial alternatives. Either choice, applied to the 6-anchor-calibrated DFT inputs, converts relative-ranking-grade predictions into absolute-value-grade ones and removes the K-J caveat from the headline. Second, an energetics-domain retrosynthetic template library covering nitration, N<sub>2</sub>O<sub>5</sub> nitrolysis, and ring-cyclisation reactions would close the 1/11 USPTO-template hit rate observed here, making the synthesis-plausibility check informative across the full lead set. Third, an active-learning loop closing the diffusion-sampler / first-principles-audit cycle would continuously expand the high-tier label pool from inside the system rather than from external curation. The full pipeline (LIMO checkpoint, two conditional latent denoisers, two multi-head score models, the 4-stage validation funnel, and the 918 mined hard negatives) is released as a runnable code bundle on Zenodo (Section&nbsp;5), so the next compound to enter the HMX-class band can be discovered, validated, and recommended for synthesis at the cost of a few GPU-days.</p>
 
+
+<div class="endmatter">
+<h2>Supplementary Materials</h2>
+<p>The following supporting information can be downloaded alongside this article: Supplementary
+Information (Appendix&nbsp;A&ndash;F) containing full dataset provenance, complete model architecture and
+hyperparameter tables, the first-principles (DFT) methodology and uncertainty bounds, reproducibility
+details and extended ablations, baseline-method example outputs, and the detailed per-condition
+ablations. File: <code>molecules_paper_SI.html</code> (compiled to <code>molecules_paper_SI.docx</code>).</p>
+
+<h2>Author Contributions</h2>
+<p>Conceptualization, Y.A. and A.A.; methodology, Y.A. and A.A.; software, Y.A. and A.A.;
+validation, Y.A. and A.A.; formal analysis, Y.A. and A.A.; investigation, Y.A. and A.A.;
+data curation, Y.A. and A.A.; writing, original draft preparation, Y.A. and A.A.;
+writing, review and editing, Y.A. and A.A.; visualization, Y.A. and A.A. All authors have read
+and agreed to the published version of the manuscript.</p>
+
+<h2>Funding</h2>
+<p>This research received no external funding.</p>
+
+<h2>Institutional Review Board Statement</h2>
+<p>Not applicable.</p>
+
+<h2>Informed Consent Statement</h2>
+<p>Not applicable.</p>
+
+<h2>Data Availability Statement</h2>
+<p>All code, data, and trained models are released together as a single archived package on Zenodo at
+DOI <a href="https://doi.org/10.5281/zenodo.19821952">10.5281/zenodo.19821952</a> (code under Apache-2.0;
+data and model checkpoints under CC-BY-4.0). The package contains: the code (LIMO fine-tuning, denoiser
+and score-model training, sampling, the four-stage validation funnel, and the figure-generation
+pipeline); the trained checkpoints (the LIMO VAE, two conditional latent denoisers DGLD-H and DGLD-P,
+two multi-head latent score models, the SELFIES alphabet, and run metadata); and the data (the
+65,980-row labelled CHNO master, the augmented unlabelled corpus, and the 918 mined hard-negative
+latents), redistributed in canonicalised form with row-level provenance. The code is additionally
+mirrored at
+<a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>.</p>
+
+<h2>Conflicts of Interest</h2>
+<p>The authors declare no conflicts of interest.</p>
+</div>
 
 <h2 id="sec-refs">References</h2>
 <ol class="refs">
@@ -696,7 +736,7 @@ is computed, then a Pareto front over (\(-\)perf, \(-\)viab, sens, alerts) is us
 <li id="ref-sun2020pyscf">Sun, Q., Zhang, X., Banerjee, S., Bao, P., et&nbsp;al. (2020). Recent developments in the PySCF program package. <em>J. Chem. Phys. 153</em>:024109. doi:10.1063/5.0006074.</li>
 <li id="ref-genheden2020aizynth">Genheden, S., Thakkar, A., Chadimov&aacute;, V., Reymond, J.-L., Engkvist, O., &amp; Bjerrum, E. J. (2020). AiZynthFinder: a fast, robust and flexible open-source software for retrosynthetic planning. <em>Journal of Cheminformatics 12</em>:70. doi:10.1186/s13321-020-00472-1.</li>
 <li id="ref-goerigk2017benchmark">Goerigk, L., Hansen, A., Bauer, C., Ehrlich, S., Najibi, A., &amp; Grimme, S. (2017). A look at the density functional theory zoo with the advanced GMTKN55 database for general main group thermochemistry, kinetics and noncovalent interactions. <em>Phys. Chem. Chem. Phys. 19(48)</em>:32184&ndash;32215. doi:10.1039/C7CP04913G.</li>
-<li id="ref-sabatini2018">Sabatini, J.&nbsp;J., &amp; Oyler, K.&nbsp;D. (2016). Recent Advances in the Synthesis of High Explosive Materials. <em>Crystals</em> 6(1):5. doi:10.3390/cryst6010005.</li>
+<li id="ref-sabatini2016">Sabatini, J.&nbsp;J., &amp; Oyler, K.&nbsp;D. (2016). Recent Advances in the Synthesis of High Explosive Materials. <em>Crystals</em> 6(1):5. doi:10.3390/cryst6010005.</li>
 <li id="ref-konnov2025nitroisoxazole">Konnov, A.&nbsp;A., Lisyutkin, A.&nbsp;D., Vinogradov, D.&nbsp;B., Nazarova, A.&nbsp;A., Pivkina, A.&nbsp;N., &amp; Fershtat, L.&nbsp;L. (2025). Synthesis of 4-Nitroisoxazole-Based Energetic Materials. <em>Org. Lett. 27(14)</em>:3795&ndash;3799. doi:10.1021/acs.orglett.5c01074.</li>
 <li id="ref-herve2010">Hervé, G., Roussel, C., &amp; Graindorge, H. (2010). Selective Preparation of 3,4,5-Trinitro-1H-pyrazole: A Stable All-Carbon-Substituted Trinitro Heterocycle, and Related Trinitroisoxazole Chemistry. <em>Angew. Chem. Int. Ed. 49(18)</em>:3177&ndash;3181. doi:10.1002/anie.201000764.</li>
 <li id="ref-kim2023pubchem">Kim, S. et&nbsp;al. (2023). PubChem 2023 Update. <em>Nucleic Acids Res. 51(D1)</em>:D1373–D1380.</li>
@@ -707,46 +747,6 @@ is computed, then a Pareto front over (\(-\)perf, \(-\)viab, sens, alerts) is us
 <li id="ref-daylight-smarts">Daylight Chemical Information Systems. (2007). SMARTS: A Language for Describing Molecular Patterns. Daylight Theory Manual, Aliso Viejo, CA. <a href="https://www.daylight.com/dayhtml/doc/theory/theory.smarts.html">daylight.com/dayhtml/doc/theory/theory.smarts.html</a>. SMARTS = SMILES Arbitrary Target Specification: a pattern language extending SMILES that matches molecular substructures, used by RDKit and other cheminformatics toolkits to evaluate hard-reject catalogs (this work, Section&nbsp;4.10).</li>
 </ol>
 
-
-<div class="endmatter">
-<h2>Supplementary Materials</h2>
-<p>The following supporting information can be downloaded alongside this article: Supplementary
-Information (Appendix&nbsp;A&ndash;F) containing full dataset provenance, complete model architecture and
-hyperparameter tables, the first-principles (DFT) methodology and uncertainty bounds, reproducibility
-details and extended ablations, baseline-method example outputs, and the detailed per-condition
-ablations. File: <code>molecules_paper_SI.html</code> (compiled to <code>molecules_paper_SI.docx</code>).</p>
-
-<h2>Author Contributions</h2>
-<p>Conceptualization, Y.A. and A.A.; methodology, Y.A. and A.A.; software, Y.A. and A.A.;
-validation, Y.A. and A.A.; formal analysis, Y.A. and A.A.; investigation, Y.A. and A.A.;
-data curation, Y.A. and A.A.; writing, original draft preparation, Y.A. and A.A.;
-writing, review and editing, Y.A. and A.A.; visualization, Y.A. and A.A. All authors have read
-and agreed to the published version of the manuscript.</p>
-
-<h2>Funding</h2>
-<p>This research received no external funding.</p>
-
-<h2>Institutional Review Board Statement</h2>
-<p>Not applicable.</p>
-
-<h2>Informed Consent Statement</h2>
-<p>Not applicable.</p>
-
-<h2>Data Availability Statement</h2>
-<p>All code, data, and trained models are released together as a single archived package on Zenodo at
-DOI <a href="https://doi.org/10.5281/zenodo.19821952">10.5281/zenodo.19821952</a> (code under Apache-2.0;
-data and model checkpoints under CC-BY-4.0). The package contains: the code (LIMO fine-tuning, denoiser
-and score-model training, sampling, the four-stage validation funnel, and the figure-generation
-pipeline); the trained checkpoints (the LIMO VAE, two conditional latent denoisers DGLD-H and DGLD-P,
-two multi-head latent score models, the SELFIES alphabet, and run metadata); and the data (the
-65,980-row labelled CHNO master, the augmented unlabelled corpus, and the 918 mined hard-negative
-latents), redistributed in canonicalised form with row-level provenance. The code is additionally
-mirrored at
-<a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>.</p>
-
-<h2>Conflicts of Interest</h2>
-<p>The authors declare no conflicts of interest.</p>
-</div>
 
 </body>
 </html>

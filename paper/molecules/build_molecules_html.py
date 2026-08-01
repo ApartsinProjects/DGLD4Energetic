@@ -514,7 +514,7 @@ def renumber_si_tables(main_s, si_s):
 refs_out = refs_html
 refs_out = remap_refs(refs_out)
 
-full_main = HEAD + DOWNLOADS_ASIDE + TITLEBLOCK + body_main + "\n" + refs_out + ENDMATTER + TAIL
+full_main = HEAD + DOWNLOADS_ASIDE + TITLEBLOCK + body_main + ENDMATTER + "\n" + refs_out + TAIL  # MDPI: References last, after back-matter
 full_main = _normalize_cites(full_main, keep_uncited=False)   # citation-order renumber (Molecules order); drop SI-only refs from the main list
 # (OUT_MAIN is written after the SI is built, so SI-table references in the main
 #  text can be renumbered to the S-series together with the SI captions.)
