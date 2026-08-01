@@ -88,8 +88,9 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
   reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs
   detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup>, and is distinct from all 65,980 training molecules (Tanimoto 0.27). On the same recipe the HMX and PETN anchors calibrate to
   7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, ranking it with the strongest anchors. Against four
-  baselines on the same corpus, DGLD is the only method whose novel candidates are shown to stay
-  competitive under DFT validation. The label-trust gate is domain-agnostic, transferring to any inverse-design task with abundant weak and scarce trustworthy labels; code, model checkpoints,
+  baselines on the same corpus, DGLD is the only method to deliver novel candidates that remain on-target
+  under DFT audit; the sole baseline whose top candidate was carried to DFT collapsed from 9.73 to
+  6.28&nbsp;km&nbsp;s<sup>&minus;1</sup> under first-principles scoring. The label-trust gate is domain-agnostic, transferring to any inverse-design task with abundant weak and scarce trustworthy labels; code, model checkpoints,
   and 918 mined hard negatives are released openly under a permanent DOI.</p>
 </div>
 
@@ -183,7 +184,7 @@ Classifier-free guidance avoids the separately-trained property predictor requir
 </figure>
 
 
-<p>The top leads (Figure&nbsp;3, L1 and L3&ndash;L5) have viability 0.83&ndash;1.00, MW between 163 and 218&nbsp;Da, and oxygen balance within ±15&nbsp;%. Lead L1 is the aromatic trinitro-1,2-isoxazole, predicted at \(\rho=2.00\) g&nbsp;cm<sup>&minus;3</sup>, \(D=9.56\) km&nbsp;s<sup>&minus;1</sup>, \(P=40.5\) GPa on the Uni-Mol surrogate; its 6-anchor-calibrated Kamlet&ndash;Jacobs \(D=8.25\) km&nbsp;s<sup>&minus;1</sup> ranks with the calibrated HMX (7.52 km&nbsp;s<sup>&minus;1</sup>) and PETN (8.24 km&nbsp;s<sup>&minus;1</sup>) anchors (Section 2.3). The Pareto front contains 34 candidates with composite \(\ge\) 0.50 and viability \(\ge\) 0.83 (Figure&nbsp;4); the top-200 survivors populate the high-detonation corner of the \((D,P)\) plane (Figure&nbsp;2). Unguided single-objective ranking (without the gating layer) puts a polynitro-on-C2 gaming molecule (a surrogate-gaming false positive: high predicted score, physically implausible) at the top; the gates correctly reject it (full SMARTS-trace and rejected-candidate property tabulation in Supplementary&nbsp;Section&nbsp;D.7).</p>
+<p>The top leads (Figure&nbsp;3, L1 and L3&ndash;L5) have viability 0.83&ndash;1.00, MW between 163 and 218&nbsp;Da, and oxygen balance within ±15&nbsp;%. Lead L1 is the aromatic trinitro-1,2-isoxazole, predicted at \(\rho=2.00\) g&nbsp;cm<sup>&minus;3</sup>, \(D=9.56\) km&nbsp;s<sup>&minus;1</sup>, \(P=40.5\) GPa on the Uni-Mol surrogate; its 6-anchor-calibrated Kamlet&ndash;Jacobs \(D=8.25\) km&nbsp;s<sup>&minus;1</sup> ranks with the calibrated HMX (7.52 km&nbsp;s<sup>&minus;1</sup>) and PETN (8.24 km&nbsp;s<sup>&minus;1</sup>) anchors (Section&nbsp;2.3). The Pareto front contains 34 candidates with composite \(\ge\) 0.50 and viability \(\ge\) 0.83 (Figure&nbsp;4); the top-200 survivors populate the high-detonation corner of the \((D,P)\) plane (Figure&nbsp;2). Unguided single-objective ranking (without the gating layer) puts a polynitro-on-C2 gaming molecule (a surrogate-gaming false positive: high predicted score, physically implausible) at the top; the gates correctly reject it (full SMARTS-trace and rejected-candidate property tabulation in Supplementary&nbsp;Section&nbsp;D.7).</p>
 
 <figure>
   <img src="../figs/fig6_pareto_v2.png" width="1511" height="1014" alt="Pareto front of the gated reranker" loading="lazy" style="max-width:100%; height:auto;" decoding="async">

@@ -428,8 +428,9 @@ TITLEBLOCK = '''<header class="title">
   reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs
   detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup>, and is distinct from all 65,980 training molecules (Tanimoto 0.27). On the same recipe the HMX and PETN anchors calibrate to
   7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, ranking it with the strongest anchors. Against four
-  baselines on the same corpus, DGLD is the only method whose novel candidates are shown to stay
-  competitive under DFT validation. The label-trust gate is domain-agnostic, transferring to any inverse-design task with abundant weak and scarce trustworthy labels; code, model checkpoints,
+  baselines on the same corpus, DGLD is the only method to deliver novel candidates that remain on-target
+  under DFT audit; the sole baseline whose top candidate was carried to DFT collapsed from 9.73 to
+  6.28&nbsp;km&nbsp;s<sup>&minus;1</sup> under first-principles scoring. The label-trust gate is domain-agnostic, transferring to any inverse-design task with abundant weak and scarce trustworthy labels; code, model checkpoints,
   and 918 mined hard negatives are released openly under a permanent DOI.</p>
 </div>
 
@@ -545,7 +546,7 @@ appendix_out = re.sub(
     r'(<table[^>]*>)(\s*<thead>\s*<tr>\s*<th>\s*Property\s*</th>)',
     r'\1<caption><strong>Table&nbsp;D.3a.</strong> Per-property quantile-match error '
     r'(mean relative error, %) for the v4b production-architecture classifier-free '
-    r'guidance-scale sweep, at guidance scales g = 2.0, 5.0, and 7.0; lower is '
+    r'guidance-scale sweep, at guidance scales w = 2.0, 5.0, and 7.0; lower is '
     r'better.</caption>\2',
     appendix_out, count=1)
 # retitle the "Appendix" h2 to a supplementary heading

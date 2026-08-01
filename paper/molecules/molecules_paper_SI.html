@@ -461,7 +461,7 @@ figcaption{font-size:.83rem;color:var(--fg);margin-top:.4rem;text-align:left;pad
 
 <p>The v4b production-architecture sweep (50 samples per target, three quantile bands per property; full table in <code>experiments/diffusion_subset_cond_expanded_v4b_20260426T000541Z/cfg_sweep.md</code>) confirms that \(w=7\) gives the best mean per-property quantile match. Representative q90 (high-extreme) rows below illustrate the trend: all four quantile errors fall monotonically as \(w\) increases from 2 to 7; the density and detonation-velocity errors decline steadily, while the HOF and detonation-pressure errors are front-loaded (most of the gain is realised by \(w=5\), with only a marginal further improvement at \(w=7\)). Candidate survival, not quantile error, is what caps the production setting at \(w=7\) (Section&nbsp;4.15, Figure&nbsp;23).</p>
 
-<table><caption><strong>Table&nbsp;S17.</strong> Per-property quantile-match error (mean relative error, %) for the v4b production-architecture classifier-free guidance-scale sweep, at guidance scales g = 2.0, 5.0, and 7.0; lower is better.</caption>
+<table><caption><strong>Table&nbsp;S17.</strong> Per-property quantile-match error (mean relative error, %) for the v4b production-architecture classifier-free guidance-scale sweep, at guidance scales w = 2.0, 5.0, and 7.0; lower is better.</caption>
   <thead>
     <tr><th>Property</th><th>Target quantile</th><th>w=2.0 rel-err%</th><th>w=5.0 rel-err%</th><th>w=7.0 rel-err%</th></tr>
   </thead>
