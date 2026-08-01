@@ -428,9 +428,9 @@ TITLEBLOCK = '''<header class="title">
   reaches a calibrated density of 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs
   detonation velocity of 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup>, and is distinct from all 65,980 training molecules (Tanimoto 0.27). On the same recipe the HMX and PETN anchors calibrate to
   7.52 and 8.24&nbsp;km&nbsp;s<sup>&minus;1</sup>, ranking it with the strongest anchors. Against four
-  baselines on the same corpus, DGLD is the only method to deliver novel candidates that remain on-target
-  under DFT audit; the sole baseline whose top candidate was carried to DFT collapsed from 9.73 to
-  6.28&nbsp;km&nbsp;s<sup>&minus;1</sup> under first-principles scoring. The label-trust gate is domain-agnostic, transferring to any inverse-design task with abundant weak and scarce trustworthy labels; code, model checkpoints,
+  baselines on the same corpus, DGLD is the only method with productive-quadrant coverage (novel and
+  on-target) confirmed at the DFT level; the sole baseline whose best novel candidate was carried to DFT
+  collapsed from 9.73 to 6.28&nbsp;km&nbsp;s<sup>&minus;1</sup> under first-principles scoring. The label-trust gate is domain-agnostic, transferring to any inverse-design task with abundant weak and scarce trustworthy labels; code, model checkpoints,
   and 918 mined hard negatives are released openly under a permanent DOI.</p>
 </div>
 
