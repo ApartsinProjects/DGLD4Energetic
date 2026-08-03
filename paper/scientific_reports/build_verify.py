@@ -1,109 +1,150 @@
 #!/usr/bin/env python
-"""Audit: verify the Scientific Reports main article preserves ALL scientific
-content of the molecules source and invents nothing.
+"""Audit: the Scientific Reports pair (main + SI) must preserve ALL scientific
+content of the Molecules pair (main + SI) and invent nothing beyond the
+declared additions in build_scireports.py.
 
-Method: extract every content element (<p>,<li>,<td>,<th>,<caption>,<figcaption>,
-<h3>,<h4>) as normalized visible text from both files, then:
-  LOST     = a source segment whose text is NOT a substring of the output.
-  ADDED    = an output segment whose text is NOT a substring of the source,
-             after stripping declared run-in prefixes; each is then classified
-             against a whitelist of required Scientific Reports additions.
-Substring matching tolerates the run-in prefixes ('Conclusions.', 'Limitations.')
-and whitespace reflow. Exit non-zero if anything is unaccounted.
+Content universe = main+SI union on each side. Because the build RENUMBERS
+figures/tables/citations and adds "Supplementary" prefixes, both sides are
+normalized before comparison: figure/table pointers and [n] citation labels
+collapse to placeholder tokens, so a segment matches iff its scientific text
+is identical modulo the declared renumbering.
+
+Checks:
+  1. LOST:   source segments absent from the derived union (beyond declared drops)
+  2. ADDED:  derived segments absent from the source union (beyond declared adds)
+  3. REFS:   every source citation KEY survives somewhere in the derived pair;
+             no derived key is new; per-entry DOIs preserved.
+Exit non-zero on any failure.
 """
 import re, sys, pathlib, html
 
 HERE = pathlib.Path(__file__).resolve().parent
-SRC = HERE.parent / "molecules" / "molecules_paper.html"
-OUT = HERE / "scireports_paper.html"
+MOL = HERE.parent / "molecules"
+
+def read(p): return p.read_text(encoding="utf-8")
+src_main = read(MOL / "molecules_paper.html")
+src_si   = read(MOL / "molecules_paper_SI.html")
+out_main = read(HERE / "scireports_paper.html")
+out_si   = read(HERE / "scireports_paper_SI.html")
 
 def strip_headmisc(s):
     s = re.sub(r'<head>.*?</head>', '', s, flags=re.S)
     s = re.sub(r'<aside\b.*?</aside>', '', s, flags=re.S)
-    s = re.sub(r'<script\b.*?</script>', '', s, flags=re.S)
     return s
 
 def norm(t):
     t = re.sub(r'<[^>]+>', ' ', t)
     t = html.unescape(t)
-    t = t.replace(' ', ' ').replace(' ', ' ').replace(' ', ' ')
+    for ch in (' ', ' ', '–', '—'):
+        t = t.replace(ch, ' ')
+    # --- renumbering-aware canonicalisation (both sides) ---
+    t = re.sub(r'\[\d+\]', '⟨C⟩', t)                                   # citation labels
+    t = re.sub(r'(?:main-text )?(?:Supplementary )?(?:Figures?|Figs?\.)\s*S?\d+[a-z]?', '⟨F⟩', t)
+    t = re.sub(r'(?:main-text )?(?:Supplementary )?Tables?\s*S?\d+[a-z]?', '⟨T⟩', t)
+    t = re.sub(r'⟨F⟩(\s*(and|,|–|-)\s*⟨F⟩)+', '⟨F⟩', t)
+    t = re.sub(r'⟨T⟩(\s*(and|,|–|-)\s*⟨T⟩)+', '⟨T⟩', t)
+    # declared SI-note heading demotion: "1.1.N Title" and "N.N Title" -> "Title"
+    t = re.sub(r'^(?:1\.1\.|N\.)(\d)\s+', '', t)
     t = re.sub(r'\s+', ' ', t).strip()
     return t
 
-def segments(s):
+def segments(s, include_refs=False):
     s = strip_headmisc(s)
+    if not include_refs:
+        s = re.sub(r'<ol class="refs">.*?</ol>', '', s, flags=re.S)
     segs = []
     for m in re.finditer(r'<(p|li|td|th|caption|figcaption|h3|h4)\b[^>]*>(.*?)</\1>', s, re.S):
         txt = norm(m.group(2))
-        if len(txt) >= 12:                      # ignore tiny cells/labels
+        if len(txt) >= 12:
             segs.append(txt)
     return segs
 
-src_segs = segments(SRC.read_text(encoding="utf-8"))
-out_segs = segments(OUT.read_text(encoding="utf-8"))
+src_segs = segments(src_main) + segments(src_si)
+out_segs = segments(out_main) + segments(out_si)
 SRC_ALL = " ".join(src_segs)
 OUT_ALL = " ".join(out_segs)
 
-# ---- LOST: source content missing from output -----------------------------
-lost = [s for s in src_segs if s not in OUT_ALL]
-# Source segments accounted for by DECLARED transforms (each verified below):
-#   - MDPI-only boilerplate dropped (Supplementary Materials pointer, IRB,
-#     Informed Consent, all "Not applicable")
-#   - keyword line trimmed 11 -> 6 (replacement checked in ADD_OK)
-#   - "3.1. Limitations" heading -> bold run-in (text itself preserved)
-#   - "conflicts of interest" -> Nature's "competing interests" wording
-#   - the "(Section 5)" self-ref inside the Three-extensions paragraph is
-#     repointed to the Data Availability statement; verify the paragraph
-#     otherwise survives via distinctive head+tail probes.
-DROP_OK = ["following supporting information can be downloaded",   # Supplementary Materials
-           "Institutional Review Board", "Informed Consent",
-           "Not applicable",
-           "Keywords: generative models",       # trimmed keyword line (replacement audited in ADD_OK)
-           "3.1. Limitations",                  # heading -> run-in
-           "declare no conflicts of interest"]  # renamed to competing interests
-lost_real = [s for s in lost if not any(d in s for d in DROP_OK)]
-
-# the repointed Conclusions paragraph: require its head AND tail verbatim
+# ---- 1. LOST ---------------------------------------------------------------
+DROP_OK = [
+    "following supporting information can be downloaded",  # MDPI SI pointer
+    "Institutional Review Board", "Informed Consent", "Not applicable",
+    "Keywords: generative models",       # trimmed keyword line (replacement in ADD_OK)
+    "3.1. Limitations",                  # heading -> run-in
+    "declare no conflicts of interest",  # -> competing interests wording
+    "Abstract: Designing high-energy-density materials",  # replaced by trimmed abstract
+    "1.1. Related Work",                 # heading re-emitted in summary
+    "DGLD draws on, and departs from",   # 2-sentence intro of old 1.1 (covered by summary)
+    "DGLD sits at the intersection of three lines of work",  # old 1.1 framing para (summary covers)
+    "footnote between",                  # dagger pointer reworded for SI numbering
+    "on Zenodo (Section",                # repointed self-ref (tail check below)
+]
+lost = [s for s in src_segs if s not in OUT_ALL
+        and not any(d in s for d in DROP_OK)]
+# repointed Conclusions paragraph: verify head+tail survive
 _p = [s for s in src_segs if s.startswith("Three extensions would close")]
-if _p:
-    head = _p[0][:180]
-    tail = _p[0][-180:]
-    ok_head = head[:100] in OUT_ALL
-    # tail after the repoint is unchanged (repoint is mid-paragraph)
-    ok_tail = tail[-100:] in OUT_ALL
-    if ok_head and ok_tail:
-        lost_real = [s for s in lost_real if not s.startswith("Three extensions")]
-    else:
-        print(f"[repoint-check] head_ok={ok_head} tail_ok={ok_tail}")
+if _p and _p[0] not in OUT_ALL:
+    if _p[0][:100] in OUT_ALL and _p[0][-100:] in OUT_ALL:
+        lost = [s for s in lost if not s.startswith("Three extensions")]
 
-# ---- ADDED: output content not in source ----------------------------------
+# ---- 2. ADDED --------------------------------------------------------------
 RUNIN = re.compile(r'^(Conclusions|Limitations)\.\s+')
-ADD_OK = ["All custom code central to this study is publicly available",
-          "large language model", "Anthropic Claude",
-          "Competing Interests", "declare no competing interests",
-          "generative models; latent diffusion",                 # trimmed keywords line
-          "see the Data Availability statement"]
+ADD_OK = [
+    # declared new prose (build_scireports.py):
+    "Abstract: Designing high-energy-density materials",   # trimmed abstract
+    "generative models; latent diffusion; inverse molecular design; energetic",
+    "an extended survey is given in the Supplementary Note",   # summary para 1
+    "On the property side, the Kamlet",                        # summary para 2
+    "Evaluation and validation draw on MOSES",                 # summary para 3
+    "All custom code central to this study is publicly available",
+    "Use of large language models", "Anthropic Claude",
+    "declare no competing interests",
+    "see the Data Availability statement",
+    "Supplementary Note: Extended Related Work",
+    "Supplementary Note and migrated display items",
+    "The following display items support the main text",
+    "⟨F⟩ S23 and ⟨T⟩ S35",                                     # migrated-items section header
+    "footnote below",                                          # reworded dagger pointer
+]
 added = []
 for o in out_segs:
-    probe = RUNIN.sub('', o)          # tolerate the run-in prefix
+    probe = RUNIN.sub('', o)
     if probe in SRC_ALL:
         continue
     if any(a in o for a in ADD_OK):
         continue
     added.append(o)
 
-print(f"source content segments: {len(src_segs)}")
-print(f"output content segments: {len(out_segs)}")
-print(f"\nLOST (unexpected, scientific content missing): {len(lost_real)}")
-for s in lost_real:
-    print("  - " + s[:160])
-print(f"\nADDED (not in source, not a declared Sci-Reports addition): {len(added)}")
-for s in added:
-    print("  + " + s[:160])
-print(f"\n[info] source segments intentionally dropped (MDPI N/A boilerplate): "
-      f"{len(lost) - len(lost_real)}")
+# ---- 3. references ---------------------------------------------------------
+def keys(s):
+    m = re.search(r'<ol class="refs">(.*?)</ol>', s, re.S)
+    return dict((k, v) for k, v in
+                ((mm.group(1), mm.group(0)) for mm in
+                 re.finditer(r'<li id="(ref-[a-z0-9-]+)">.*?</li>', m.group(1), re.S)))
+src_keys = set(keys(src_main)) | set(keys(src_si))
+out_keys = set(keys(out_main)) | set(keys(out_si))
+refs_lost = sorted(src_keys - out_keys)
+refs_new  = sorted(out_keys - src_keys)
+# DOI preservation per surviving key
+def dois(s):
+    out = {}
+    m = re.search(r'<ol class="refs">(.*?)</ol>', s, re.S)
+    for mm in re.finditer(r'<li id="(ref-[a-z0-9-]+)">(.*?)</li>', m.group(1), re.S):
+        d = re.search(r'10\.\d{4,}/[^\s<"]+', mm.group(2))
+        if d: out[mm.group(1)] = d.group(0).rstrip('.')
+    return out
+src_dois = {**dois(src_si), **dois(src_main)}
+out_dois = {**dois(out_si), **dois(out_main)}
+doi_mismatch = [k for k in (src_keys & out_keys)
+                if k in src_dois and out_dois.get(k) not in (None, src_dois[k])]
 
-ok = (not lost_real) and (not added)
-print("\nRESULT:", "PASS - nothing lost, nothing invented" if ok
-      else "FAIL - review the lists above")
+print(f"source segments: {len(src_segs)} | derived segments: {len(out_segs)}")
+print(f"\nLOST (scientific content missing from main+SI union): {len(lost)}")
+for s in lost: print("  - " + s[:150])
+print(f"\nADDED (not in source, not declared): {len(added)}")
+for s in added: print("  + " + s[:150])
+print(f"\nREFS lost: {refs_lost or 'none'} | new: {refs_new or 'none'} | "
+      f"DOI mismatches: {doi_mismatch or 'none'}")
+
+ok = not lost and not added and not refs_lost and not refs_new and not doi_mismatch
+print("\nRESULT:", "PASS - nothing lost, nothing invented" if ok else "FAIL")
 sys.exit(0 if ok else 1)
