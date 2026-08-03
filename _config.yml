@@ -1,0 +1,31 @@
+# GitHub Pages configuration.
+#
+# The published site is the Scientific Reports submission only: the main
+# article, the Supplementary Information and the cover letter (HTML + DOCX),
+# reached from the root index.html.
+#
+# Superseded manuscript versions stay in the repository (they carry the MDPI
+# Molecules submission and its build history) but are NOT published, so an old
+# bookmark or a cached redirect cannot land a reader on the wrong paper.
+#
+# paper/figs/ is deliberately NOT excluded: the Scientific Reports HTML
+# references it as ../figs/.
+
+exclude:
+  # superseded manuscript versions
+  - paper/molecules/
+  - paper/nmi_archive/
+  - paper/long_paper.html
+  - paper/long_paper.docx
+  - paper/long_paper_SI.docx
+  # build tooling and working notes
+  - paper/_split_html.py
+  - paper/normalize_citations.py
+  - paper/__pycache__/
+  - paper/DATA_AUDIT_round2.md
+  - paper/DATA_AUDIT_tier_funnel.md
+  - paper/scientific_reports/build_scireports.py
+  - paper/scientific_reports/build_verify.py
+  - paper/scientific_reports/templates/
+  - scripts/
+  - _zenodo_release/
