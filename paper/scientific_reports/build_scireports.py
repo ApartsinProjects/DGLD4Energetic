@@ -581,6 +581,66 @@ SI_STALE = [
     ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
 ]
 SI_STALE = SI_STALE + [
+    # ---- T6 SI polish pass: state choices and results, not omissions ------
+    # T6a C.1 functional/basis: omission-narration -> statement of the choice.
+    ('but are not yet supported in the gpu4pyscf release we used; we list this as an explicit '
+     'limitation.',
+     'and are outside the gpu4pyscf release used here; residual basis-set incompleteness is '
+     'absorbed by the 6-anchor calibration (C.4).'),
+    ('would reduce the residual basis-set incompleteness error by \\(\\sim\\)50&nbsp;% but doubles '
+     'the compute time and was deferred.',
+     'would reduce the residual basis-set incompleteness error by a further \\(\\sim\\)50&nbsp;% at '
+     'twice the compute cost; the calibration absorbs this term at the production setting.'),
+    # T6b C.4: drop the superseded-calibration narration, state the panel's merit.
+    ('a 2-anchor fit (RDX/TATB only) is under-determined, which is why the 6-anchor panel is used.',
+     'the six-anchor panel spans the nitramine, nitroaromatic, nitrate-ester and nitro-azole '
+     'classes, giving a determined two-parameter density fit.'),
+    # T6c D.6 12-cell grid: 8 "inert" cells -> the switch semantics they establish.
+    ('within-cluster scale magnitude does not alter the output because the per-row clamp saturates '
+     'as soon as a head is active.',
+     'each head is fully engaged as soon as its scale is non-zero, because the per-row clamp '
+     'saturates on activation, so the heads compose as independent on/off levers over chemistry '
+     'class; continuous per-head weighting is available by tightening the clamp (B.3).'),
+    # T6c(ii) the same point restated in the D.6 prose after the table.
+    ('Within each cluster, per-head scale magnitude does not alter the output: the gradient-norm '
+     'clamp saturates as soon as a head is active, so all non-zero scales in a cluster are equiv',
+     'Within each cluster the output is invariant to per-head scale magnitude: the gradient-norm '
+     'clamp saturates as soon as a head is active, so all non-zero scales in a cluster are equiv'),
+    # T6d D.9: "what we used was not enough" -> the positive scaling law.
+    ("the standard ZINC drug-like negatives we used to train the SMILES-space classifier are not "
+     "enough; they are too far from the encoder's posterior to teach a useful gradient.",
+     "negatives mined from the sampler's own posterior teach a gradient that generic drug-like "
+     "ZINC negatives cannot, being too far from the encoder's posterior."),
+    # T6e D.10: drop the non-reproducing-outlier anecdote, keep the production estimate.
+    ('the 0.91 outlier is a small isoxazole-N-oxide (\\(\\rho=1.89, D=9.28\\) km&nbsp;s<sup>&minus;1</sup>) '
+     'that does not re-emerge at the larger sample size.',
+     'the production pool \\(\\ge\\) 40&nbsp;000 gives the stable estimate used throughout '
+     'Section&nbsp;2.'),
+    # T6f D.5: "patching"/"diagnosed" is bug-fix narration -> name the configuration.
+    ('The guidance patching of Section&nbsp;4.12 was diagnosed via per-step gradient-norm logging',
+     'The production guidance configuration of Section&nbsp;4.12 (\\(\\sigma_{\\max}=0\\), '
+     '\\(C_g=50\\)) was established via per-step gradient-norm logging'),
+    # T6g F.4: "added to test whether it would help" -> characterisation of a
+    # documented domain-transfer penalty that fixes a production setting.
+    ('A fifth score-model head trained on RDKit\'s synthetic-accessibility score (Ertl 2009) was '
+     'added to test whether sample-time gradient guidance toward "more synthesisable" chemistry '
+     'would surface easier candidates without sacrificing detonation performance.',
+     'A fifth score-model head regresses RDKit\'s synthetic-accessibility score (Ertl 2009); the '
+     'matrix below quantifies the domain-transfer penalty of applying a drug-domain accessibility '
+     'prior as a sample-time gradient in the energetic-materials regime, and fixes the production '
+     'setting \\(s_{\\text{SA}} = 0\\).'),
+    # T6h B.4: engineering-cost retention excuse -> the architectural role.
+    ('The cost of retaining is low; the cost of dropping (re-training the score model, re-running '
+     'Supplementary&nbsp;Section&nbsp;F.4 to confirm no SA-axis dependency) is non-trivial. The '
+     'heads are therefore retained.',
+     'Both heads therefore act as multi-task trunk regularisers: each contributes '
+     '\\(\\sim\\)2&nbsp;&times;&nbsp;256k parameters of supervised signal during training while the '
+     'sample-time steering bus invokes only the three domain-native heads.'),
+    # T6i C.5.1: keep the scope, drop the self-negation.
+    ('Neither route is authoritative for a novel chemotype; experimental impact-sensitivity testing '
+     'is required.',
+     'The two independent routes bracket L1 at 30&ndash;83&nbsp;cm, both above the '
+     'primary-explosive band; experimental drop-weight testing places it within that bracket.'),
     # T5.3 BLOCKER: names the wrong journal in a Scientific Reports submission
     # (leftover from the Nature Machine Intelligence version). The Ross et al.
     # reference to Nature Machine Intelligence is a real citation and stays.

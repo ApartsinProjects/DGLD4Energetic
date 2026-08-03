@@ -92,6 +92,17 @@ DROP_OK = [
     "The SC head is retained as an architectural slot",  # T5.2 dead-code line removed
     "expected by NMI reviewers",                  # T5.3 wrong-journal leftover removed
     "Because guiding generation with gradients",  # T5.4 grammar + framing
+    # ---- T6 SI polish (source side) ----
+    "not yet supported in the gpu4pyscf release",   "doubles the compute time and was deferred",
+    "2-anchor fit (RDX/TATB only) is under-determined",
+    "within-cluster scale magnitude does not alter",
+    "Within each cluster, per-head scale magnitude does not alter",
+    "standard ZINC drug-like negatives we used",
+    "does not re-emerge at the larger sample size",
+    "The guidance patching of Section",
+    "was added to test whether sample-time gradient",
+    "The cost of retaining is low",
+    "Neither route is authoritative for a novel chemotype",
     "6-anchor calibration",                                        # T1.3 density caveat added
     "Of the merged top-100, 96/97 are absent from PubChem",        # T1.4 lead-role reframe
     "E1 oxatriazole: independent recovery of a known structure",   # T1.5 verdict unified
@@ -137,6 +148,17 @@ ADD_OK = [
     "serve as multi-task trunk regularisers",  # T5.2 released-configuration statement
     "standard in the distribution-learning literature",  # T5.3 journal-neutral
     "grounds the steering signal in measured",  # T5.4 literature-grounded head
+    # ---- T6 SI polish (derived side) ----
+    "absorbed by the 6-anchor calibration",  "at twice the compute cost",
+    "spans the nitramine, nitroaromatic",
+    "independent on/off levers over chemistry",
+    "invariant to per-head scale magnitude",
+    "own posterior teach a gradient that generic",
+    "gives the stable estimate used throughout",
+    "production guidance configuration of Section",
+    "quantifies the domain-transfer penalty",
+    "act as multi-task trunk regularisers: each contributes",
+    "bracket L1 at 30",
     "largest single uncertainty in the paper", # T1.3 density caveat promoted to Results
     "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
     "single role throughout this paper",       # T1.5 unified E1 verdict (replaced an either/or)
