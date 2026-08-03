@@ -104,6 +104,7 @@ DROP_OK = [
     "The cost of retaining is low",
     "Neither route is authoritative for a novel chemotype",
     "6-anchor calibration",                                        # T1.3 density caveat added
+    "The 6-anchor calibration is the source of truth",             # T7 domain sentence prepended
     "Of the merged top-100, 96/97 are absent from PubChem",        # T1.4 lead-role reframe
     "E1 oxatriazole: independent recovery of a known structure",   # T1.5 verdict unified
     "C.9 Bondi-vdW packing-factor bracket",                        # T1.6 raw/calibrated scales labelled
@@ -160,6 +161,11 @@ ADD_OK = [
     "act as multi-task trunk regularisers: each contributes",
     "bracket L1 at 30",
     "largest single uncertainty in the paper", # T1.3 density caveat promoted to Results
+    "applicability domain of the correction is",                    # T7 Results
+    "applicability domain of this fit is the raw-density interval", # T7 SI C.4
+    "Applicability domain of the 6-anchor density",                 # T7 Table S36 caption
+    "rho_{\\text{DFT}}",                                            # T7 Table S36 headers
+    "rho_{\\text{exp}}",
     "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
     "single role throughout this paper",       # T1.5 unified E1 verdict (replaced an either/or)
     "raw (pre-calibration)",                   # T1.6 SI bracket scale labelled

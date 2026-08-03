@@ -403,7 +403,18 @@ main = main.replace(
     'single uncertainty in the paper and propagates into every derived \\(D\\) and \\(P\\): it is a '
     'gas-phase-derived estimate, and the independent Bondi van-der-Waals packing bracket for L1 spans '
     '\\(\\rho \\in [1.69, 1.87]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> (Supplementary' + NB +
-    'Section' + NB + 'C.9), below the calibrated value. Crystal-structure prediction or experimental '
+    'Section' + NB + 'C.9), below the calibrated value. The applicability domain of the correction is '
+    'also narrow: the six anchors span \\(\\rho_{\\text{DFT}} \\in [1.613, 1.689]\\)' + NB + 'g' + NB +
+    'cm<sup>&minus;3</sup>, mapped onto an experimental range of 1.77&ndash;1.94' + NB + 'g' + NB +
+    'cm<sup>&minus;3</sup>, so a short raw interval is stretched by the fitted slope of 1.392. Six of '
+    'the eleven leads lie above that window and are therefore extrapolations rather than '
+    'interpolations, L1 furthest at 6.6&nbsp;% above the highest anchor (per-lead positions in '
+    'Supplementary' + NB + 'Table' + NB + '⟦S36⟧). Read against the literature, '
+    '\\(\\rho_{\\text{cal}} = 2.09\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> would place L1 above '
+    '\\(\\varepsilon\\)-CL-20 (2.04' + NB + 'g' + NB + 'cm<sup>&minus;3</sup>), the densest CHNO '
+    'explosive in practical use, which for a monocyclic trinitro-isoxazole is better read as an upper '
+    'bound than as an expectation: the Bondi bracket and the anchor-domain excursion both point to a '
+    'lower true crystal density. Crystal-structure prediction or experimental '
     'single-crystal X-ray diffraction remains the critical missing step before any density-based '
     'performance claim here can be treated as quantitative (Section' + NB + '3).</p>')
 
@@ -527,7 +538,34 @@ si_out = si_out.replace('molecules_paper.docx', 'scireports_paper.docx')
 si_out = si_out.replace('molecules_paper_SI.docx', 'scireports_paper_SI.docx')
 si_out = si_out.replace('molecules_paper.html', 'scireports_paper.html')
 
+# T7 companion: the applicability-domain table itself (new Supplementary Table S36).
+_ANCH = [("RDX", 1.6322, 1.820), ("TATB", 1.6629, 1.940), ("HMX", 1.6891, 1.910),
+         ("PETN", 1.6261, 1.770), ("FOX-7", 1.6130, 1.890), ("NTO", 1.6542, 1.930)]
+_LEAD = [("L1", 1.8013, 2.093), ("L3", 1.7311, 1.995), ("L4", 1.6924, 1.941),
+         ("L5", 1.6932, 1.942), ("L9", 1.6694, 1.909), ("L11", 1.6631, 1.900),
+         ("L13", 1.6338, 1.859), ("L16", 1.7311, 1.995), ("L18", 1.6194, 1.839),
+         ("L19", 1.6664, 1.905), ("L20", 1.7226, 1.983)]
+_HI = max(r for _, r, _ in _ANCH)
+_rows = "".join(
+    f'<tr><td>{n}</td><td>anchor</td><td>{r:.4f}</td><td>{e:.3f}</td><td>within fit</td></tr>'
+    for n, r, e in _ANCH)
+_rows += "".join(
+    f'<tr><td>{n}</td><td>lead</td><td>{r:.4f}</td><td>{c:.3f}</td>'
+    f'<td>{"<strong>extrapolation</strong>" if r > _HI else "interpolation"}</td></tr>'
+    for n, r, c in _LEAD)
+S36 = (
+'<table>\n  <caption><strong>Table S36.</strong> Applicability domain of the 6-anchor density '
+'correction \\(\\rho_{\\text{cal}} = 1.392\\,\\rho_{\\text{DFT}} - 0.415\\). The anchors span '
+'\\(\\rho_{\\text{DFT}} \\in [1.613, 1.689]\\)&nbsp;g&nbsp;cm<sup>&minus;3</sup>; leads above that '
+'interval receive the correction as an extrapolation. For anchors the fourth column is the '
+'experimental density, for leads the calibrated value. Six of eleven leads extrapolate, L1 furthest '
+'at 6.6&nbsp;% above the highest anchor.</caption>\n'
+'  <thead><tr><th>Compound</th><th>Role</th><th>\\(\\rho_{\\text{DFT}}\\)</th>'
+'<th>\\(\\rho_{\\text{exp}}\\) / \\(\\rho_{\\text{cal}}\\)</th><th>Domain</th></tr></thead>\n'
+'  <tbody>' + _rows + '</tbody>\n</table>\n')
+
 added = ('\n<h2 id="sec-si-note">Supplementary Note and migrated display items</h2>\n'
+         + S36
          + note + '\n'
          + '<h3 id="sec-si-migrated">Supplementary Figures S5&ndash;S23 and Tables S30&ndash;S35</h3>\n'
          + '<p>The following display items support the main text and are referenced there as '
@@ -581,6 +619,14 @@ SI_STALE = [
     ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
 ]
 SI_STALE = SI_STALE + [
+    # T7: applicability-domain table for the density calibration (referee ask).
+    # Appended to C.4, which is where the 6-anchor fit is documented.
+    ('The 6-anchor calibration is the source of truth for Section' + NB + '2.3;',
+     'The applicability domain of this fit is the raw-density interval spanned by the anchors, '
+     '\\(\\rho_{\\text{DFT}} \\in [1.613, 1.689]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup>; '
+     'Supplementary' + NB + 'Table' + NB + 'S36 places every anchor and lead on that axis and '
+     'flags the six leads that lie above it, for which the correction is an extrapolation. '
+     'The 6-anchor calibration is the source of truth for Section' + NB + '2.3;'),
     # ---- T6 SI polish pass: state choices and results, not omissions ------
     # T6a C.1 functional/basis: omission-narration -> statement of the choice.
     ('but are not yet supported in the gpu4pyscf release we used; we list this as an explicit '
