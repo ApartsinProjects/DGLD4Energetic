@@ -85,6 +85,11 @@ DROP_OK = [
     "Available property labels in the energetic-materials literature",  # Table 3 citation inserted
     "All code, data, and trained models are released together",          # GitHub mirror sentence dropped
     "labelled master, Section",          # SI "Section 5" -> Data Availability
+    # --- Tier-1 editorial revisions (source side) ---
+    "Energetic-materials performance gains translate directly into reduced propellant mass",  # T1.1
+    "Section 2 is structured results-first",                       # T1.2 target-miss added
+    "6-anchor calibration",                                        # T1.3 density caveat added
+    "Of the merged top-100, 96/97 are absent from PubChem",        # T1.4 lead-role reframe
 ]
 lost = [s for s in src_segs if s not in OUT_ALL
         and not any(d in s for d in DROP_OK)]
@@ -115,6 +120,11 @@ ADD_OK = [
     "per-stage panels in",              # pipeline-map sentence: mixed kept/moved range made explicit
     "carries one of the following tiers",   # added main-body citation of Table 3
     "This work addresses generative modelling for chemistry discovery",  # Collection framing sentence
+    # --- Tier-1 editorial revisions (derived side) ---
+    "launch and mining applications",          # T1.1 civilian-first framing
+    "below the strict",                        # T1.2 pre-registered target miss stated up front
+    "largest single uncertainty in the paper", # T1.3 density caveat promoted to Results
+    "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
     "single archived package on Zenodo",    # Data Availability minus the GitHub mirror
     "inside the archived Zenodo package",   # Code Availability minus the GitHub mirror
 ]

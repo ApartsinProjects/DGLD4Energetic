@@ -356,6 +356,50 @@ COLLECTION_FRAME = (
 'objectives (energy release, stability, and synthesisability) are in direct conflict.</p>\n')
 main = main.replace('<h2 id="sec-intro">1. Introduction</h2>\n',
                     '<h2 id="sec-intro">1. Introduction</h2>\n' + COLLECTION_FRAME, 1)
+
+# --- Tier-1 editorial revisions (declared) --------------------------------
+# T1.1 civilian-first framing, consistent with the abstract
+main = main.replace(
+    'Energetic-materials performance gains translate directly into reduced propellant mass, '
+    'smaller warheads, and more efficient civilian gas-generators, yet',
+    'Energetic-materials performance gains translate directly into reduced propellant mass for '
+    'launch and mining applications, safer and more efficient automotive gas-generators, and '
+    'lower-mass payloads across the field, yet')
+
+# T1.2 own the pre-registered target miss where the targets are stated
+main = main.replace(
+    'validated through the four-stage chain SMARTS \\(\\to\\) Pareto \\(\\to\\) xTB \\(\\to\\) DFT '
+    'documented in Section' + NB + '4.13',
+    'validated through the four-stage chain SMARTS \\(\\to\\) Pareto \\(\\to\\) xTB \\(\\to\\) DFT '
+    'documented in Section' + NB + '4.13. We state the outcome against these targets up front: on the '
+    'audited, anchor-calibrated Kamlet&ndash;Jacobs scale the headline lead L1 reaches '
+    '\\(D = 8.25\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup> and \\(P = 32.9\\)' + NB + 'GPa, below the '
+    'strict \\(D \\ge 9.0\\) / \\(P \\ge 35\\) thresholds, while the same recipe places the HMX and PETN '
+    'anchors at 7.52 and 8.24' + NB + 'km' + NB + 's<sup>&minus;1</sup>. All performance claims in this '
+    'paper are therefore anchor-relative rankings on a common scale, not absolute-value predictions '
+    '(Section' + NB + '2.3)')
+
+# T1.3 promote the crystal-density caveat to the point where 2.09 is first reported
+main = main.replace(
+    'and its raw HOF\\(_{\\text{DFT}}=+229.5\\)' + NB + 'kJ' + NB + 'mol<sup>&minus;1</sup> calibrates to '
+    '\\(+22.9\\)' + NB + 'kJ' + NB + 'mol<sup>&minus;1</sup>.</p>',
+    'and its raw HOF\\(_{\\text{DFT}}=+229.5\\)' + NB + 'kJ' + NB + 'mol<sup>&minus;1</sup> calibrates to '
+    '\\(+22.9\\)' + NB + 'kJ' + NB + 'mol<sup>&minus;1</sup>. This calibrated density carries the largest '
+    'single uncertainty in the paper and propagates into every derived \\(D\\) and \\(P\\): it is a '
+    'gas-phase-derived estimate, and the independent Bondi van-der-Waals packing bracket for L1 spans '
+    '\\(\\rho \\in [1.69, 1.87]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> (Supplementary' + NB +
+    'Section' + NB + 'C.9), below the calibrated value. Crystal-structure prediction or experimental '
+    'single-crystal X-ray diffraction remains the critical missing step before any density-based '
+    'performance claim here can be treated as quantitative (Section' + NB + '3).</p>')
+
+# T1.4 reframe the deliverable: L1 is the actionable lead; the rest carry scaffold diversity
+main = main.replace(
+    'so the confirmed set is 11 leads (10 unique).',
+    'so the confirmed set is 11 leads (10 unique). We distinguish two roles within this set: L1 is the '
+    'single synthesis-actionable lead, being the only member for which a productive retrosynthetic route '
+    'was recovered (Section' + NB + '2.4), while the remaining leads are reported as a scaffold-diversity '
+    'result, establishing that the sampler reaches multiple distinct energetic chemotypes rather than '
+    'concentrating on one.')
 main = retext_refs(main)
 main = resolve_placeholders(main)
 
