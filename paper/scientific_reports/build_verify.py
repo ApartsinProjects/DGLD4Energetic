@@ -91,6 +91,8 @@ DROP_OK = [
     "6-anchor calibration",                                        # T1.3 density caveat added
     "Of the merged top-100, 96/97 are absent from PubChem",        # T1.4 lead-role reframe
     "E1 oxatriazole: independent recovery of a known structure",   # T1.5 verdict unified
+    "C.9 Bondi-vdW packing-factor bracket",                        # T1.6 raw/calibrated scales labelled
+    "The Uni-Mol surrogate is well-calibrated on the labelled distribution",  # T1.6 pk arithmetic corrected
 ]
 lost = [s for s in src_segs if s not in OUT_ALL
         and not any(d in s for d in DROP_OK)]
@@ -127,6 +129,8 @@ ADD_OK = [
     "largest single uncertainty in the paper", # T1.3 density caveat promoted to Results
     "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
     "single role throughout this paper",       # T1.5 unified E1 verdict (replaced an either/or)
+    "raw (pre-calibration)",                   # T1.6 SI bracket scale labelled
+    "on the calibrated scale, equivalently the raw Bondi value",  # T1.6 main-text scale + 1.97->1.94
     "single archived package on Zenodo",    # Data Availability minus the GitHub mirror
     "inside the archived Zenodo package",   # Code Availability minus the GitHub mirror
 ]

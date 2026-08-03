@@ -405,6 +405,22 @@ main = main.replace(
     'single-crystal X-ray diffraction remains the critical missing step before any density-based '
     'performance claim here can be treated as quantitative (Section' + NB + '3).</p>')
 
+# T1.6 pk-scale fix. The main text and Supplementary C.9 both quote pk = 0.65 but
+# on DIFFERENT scales (calibrated vs raw Bondi) without saying so, and the main
+# text's calibrated figure was arithmetically off. Authoritative values from
+# t2_density_crosscheck.json: raw pk=0.65 -> 1.6915; applying the 6-anchor fit
+# (rho_cal = 1.39198*rho_raw - 0.41488) gives 1.9397, not 1.97. State both scales.
+main = main.replace(
+    'a packing factor of 0.65 (lower-end aromatic, vs 0.69 used) would give '
+    '\\(\\rho \\approx 1.97\\), shifting \\(D_{\\text{K-J}}\\) by roughly '
+    '\\(\\pm 0.3\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup>.',
+    'a packing factor of 0.65 (lower-end aromatic, vs 0.69 used) would give '
+    '\\(\\rho_{\\text{cal}} \\approx 1.94\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> on the calibrated '
+    'scale, equivalently the raw Bondi value \\(\\rho \\approx 1.69\\)' + NB + 'g' + NB +
+    'cm<sup>&minus;3</sup> quoted in Supplementary' + NB + 'Section' + NB + 'C.9 before the 6-anchor '
+    'calibration is applied, shifting \\(D_{\\text{K-J}}\\) by roughly '
+    '\\(\\pm 0.3\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup>.')
+
 # T1.5 unify the E1 verdict: the source offered two alternative readings
 # ("a corroborating datapoint ... or an upper bound"). The Introduction,
 # Discussion and Conclusions already commit to one; state it here too.
@@ -531,6 +547,18 @@ SI_STALE = [
      'labelled master, see the Data Availability statement)'),
     # old main Table 2 (per-lead calibration-propagated uncertainty) migrated to S30
     ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
+]
+SI_STALE = SI_STALE + [
+    # T1.6 companion: label the C.9 bracket as RAW (pre-calibration), so it can
+    # no longer be read against the calibrated figures quoted in the main text.
+    ('yields \\(\\rho \\in [1.69, 1.87]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> for L1 and '
+     '\\([1.65, 1.83]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> for E1.',
+     'yields raw (pre-calibration) \\(\\rho \\in [1.69, 1.87]\\)' + NB + 'g' + NB +
+     'cm<sup>&minus;3</sup> for L1 and \\([1.65, 1.83]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> '
+     'for E1; applying the 6-anchor calibration to these brackets gives '
+     '\\(\\rho_{\\text{cal}} \\in [1.94, 2.19]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> for L1, '
+     'which contains the headline \\(\\rho_{\\text{cal}} = 2.09\\)' + NB + 'g' + NB +
+     'cm<sup>&minus;3</sup> at the production pk' + NB + '=' + NB + '0.69.'),
 ]
 for old, new in SI_STALE:
     if old in si_out:
