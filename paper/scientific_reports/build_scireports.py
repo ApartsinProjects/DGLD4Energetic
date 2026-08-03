@@ -528,6 +528,12 @@ main = main.replace('<title>', '<title>[Scientific Reports] ', 1)
 main = main.replace('molecules_paper.docx', 'scireports_paper.docx')
 main = main.replace('molecules_paper_SI.docx', 'scireports_paper_SI.docx')
 main = main.replace('molecules_paper_SI.html', 'scireports_paper_SI.html')
+# surface the cover letter in both formats in the downloads aside
+COVER_BOTH = ('<a href="cover_letter.html">Cover letter <span class="ext">(.html)</span></a>\n'
+              '  <a href="cover_letter.docx" download>Cover letter '
+              '<span class="ext">(.docx)</span></a>')
+COVER_HTML = '<a href="cover_letter.html">Cover letter <span class="ext">(.html)</span></a>'
+main = main.replace(COVER_HTML, COVER_BOTH)
 OUT_MAIN.write_text(main, encoding="utf-8")
 
 # --------------------------------------------------------------------------
@@ -537,6 +543,7 @@ si_out = si.replace('<title>', '<title>[Scientific Reports] ', 1)
 si_out = si_out.replace('molecules_paper.docx', 'scireports_paper.docx')
 si_out = si_out.replace('molecules_paper_SI.docx', 'scireports_paper_SI.docx')
 si_out = si_out.replace('molecules_paper.html', 'scireports_paper.html')
+si_out = si_out.replace(COVER_HTML, COVER_BOTH)
 
 # T7 companion: the applicability-domain table itself (new Supplementary Table S36).
 _ANCH = [("RDX", 1.6322, 1.820), ("TATB", 1.6629, 1.940), ("HMX", 1.6891, 1.910),
