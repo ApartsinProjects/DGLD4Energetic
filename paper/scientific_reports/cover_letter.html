@@ -45,14 +45,20 @@ Design of HMX-Class Energetic Materials with First-Principles Validation</strong
 for consideration as an original research Article in the Guest-Edited Collection &ldquo;Generative
 Modeling for Chemistry Discovery.&rdquo;</p>
 
-<p>The design of new high-energy-density materials is a data-limited inverse-design problem: of roughly
-66,000 labelled CHNO molecules, only about 3,000 carry experimental or DFT-quality property values, and no
-new HMX-class compound has been disclosed in decades. We introduce Domain-Gated Latent Diffusion
-(DGLD), a generative diffusion framework that couples inverse design to first-principles validation. A
-four-tier label-trust gate routes only high-quality labels into the conditional gradient while noisy labels
-train the unconditional prior; a multi-task score model provides independently switchable steering over
-viability, sensitivity, and hazard; and a four-stage screening funnel (SMARTS filtering, a Pareto reranker,
-GFN2-xTB triage, and two-level density functional theory) validates every candidate.</p>
+<p>Energetic materials power mining, demolition, propulsion, and automotive airbags, yet the compounds in
+service today were designed decades ago. Finding a successor means searching an enormous molecular space
+under conflicting demands: high energy release, low sensitivity to accidental initiation, and a practical
+synthesis route. Generative models are the natural search tool, but they fail here for a specific reason:
+the training data is mostly untrustworthy. Of roughly 66,000 molecules with recorded properties, only
+about 3,000 were measured experimentally or computed from first principles; models trained on all of them
+learn to imitate the rough estimates and propose candidates that collapse once real physics is applied.</p>
+
+<p>We introduce Domain-Gated Latent Diffusion (DGLD), a diffusion model that treats data reliability as an
+explicit design parameter. A four-tier trust gate lets only reliable labels steer generation, while the
+unreliable majority still teaches the model what a plausible molecule looks like; a multi-task score model
+provides independently switchable control over viability, sensitivity, and hazard; and a four-stage
+screening funnel (SMARTS filtering, a Pareto reranker, GFN2-xTB triage, and two-level density functional
+theory) audits every candidate before it is reported.</p>
 
 <p><strong>Fit to the Collection and to Scientific Reports.</strong> The work is a diffusion-model
 architecture for molecular design, integrated end to end with quantum-chemical simulation, and applied to
@@ -65,23 +71,24 @@ energetic-materials community.</p>
 
 <p>The principal findings are:</p>
 <ul>
-  <li>DGLD yields <strong>ten unique DFT-confirmed leads</strong> in the HMX performance class,
-  novel against PubChem, the SureChEMBL patent corpus, and the 65,980-row training master.</li>
-  <li>The headline compound, 3,4,5-trinitro-1,2-isoxazole, reaches a calibrated density of
-  2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation velocity of
-  8.25&nbsp;km&nbsp;s<sup>&minus;1</sup> while remaining structurally distinct from all 65,980 training
-  molecules (nearest-neighbour Tanimoto 0.27).</li>
-  <li>Benchmarked against four generative baselines on the same corpus, DGLD is the <strong>only method
-  with productive-quadrant coverage (novel and on-target) confirmed at the DFT level</strong>; the sole
-  baseline whose best novel candidate was carried to DFT collapsed from 9.73 to
-  6.28&nbsp;km&nbsp;s<sup>&minus;1</sup> under first-principles scoring.</li>
-  <li>The label-gating recipe is domain-agnostic and transfers to any inverse-design setting that pairs
-  abundant weak labels with a scarce trustworthy subset and a suitable validation funnel.</li>
+  <li>DGLD proposes <strong>ten unique molecules that survive the full DFT audit</strong>, none of them
+  present in PubChem, the SureChEMBL patent corpus, or the 65,980-row training set.</li>
+  <li>The best of them, 3,4,5-trinitro-1,2-isoxazole, matches the benchmark explosives HMX and PETN on
+  calculated detonation performance (calibrated density 2.09&nbsp;g&nbsp;cm<sup>&minus;3</sup>,
+  Kamlet&ndash;Jacobs detonation velocity 8.25&nbsp;km&nbsp;s<sup>&minus;1</sup>), is structurally unlike
+  anything in the training set (nearest-neighbour Tanimoto 0.27), and comes with a four-step synthesis
+  route, making it directly actionable for an experimental campaign.</li>
+  <li>Against four generative baselines on the same corpus, DGLD is the <strong>only method whose novel
+  candidates remain on-target once first-principles physics is applied</strong>; the sole baseline whose
+  best novel candidate was carried to DFT collapsed from 9.73 to
+  6.28&nbsp;km&nbsp;s<sup>&minus;1</sup>.</li>
+  <li>Because trust gating is independent of chemistry, the recipe transfers to any inverse-design setting
+  in which abundant weak labels surround a small reliable core.</li>
 </ul>
 
-<p>To support reproducibility, the code, trained model checkpoints, and datasets are released openly on
-Zenodo (DOI 10.5281/zenodo.19821952) and mirrored on GitHub, and the full computational protocol is given
-in the Supplementary Information.</p>
+<p>To support reproducibility, the code, trained model checkpoints, and datasets are released openly as a
+single archived package on Zenodo (DOI 10.5281/zenodo.19821952), and the full computational protocol is
+given in the Supplementary Information.</p>
 
 <p>We confirm that this manuscript is original, has not been published previously, and is not under
 consideration for publication elsewhere. All authors have approved the submission and agree to its content.

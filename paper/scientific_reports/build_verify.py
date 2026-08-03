@@ -39,10 +39,12 @@ def norm(t):
         t = t.replace(ch, ' ')
     # --- renumbering-aware canonicalisation (both sides) ---
     t = re.sub(r'\[\d+\]', '⟨C⟩', t)                                   # citation labels
-    t = re.sub(r'(?:main-text )?(?:Supplementary )?(?:Figures?|Figs?\.)\s*S?\d+[a-z]?', '⟨F⟩', t)
-    t = re.sub(r'(?:main-text )?(?:Supplementary )?Tables?\s*S?\d+[a-z]?', '⟨T⟩', t)
-    t = re.sub(r'⟨F⟩(\s*(and|,|–|-)\s*⟨F⟩)+', '⟨F⟩', t)
-    t = re.sub(r'⟨T⟩(\s*(and|,|–|-)\s*⟨T⟩)+', '⟨T⟩', t)
+    # "main "/"main-text " prefixes and "Figs"/"Fig."/"Figures" all collapse
+    t = re.sub(r'(?:main(?:-text)? )?(?:Supplementary )?(?:Figures?|Figs?\.?)\s*S?\d+[a-z]?', '⟨F⟩', t)
+    t = re.sub(r'(?:main(?:-text)? )?(?:Supplementary )?Tables?\s*S?\d+[a-z]?', '⟨T⟩', t)
+    # collapse ranges/lists, incl. residual bare endpoints ("⟨F⟩ 22", "⟨F⟩ S21")
+    t = re.sub(r'⟨F⟩(\s*(?:and|,|–|-|to)?\s*(?:⟨F⟩|S?\d+))+', '⟨F⟩', t)
+    t = re.sub(r'⟨T⟩(\s*(?:and|,|–|-|to)?\s*(?:⟨T⟩|S?\d+))+', '⟨T⟩', t)
     # declared SI-note heading demotion: "1.1.N Title" and "N.N Title" -> "Title"
     t = re.sub(r'^(?:1\.1\.|N\.)(\d)\s+', '', t)
     t = re.sub(r'\s+', ' ', t).strip()
@@ -77,6 +79,12 @@ DROP_OK = [
     "DGLD sits at the intersection of three lines of work",  # old 1.1 framing para (summary covers)
     "footnote between",                  # dagger pointer reworded for SI numbering
     "on Zenodo (Section",                # repointed self-ref (tail check below)
+    "Abstract: Designing high-energy-density materials",  # source abstract -> rewritten (ADD_OK)
+    "DGLD is a four-stage pipeline",     # pipeline-map sentence rewritten (ADD_OK)
+    "We assemble the training data",     # (superseded anchor, kept harmless)
+    "Available property labels in the energetic-materials literature",  # Table 3 citation inserted
+    "All code, data, and trained models are released together",          # GitHub mirror sentence dropped
+    "labelled master, Section",          # SI "Section 5" -> Data Availability
 ]
 lost = [s for s in src_segs if s not in OUT_ALL
         and not any(d in s for d in DROP_OK)]
@@ -90,7 +98,7 @@ if _p and _p[0] not in OUT_ALL:
 RUNIN = re.compile(r'^(Conclusions|Limitations)\.\s+')
 ADD_OK = [
     # declared new prose (build_scireports.py):
-    "Abstract: Designing high-energy-density materials",   # trimmed abstract
+    "Energetic materials power mining, demolition",   # rewritten <=200-w plain-language abstract
     "generative models; latent diffusion; inverse molecular design; energetic",
     "an extended survey is given in the Supplementary Note",   # summary para 1
     "On the property side, the Kamlet",                        # summary para 2
@@ -104,6 +112,11 @@ ADD_OK = [
     "The following display items support the main text",
     "⟨F⟩ S23 and ⟨T⟩ S35",                                     # migrated-items section header
     "footnote below",                                          # reworded dagger pointer
+    "per-stage panels in",              # pipeline-map sentence: mixed kept/moved range made explicit
+    "carries one of the following tiers",   # added main-body citation of Table 3
+    "This work addresses generative modelling for chemistry discovery",  # Collection framing sentence
+    "single archived package on Zenodo",    # Data Availability minus the GitHub mirror
+    "inside the archived Zenodo package",   # Code Availability minus the GitHub mirror
 ]
 added = []
 for o in out_segs:

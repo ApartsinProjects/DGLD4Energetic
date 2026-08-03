@@ -75,22 +75,22 @@ refs    = need("References")
 # --------------------------------------------------------------------------
 ABSTRACT = (
 '<div class="abstract">\n'
-'  <p><span class="lab">Abstract:</span> Designing high-energy-density materials is data-limited: of\n'
-'  ~66,000 labelled CHNO molecules, only ~3,000 carry trustworthy experimental\n'
-'  or density functional theory (DFT) values, so models memorise the high-performance tail or extrapolate\n'
-'  uncalibrated. We introduce <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, coupling generative\n'
-'  design to first-principles validation. A four-tier label-trust gate routes only high-quality labels\n'
-'  into the conditional gradient while noisy labels train the unconditional prior; a score model adds\n'
-'  switchable steering over viability, sensitivity, and hazard; and a four-stage funnel (SMARTS filter,\n'
-'  Pareto reranker, GFN2-xTB triage, two-level DFT) validates every candidate. DGLD yields 10 unique\n'
-'  DFT-confirmed leads, novel against PubChem; the headline compound, 3,4,5-trinitro-1,2-isoxazole,\n'
-'  reaches a calibrated density of 2.09' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> and a Kamlet&ndash;Jacobs detonation\n'
-'  velocity of 8.25' + NB + 'km' + NB + 's<sup>&minus;1</sup> (HMX and PETN anchors: 7.52 and 8.24' + NB + 'km' + NB + 's<sup>&minus;1</sup>),\n'
-'  and is distinct from all 65,980 training molecules (Tanimoto 0.27). Against four\n'
-'  baselines on the same corpus, DGLD is the only method with productive-quadrant coverage (novel and\n'
-'  on-target) confirmed at the DFT level; the sole baseline whose best novel candidate was carried to DFT\n'
-'  collapsed from 9.73 to 6.28' + NB + 'km' + NB + 's<sup>&minus;1</sup>. The label-trust gate is domain-agnostic,\n'
-'  transferring to any task with abundant weak and scarce trustworthy labels.</p>\n'
+'  <p><span class="lab">Abstract:</span> Energetic materials power mining, demolition, propulsion and\n'
+'  airbags, yet today&rsquo;s compounds were designed decades ago. A successor must combine high energy\n'
+'  release, low sensitivity to accidental initiation and a practical synthesis route, found within an\n'
+'  astronomically large molecular space. Generative models are the natural search tool, but their training\n'
+'  data is mostly untrustworthy: of ~66,000 molecules with recorded properties, only ~3,000 were measured\n'
+'  or computed from first principles. Models trained on all of them imitate the rough estimates and\n'
+'  propose molecules that collapse under real physics. We introduce\n'
+'  <strong>Domain-Gated Latent Diffusion (DGLD)</strong>, a diffusion model that treats data reliability\n'
+'  as an explicit design parameter: labels are sorted into four trust tiers, and only trustworthy ones\n'
+'  steer generation, while the unreliable majority still teaches the model what a plausible molecule looks\n'
+'  like. Learned controls tune performance, safety and viability independently, and every\n'
+'  proposal passes a four-stage screen ending in quantum-chemical (DFT) audit. DGLD proposes 10 molecules\n'
+'  unknown to PubChem that survive it. The best, 3,4,5-trinitro-1,2-isoxazole, matches benchmark\n'
+'  explosives HMX and PETN on calculated detonation performance, is unlike its training set, and has a\n'
+'  four-step synthesis route. Trust gating is chemistry-independent, applying wherever abundant weak data\n'
+'  surrounds a reliable core.</p>\n'
 '</div>')
 aw = len(re.sub(r'<[^>]+>', ' ', ABSTRACT).replace('&nbsp;', ' ')
          .replace('Abstract:', '').split())
@@ -122,11 +122,13 @@ RELATED_SUMMARY = (
 'string or graph representations and navigate it for property optimisation <a class="cite" href="#ref-gomez2018automatic">[6]</a>'
 '<a class="cite" href="#ref-jin2018junction">[7]</a>; we adopt the syntactically robust SELFIES '
 'representation <a class="cite" href="#ref-krenn2020selfies">[10]</a> and fine-tune the LIMO MLP-VAE '
-'<a class="cite" href="#ref-eckmann2022limo">[11]</a> as the frozen encoder, with MolMIM '
-'<a class="cite" href="#ref-reidenbach2023molmim">[12]</a>, the RL-based REINVENT'
-'&nbsp;4 <a class="cite" href="#ref-olivecrona2017reinvent">[14]</a><a class="cite" href="#ref-loeffler2024reinvent4">[15]</a>, '
-'and graph diffusion (DiGress <a class="cite" href="#ref-vignac2023digress">[21]</a>) as the comparative '
-'no-diffusion and diffusion baselines. On the generative-prior side, DGLD builds on denoising diffusion '
+'<a class="cite" href="#ref-eckmann2022limo">[11]</a> as the frozen encoder; MolMIM '
+'<a class="cite" href="#ref-reidenbach2023molmim">[12]</a> and the RL-based REINVENT'
+'&nbsp;4 <a class="cite" href="#ref-olivecrona2017reinvent">[14]</a><a class="cite" href="#ref-loeffler2024reinvent4">[15]</a> '
+'are among the comparative no-diffusion baselines (Section&nbsp;4.16). On the graph side, DiGress '
+'<a class="cite" href="#ref-vignac2023digress">[21]</a> performs discrete denoising diffusion directly on '
+'molecular graphs, achieving exact validity at the cost of re-introducing property conditioning through a '
+'separate guidance term. On the generative-prior side, DGLD builds on denoising diffusion '
 'probabilistic models <a class="cite" href="#ref-ho2020ddpm">[22]</a> and the score-based/SDE formulation '
 '<a class="cite" href="#ref-song2021sde">[24]</a>, transplants the latent-diffusion recipe '
 '<a class="cite" href="#ref-rombach2022ldm">[25]</a> from images to molecules, and combines '
@@ -249,6 +251,22 @@ def retext_refs(text):
         if n in KEEP_TABLES:
             return f'{word}⟦T{KEEP_TABLES[n]}⟧'
         return f'Supplementary Table{NB}⟦S{MOVE_TABLES[n]}⟧'
+    # plural / range forms first: "Figs 10 and 11", "Figs 13-22", "Figs 15, 16"
+    def fig_multi(m):
+        nums = [int(x) for x in re.findall(r'\d+', m.group(0))]
+        sep = ' and ' if ' and ' in m.group(0) else (
+              '&ndash;' if '&ndash;' in m.group(0) or '-' in m.group(0) else ', ')
+        if all(n in MOVE_FIGS for n in nums):
+            if sep == '&ndash;':   # a range: expand endpoints only
+                return (f'Supplementary Figs{NB}S{MOVE_FIGS[nums[0]]}&ndash;'
+                        f'S{MOVE_FIGS[nums[-1]]}')
+            return 'Supplementary Figs' + NB + sep.join(
+                f'S{MOVE_FIGS[n]}' for n in nums)
+        if all(n in KEEP_FIGS for n in nums):
+            return 'Figs' + NB + sep.join(f'⟦K{KEEP_FIGS[n]}⟧' for n in nums)
+        return m.group(0)          # mixed: leave for manual review
+    text = re.sub(r'(?<!Supplementary )(?:Figs?\.?|Figures)(?:&nbsp;| )\d+'
+                  r'(?:\s*(?:and|&ndash;|-|,)\s*\d+)+', fig_multi, text)
     text = re.sub(r'(Figures?(?:&nbsp;| )|Fig\.(?:&nbsp;| ))(\d+)\b', fig_ref, text)
     text = re.sub(r'(Tables?(?:&nbsp;| ))(\d+)\b', tab_ref, text)
     return text
@@ -289,15 +307,19 @@ methods = methods.rstrip() + "\n\n" + LLM_METHODS
 # G. back-matter
 # --------------------------------------------------------------------------
 data_avail = need("Data Availability Statement")
+# The Zenodo package is the single archive of record; drop the GitHub mirror sentence.
+data_avail = re.sub(
+    r'\s*The code is additionally\s*mirrored at\s*'
+    r'<a href="https://github\.com/[^"]+">[^<]+</a>\.', '', data_avail)
 code_avail = (
 '<h2>Code Availability</h2>\n'
 '<p>All custom code central to this study is publicly available. The full '
 'pipeline (LIMO fine-tuning, denoiser and score-model training, the sampling '
 'and four-stage validation funnel, and the figure-generation scripts) is '
-'released in the archived Zenodo package '
-'(<a href="https://doi.org/10.5281/zenodo.19821952">10.5281/zenodo.19821952</a>, '
-'Apache-2.0) and mirrored on GitHub at '
-'<a href="https://github.com/ApartsinProjects/DGLD4Energetic">github.com/ApartsinProjects/DGLD4Energetic</a>.</p>\n')
+'released under Apache-2.0 inside the archived Zenodo package '
+'(<a href="https://doi.org/10.5281/zenodo.19821952">10.5281/zenodo.19821952</a>), '
+'together with the trained checkpoints and datasets described in the Data Availability '
+'statement.</p>\n')
 author_contrib = need("Author Contributions")
 competing = ('<h2>Competing Interests</h2>\n'
              '<p>The authors declare no competing interests.</p>\n')
@@ -314,6 +336,26 @@ main = (front.rstrip() + "\n\n" + intro.rstrip() + "\n\n" + results.rstrip()
         + backmatter.rstrip() + "\n\n" + refs.rstrip() + "\n")
 main = strip_moved(main)
 main = renumber_kept(main)
+# mixed kept/moved range: source Fig 13 stays (-> main Fig 5), 14-22 migrate.
+# Rewritten explicitly so the pipeline-map sentence cites main Figure 5.
+main = main.replace(
+    'DGLD is a four-stage pipeline (Figs&nbsp;13&ndash;22):',
+    'DGLD is a four-stage pipeline (Figure' + NB + '⟦K5⟧; per-stage panels in '
+    'Supplementary Figs' + NB + 'S13&ndash;S21):')
+# ensure the four-tier table is cited in the main body at its first discussion
+main = main.replace(
+    'Each label per row carries one of the following tiers:',
+    'Each label per row carries one of the following tiers (Table' + NB + '⟦T3⟧):', 1)
+# Collection framing: state the generative-modelling-for-chemistry-discovery
+# contribution explicitly at the head of the Introduction (declared addition).
+COLLECTION_FRAME = (
+'<p>This work addresses generative modelling for chemistry discovery on three of the axes that define '
+'the problem: an algorithmic innovation in how a diffusion prior consumes unevenly reliable property '
+'labels, integration of the generative loop with quantum-chemical simulation as a first-class validation '
+'stage rather than a post-hoc check, and application to an advanced-materials target where the design '
+'objectives (energy release, stability, and synthesisability) are in direct conflict.</p>\n')
+main = main.replace('<h2 id="sec-intro">1. Introduction</h2>\n',
+                    '<h2 id="sec-intro">1. Introduction</h2>\n' + COLLECTION_FRAME, 1)
 main = retext_refs(main)
 main = resolve_placeholders(main)
 
@@ -398,6 +440,27 @@ def retext_si(text):
 j = si_out.index('<h2 id="sec-si-note">')
 k = si_out.index('<h2 id="sec-refs">References', j)
 si_out = si_out[:j] + retext_si(si_out[j:k]) + si_out[k:]
+
+# pre-existing SI text still carries OLD main-display numbers; repoint those
+# (targeted, verified one-by-one against the migrated captions)
+SI_STALE = [
+    ('(main Figure&nbsp;23)', '(Supplementary Fig.' + NB + 'S22)'),        # CFG sweep -> S22
+    ('Section&nbsp;4.15, Figure&nbsp;23',
+     'Section' + NB + '4.15, Supplementary Fig.' + NB + 'S22'),
+    ('(main Table&nbsp;7)', '(main-text Table' + NB + '2)'),               # baselines table
+    ('summarised in Table&nbsp;8', 'summarised in Supplementary Table' + NB + 'S35'),
+    ('(Figs&nbsp;18 and 20)',
+     '(Supplementary Figs' + NB + 'S17 and S19)'),                        # score model, sampler
+    ('labelled master, Section&nbsp;5)',
+     'labelled master, see the Data Availability statement)'),
+    # old main Table 2 (per-lead calibration-propagated uncertainty) migrated to S30
+    ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
+]
+for old, new in SI_STALE:
+    if old in si_out:
+        si_out = si_out.replace(old, new)
+    else:
+        print(f"  [warn] SI stale ref not found (already fixed?): {old!r}")
 
 # augment SI reference list with any cited-but-unlisted keys (from source main list)
 src_items = {mm.group(1): mm.group(0) for mm in
