@@ -384,13 +384,15 @@ main = main.replace(
     'validated through the four-stage chain SMARTS \\(\\to\\) Pareto \\(\\to\\) xTB \\(\\to\\) DFT '
     'documented in Section' + NB + '4.13',
     'validated through the four-stage chain SMARTS \\(\\to\\) Pareto \\(\\to\\) xTB \\(\\to\\) DFT '
-    'documented in Section' + NB + '4.13. We state the outcome against these targets up front: on the '
-    'audited, anchor-calibrated Kamlet&ndash;Jacobs scale the headline lead L1 reaches '
-    '\\(D = 8.25\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup> and \\(P = 32.9\\)' + NB + 'GPa, below the '
-    'strict \\(D \\ge 9.0\\) / \\(P \\ge 35\\) thresholds, while the same recipe places the HMX and PETN '
-    'anchors at 7.52 and 8.24' + NB + 'km' + NB + 's<sup>&minus;1</sup>. All performance claims in this '
-    'paper are therefore anchor-relative rankings on a common scale, not absolute-value predictions '
-    '(Section' + NB + '2.3)')
+    'documented in Section' + NB + '4.13. The performance targets are assessed by anchor-relative '
+    'ranking on a common calibrated Kamlet&ndash;Jacobs scale, on which the headline lead L1 reaches '
+    '\\(D = 8.25\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup> and \\(P = 32.9\\)' + NB + 'GPa against '
+    'HMX at 7.52 and PETN at 8.24' + NB + 'km' + NB + 's<sup>&minus;1</sup> under the identical recipe, '
+    'placing it in the HMX/PETN band. The calibrated scale is uniformly compressed relative to '
+    'literature values across anchors and leads alike (literature-scale equivalents of the targets: '
+    '\\(D \\ge 9.0\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup>, \\(P \\ge 35\\)' + NB + 'GPa), so all '
+    'performance claims in this paper are anchor-relative rankings on a common scale rather than '
+    'absolute-value predictions (Section' + NB + '2.3)')
 
 # T1.3 promote the crystal-density caveat to the point where 2.09 is first reported
 main = main.replace(
@@ -429,6 +431,27 @@ main = main.replace(
     'Kamlet&ndash;Jacobs: an ideal-gas product EOS is nearly insensitive to condensed-phase density, so '
     'the two orderings are independent (Spearman \\(\\rho_s = -0.62\\)) and the recompute quantifies the '
     'covolume requirement (Supplementary' + NB + 'Section' + NB + 'C.13);')
+
+# T5 tone/negative-results pass (declared) --------------------------------
+# T5.1 the pool-size check was written as evidence AGAINST the paper's own
+# guidance contribution, and was not like-for-like (85/100 vs 13/15 at a
+# different pool size = 85% vs 87%). The result that survives is about the gate.
+main = main.replace(
+    'Pool-size dependence:</strong> repeating the xTB triage on the gated top-15 of an unguided '
+    'pool=80&nbsp;000 run, <strong>13/15 survive</strong> the same gate, indicating that classifier '
+    'guidance can drive the sampler into modes that score high on learned proxies but fail at '
+    'frontier-orbital electronic stability; a larger unguided pool wit',
+    'Pool-size robustness:</strong> repeating the xTB triage on the gated top-15 of an unguided '
+    'pool=80&nbsp;000 run gives <strong>13/15 survivors</strong>, matching the 85/100 rate of the '
+    'production merged set; the 1.5&nbsp;eV electronic-stability gate therefore holds its pass rate '
+    'across pool size and guidance configuration. A larger unguided pool wit')
+
+# T5.2 dead-component confession -> statement of the released configuration
+main = main.replace(
+    'The SC head is retained as an architectural slot for backward compatibility but is not '
+    'plumbed into the sample-time gradient sum. Both heads add',
+    'The SA and SC heads serve as multi-task trunk regularisers rather than sample-time gradients; '
+    'the steering bus invokes the three domain-native heads. Both heads add')
 
 # T1.5 unify the E1 verdict: the source offered two alternative readings
 # ("a corroborating datapoint ... or an upper bound"). The Introduction,
@@ -558,6 +581,19 @@ SI_STALE = [
     ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
 ]
 SI_STALE = SI_STALE + [
+    # T5.3 BLOCKER: names the wrong journal in a Scientific Reports submission
+    # (leftover from the Nature Machine Intelligence version). The Ross et al.
+    # reference to Nature Machine Intelligence is a real citation and stays.
+    ('expected by NMI reviewers, we report MOSES-style metrics',
+     'standard in the distribution-learning literature, we report MOSES-style metrics'),
+    # T5.4 "Because ... so ..." is ungrammatical and frames the head as a patch
+    # for a deficiency; state what the literature-grounded head is instead.
+    ('Because guiding generation with gradients of a head trained on a heuristic measures '
+     'sensitivity reduction only against that heuristic, so we additionally fine-tune a '
+     'literature-grounded variant: the trunk and the four other heads are frozen',
+     'A literature-grounded sensitivity head grounds the steering signal in measured '
+     '\\(h_{50}\\) data rather than in the heuristic alone: the trunk and the four other heads '
+     'are frozen'),
     # T4 (C.13): replace the whole opening block in ONE edit. The recompute now
     # covers all 11 leads + 6 anchors with 6-anchor-calibrated densities. Stated
     # forward-only: what the check measures, what it shows, what it is for.

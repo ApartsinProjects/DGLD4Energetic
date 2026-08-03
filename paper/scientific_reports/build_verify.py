@@ -87,7 +87,11 @@ DROP_OK = [
     "labelled master, Section",          # SI "Section 5" -> Data Availability
     # --- Tier-1 editorial revisions (source side) ---
     "Energetic-materials performance gains translate directly into reduced propellant mass",  # T1.1
-    "Section 2 is structured results-first",                       # T1.2 target-miss added
+    "Section 2 is structured results-first",                       # T1.2/T5.2 target framing
+    "Pool-size dependence",                       # T5.1 reframed to gate robustness
+    "The SC head is retained as an architectural slot",  # T5.2 dead-code line removed
+    "expected by NMI reviewers",                  # T5.3 wrong-journal leftover removed
+    "Because guiding generation with gradients",  # T5.4 grammar + framing
     "6-anchor calibration",                                        # T1.3 density caveat added
     "Of the merged top-100, 96/97 are absent from PubChem",        # T1.4 lead-role reframe
     "E1 oxatriazole: independent recovery of a known structure",   # T1.5 verdict unified
@@ -128,7 +132,11 @@ ADD_OK = [
     "Taken together, these contributions sit on three axes",  # Collection scope statement (closes Intro)
     # --- Tier-1 editorial revisions (derived side) ---
     "launch and mining applications",          # T1.1 civilian-first framing
-    "below the strict",                        # T1.2 pre-registered target miss stated up front
+    "placing it in the HMX/PETN band",         # T1.2/T5.2 anchor-relative framing
+    "Pool-size robustness",                    # T5.1 gate holds across pool size
+    "serve as multi-task trunk regularisers",  # T5.2 released-configuration statement
+    "standard in the distribution-learning literature",  # T5.3 journal-neutral
+    "grounds the steering signal in measured",  # T5.4 literature-grounded head
     "largest single uncertainty in the paper", # T1.3 density caveat promoted to Results
     "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
     "single role throughout this paper",       # T1.5 unified E1 verdict (replaced an either/or)
