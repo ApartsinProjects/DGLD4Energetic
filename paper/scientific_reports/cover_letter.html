@@ -60,14 +60,17 @@ provides independently switchable control over viability, sensitivity, and hazar
 screening funnel (SMARTS filtering, a Pareto reranker, GFN2-xTB triage, and two-level density functional
 theory) audits every candidate before it is reported.</p>
 
-<p><strong>Fit to the Collection and to Scientific Reports.</strong> The work is a diffusion-model
-architecture for molecular design, integrated end to end with quantum-chemical simulation, and applied to
-advanced energetic materials; it therefore addresses the Collection's stated focus on algorithmic
-innovations, integration with quantum-chemical workflows, and applications to advanced materials.
-Because the label-trust gating recipe is domain-agnostic, transferring to any inverse-design setting that
-pairs abundant weak labels with a scarce trustworthy subset, we expect the manuscript to interest the
-journal's broad readership in machine learning, computational chemistry, and materials science beyond the
-energetic-materials community.</p>
+<p><strong>Fit to the Collection.</strong> The manuscript speaks to all three of the Collection's stated
+themes. It contributes an <em>algorithmic innovation</em> in deep generative modelling, namely a diffusion
+prior that consumes unevenly reliable property labels by construction rather than by filtering them away.
+It is built around <em>integration with quantum-chemical simulation</em>, with DFT acting as a validation
+stage inside the discovery loop rather than as a post-hoc check, so that no candidate is reported until
+first-principles physics has been applied to it. And it is an <em>application to advanced materials</em>,
+on a target whose design objectives are in direct conflict. Because the label-trust gate is independent of
+chemistry, transferring to any inverse-design setting in which abundant weak labels surround a small
+reliable core, we expect the work to interest readers in catalysis and energy storage, where the same
+label-quality asymmetry arises, as well as the journal's broader machine-learning and materials
+readership.</p>
 
 <p>The principal findings are:</p>
 <ul>

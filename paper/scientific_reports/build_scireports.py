@@ -267,6 +267,18 @@ def retext_refs(text):
         return m.group(0)          # mixed: leave for manual review
     text = re.sub(r'(?<!Supplementary )(?:Figs?\.?|Figures)(?:&nbsp;| )\d+'
                   r'(?:\s*(?:and|&ndash;|-|,)\s*\d+)+', fig_multi, text)
+    def tab_multi(m):
+        nums = [int(x) for x in re.findall(r'\d+', m.group(0))]
+        sep = ' and ' if ' and ' in m.group(0) else (
+              '&ndash;' if '&ndash;' in m.group(0) else ', ')
+        if all(n in MOVE_TABLES for n in nums):
+            return 'Supplementary Tables' + NB + sep.join(
+                f'S{MOVE_TABLES[n]}' for n in nums)
+        if all(n in KEEP_TABLES for n in nums):
+            return 'Tables' + NB + sep.join(f'⟦T{KEEP_TABLES[n]}⟧' for n in nums)
+        return m.group(0)          # mixed: leave for manual review
+    text = re.sub(r'(?<!Supplementary )Tables?(?:&nbsp;| )\d+'
+                  r'(?:\s*(?:and|&ndash;|,)\s*\d+)+', tab_multi, text)
     text = re.sub(r'(Figures?(?:&nbsp;| )|Fig\.(?:&nbsp;| ))(\d+)\b', fig_ref, text)
     text = re.sub(r'(Tables?(?:&nbsp;| ))(\d+)\b', tab_ref, text)
     return text
@@ -346,16 +358,17 @@ main = main.replace(
 main = main.replace(
     'Each label per row carries one of the following tiers:',
     'Each label per row carries one of the following tiers (Table' + NB + '⟦T3⟧):', 1)
-# Collection framing: state the generative-modelling-for-chemistry-discovery
-# contribution explicitly at the head of the Introduction (declared addition).
+# Scope statement closing the Introduction (declared addition). Placed AFTER the
+# contribution list, not at the head: the Introduction opens on the problem and
+# closes on positioning.
 COLLECTION_FRAME = (
-'<p>This work addresses generative modelling for chemistry discovery on three of the axes that define '
-'the problem: an algorithmic innovation in how a diffusion prior consumes unevenly reliable property '
-'labels, integration of the generative loop with quantum-chemical simulation as a first-class validation '
-'stage rather than a post-hoc check, and application to an advanced-materials target where the design '
-'objectives (energy release, stability, and synthesisability) are in direct conflict.</p>\n')
-main = main.replace('<h2 id="sec-intro">1. Introduction</h2>\n',
-                    '<h2 id="sec-intro">1. Introduction</h2>\n' + COLLECTION_FRAME, 1)
+'<p>Taken together, these contributions sit on three axes of generative modelling for chemistry '
+'discovery: how a diffusion prior should consume unevenly reliable property labels, how the generative '
+'loop couples to quantum-chemical simulation as a validation stage rather than a post-hoc check, and '
+'what either buys on an advanced-materials target whose design objectives (energy release, stability, '
+'and synthesisability) are in direct conflict.</p>\n')
+main = main.replace('<h3>1.1. Related Work</h3>',
+                    COLLECTION_FRAME + '<h3>1.1. Related Work</h3>', 1)
 
 # --- Tier-1 editorial revisions (declared) --------------------------------
 # T1.1 civilian-first framing, consistent with the abstract
@@ -391,6 +404,25 @@ main = main.replace(
     'Section' + NB + 'C.9), below the calibrated value. Crystal-structure prediction or experimental '
     'single-crystal X-ray diffraction remains the critical missing step before any density-based '
     'performance claim here can be treated as quantitative (Section' + NB + '3).</p>')
+
+# T1.5 unify the E1 verdict: the source offered two alternative readings
+# ("a corroborating datapoint ... or an upper bound"). The Introduction,
+# Discussion and Conclusions already commit to one; state it here too.
+main = main.replace(
+    'Without an oxatriazole-class anchor, E1&rsquo;s calibrated \\(D = 9.00\\)'.replace('&rsquo;', "'")
+    + NB + 'km' + NB + 's<sup>&minus;1</sup> is an extrapolation: read as a lower-confidence '
+    'corroborating datapoint, it marks a second HMX-class-range performance point from a chemotype '
+    "family disjoint from L1's (for a known structure, an external-validation signal rather than a new "
+    'lead), or is an upper bound pending an oxatriazole-anchor recompute (a thermochemical-equilibrium '
+    'CJ on calibrated inputs and an oxatriazole-class anchor extension are scoped as future work in '
+    'Section' + NB + '3).',
+    'We therefore assign E1 a single role throughout this paper: it is an external-validation signal '
+    'on the sampler&rsquo;s scaffold reach, not a lead. Because the 6-anchor set contains no '
+    'oxatriazole-class member, its calibrated \\(D = 9.00\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup> is an '
+    'extrapolation outside the anchor chemical space and is read as an upper bound, pending both a '
+    'dedicated stability screen and an oxatriazole-class anchor extension (with a '
+    'thermochemical-equilibrium CJ recompute on calibrated inputs, scoped as future work in '
+    'Section' + NB + '3). It is not counted among the synthesis-actionable results.')
 
 # T1.4 reframe the deliverable: L1 is the actionable lead; the rest carry scaffold diversity
 main = main.replace(

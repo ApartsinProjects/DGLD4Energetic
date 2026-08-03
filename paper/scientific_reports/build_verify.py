@@ -90,6 +90,7 @@ DROP_OK = [
     "Section 2 is structured results-first",                       # T1.2 target-miss added
     "6-anchor calibration",                                        # T1.3 density caveat added
     "Of the merged top-100, 96/97 are absent from PubChem",        # T1.4 lead-role reframe
+    "E1 oxatriazole: independent recovery of a known structure",   # T1.5 verdict unified
 ]
 lost = [s for s in src_segs if s not in OUT_ALL
         and not any(d in s for d in DROP_OK)]
@@ -119,12 +120,13 @@ ADD_OK = [
     "footnote below",                                          # reworded dagger pointer
     "per-stage panels in",              # pipeline-map sentence: mixed kept/moved range made explicit
     "carries one of the following tiers",   # added main-body citation of Table 3
-    "This work addresses generative modelling for chemistry discovery",  # Collection framing sentence
+    "Taken together, these contributions sit on three axes",  # Collection scope statement (closes Intro)
     # --- Tier-1 editorial revisions (derived side) ---
     "launch and mining applications",          # T1.1 civilian-first framing
     "below the strict",                        # T1.2 pre-registered target miss stated up front
     "largest single uncertainty in the paper", # T1.3 density caveat promoted to Results
     "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
+    "single role throughout this paper",       # T1.5 unified E1 verdict (replaced an either/or)
     "single archived package on Zenodo",    # Data Availability minus the GitHub mirror
     "inside the archived Zenodo package",   # Code Availability minus the GitHub mirror
 ]
