@@ -92,6 +92,8 @@ DROP_OK = [
     "Of the merged top-100, 96/97 are absent from PubChem",        # T1.4 lead-role reframe
     "E1 oxatriazole: independent recovery of a known structure",   # T1.5 verdict unified
     "C.9 Bondi-vdW packing-factor bracket",                        # T1.6 raw/calibrated scales labelled
+    "the relative ranking shows L1, L4, L5 are RDX-class",         # T4 corrected at full coverage
+    "An independent Cantera ideal-gas CJ recompute ranks L1",      # T4 main-text companion
     "The Uni-Mol surrogate is well-calibrated on the labelled distribution",  # T1.6 pk arithmetic corrected
 ]
 lost = [s for s in src_segs if s not in OUT_ALL
@@ -130,6 +132,9 @@ ADD_OK = [
     "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
     "single role throughout this paper",       # T1.5 unified E1 verdict (replaced an either/or)
     "raw (pre-calibration)",                   # T1.6 SI bracket scale labelled
+    "anti-correlates</em> with the calibrated",  # T4 measured Spearman -0.62 (SI C.13)
+    "does not in fact support a ranking cross-check",  # T4 SI C.13 correction
+    "reproduces the product-composition and energy-release picture",  # T4 main-text correction
     "on the calibrated scale, equivalently the raw Bondi value",  # T1.6 main-text scale + 1.97->1.94
     "single archived package on Zenodo",    # Data Availability minus the GitHub mirror
     "inside the archived Zenodo package",   # Code Availability minus the GitHub mirror

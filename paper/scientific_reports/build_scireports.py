@@ -421,6 +421,15 @@ main = main.replace(
     'calibration is applied, shifting \\(D_{\\text{K-J}}\\) by roughly '
     '\\(\\pm 0.3\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup>.')
 
+# T4 main-text companion to the C.13 correction (same measured result).
+main = main.replace(
+    'An independent Cantera ideal-gas CJ recompute ranks L1, L4, L5 as RDX-class;',
+    'An independent Cantera ideal-gas CJ recompute, extended here to all eleven leads and all six '
+    'anchors, reproduces the product-composition and energy-release picture but <em>anti</em>-correlates '
+    'with the calibrated Kamlet&ndash;Jacobs ordering (Spearman \\(\\rho_s = -0.62\\)) because an '
+    'ideal-gas product EOS is nearly insensitive to condensed-phase density; it is therefore not used as '
+    'a ranking check (Supplementary' + NB + 'Section' + NB + 'C.13);')
+
 # T1.5 unify the E1 verdict: the source offered two alternative readings
 # ("a corroborating datapoint ... or an upper bound"). The Introduction,
 # Discussion and Conclusions already commit to one; state it here too.
@@ -549,6 +558,33 @@ SI_STALE = [
     ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
 ]
 SI_STALE = SI_STALE + [
+    # T4 (C.13): the CJ cross-check was extended from 3 leads + 2 anchors to all
+    # 11 leads + 6 anchors, and re-run with 6-anchor-calibrated densities (the
+    # stored m2_summary rho_cal field is from the superseded 2-anchor fit). At
+    # full coverage the ideal-gas CJ ordering ANTI-correlates with calibrated
+    # K-J (Spearman -0.62), because without a covolume term the CJ state is
+    # nearly insensitive to condensed-phase density -- the dominant K-J
+    # variable. The old "L1, L4, L5 are RDX-class" ranking claim is therefore
+    # replaced by the measured result.
+    ('the relative ranking shows L1, L4, L5 are RDX-class (within the same product-gas family: '
+     'L1, L4, L5 share a CO<sub>2</sub>/H<sub>2</sub>O-dominant CHNO product distribution; '
+     'cross-family ranking with N<sub>2</sub>-dominant tetrazoline-class compounds would require '
+     'a covolume EOS recompute), providing a qualitative consistency check that the headline '
+     '\\(D\\) claim for L1 is reasonable.',
+     'Extending the recompute to all eleven leads and all six calibration anchors shows that this '
+     'footing does not in fact support a ranking cross-check. Across the eleven leads the '
+     'ideal-gas CJ ordering <em>anti-correlates</em> with the calibrated Kamlet&ndash;Jacobs '
+     'ordering (Spearman \\(\\rho_s = -0.62\\), \\(n = 11\\)): L4 and L18 reach the RDX/HMX band '
+     '(2.52 vs RDX 2.50, HMX 2.49' + NB + 'km' + NB + 's<sup>&minus;1</sup>) while L1, the '
+     'K-J-highest lead, sits between the FOX-7 and NTO anchors at 2.22' + NB + 'km' + NB +
+     's<sup>&minus;1</sup>. The mechanism is the missing covolume term: with an ideal-gas product '
+     'EOS the CJ state is nearly insensitive to condensed-phase density (recomputing L1 at '
+     '\\(\\rho = 2.53\\) versus \\(2.09\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> moves '
+     '\\(D_{\\text{CJ}}\\) by less than 0.01' + NB + 'km' + NB + 's<sup>&minus;1</sup>), whereas '
+     'density is the dominant variable in Kamlet&ndash;Jacobs. We therefore do not use the '
+     'ideal-gas CJ as a ranking check on the K-J results; it is reported as a product-composition '
+     'and energy-release consistency check only, and it quantifies why the covolume-EOS recompute '
+     'scoped in Section' + NB + '3 is the necessary next step rather than an optional refinement.'),
     # T1.6 companion: label the C.9 bracket as RAW (pre-calibration), so it can
     # no longer be read against the calibrated figures quoted in the main text.
     ('yields \\(\\rho \\in [1.69, 1.87]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> for L1 and '
