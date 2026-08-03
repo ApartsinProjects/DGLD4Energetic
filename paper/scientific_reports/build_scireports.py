@@ -558,6 +558,13 @@ SI_STALE = [
     ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
 ]
 SI_STALE = SI_STALE + [
+    # T4: the C.13 opener still billed the run as a "relative-ranking sanity
+    # check", which the full-coverage result contradicts. Re-scope the opener.
+    ('A thermochemical-equilibrium Cantera ideal-gas Chapman&ndash;Jouguet recompute is provided '
+     'as an independent relative-ranking sanity check on the Section' + NB + '2.3 K-J results.',
+     'A thermochemical-equilibrium Cantera ideal-gas Chapman&ndash;Jouguet recompute is provided as '
+     'an independent product-composition and energy-release cross-check on the Section' + NB + '2.3 '
+     'K-J results, over all eleven leads and all six calibration anchors.'),
     # T4 (C.13): the CJ cross-check was extended from 3 leads + 2 anchors to all
     # 11 leads + 6 anchors, and re-run with 6-anchor-calibrated densities (the
     # stored m2_summary rho_cal field is from the superseded 2-anchor fit). At
