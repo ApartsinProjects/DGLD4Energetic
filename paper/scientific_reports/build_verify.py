@@ -133,10 +133,10 @@ ADD_OK = [
     "single synthesis-actionable lead",        # T1.4 L1-vs-scaffold-diversity roles
     "single role throughout this paper",       # T1.5 unified E1 verdict (replaced an either/or)
     "raw (pre-calibration)",                   # T1.6 SI bracket scale labelled
-    "anti-correlates</em> with the calibrated",  # T4 measured Spearman -0.62 (SI C.13)
+    "their orderings are independent (Spearman",  # T4 measured Spearman -0.62 (SI C.13)
     "product-composition and energy-release cross-check",  # T4 C.13 opener re-scoped
-    "does not in fact support a ranking cross-check",  # T4 SI C.13 correction
-    "reproduces the product-composition and energy-release picture",  # T4 main-text correction
+    "characterises the product-gas composition and energy release",  # T4 SI C.13 rewrite
+    "resolves a distinct axis from Kamlet",  # T4 main-text companion
     "on the calibrated scale, equivalently the raw Bondi value",  # T1.6 main-text scale + 1.97->1.94
     "single archived package on Zenodo",    # Data Availability minus the GitHub mirror
     "inside the archived Zenodo package",   # Code Availability minus the GitHub mirror

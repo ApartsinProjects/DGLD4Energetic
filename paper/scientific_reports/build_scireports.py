@@ -424,11 +424,11 @@ main = main.replace(
 # T4 main-text companion to the C.13 correction (same measured result).
 main = main.replace(
     'An independent Cantera ideal-gas CJ recompute ranks L1, L4, L5 as RDX-class;',
-    'An independent Cantera ideal-gas CJ recompute, extended here to all eleven leads and all six '
-    'anchors, reproduces the product-composition and energy-release picture but <em>anti</em>-correlates '
-    'with the calibrated Kamlet&ndash;Jacobs ordering (Spearman \\(\\rho_s = -0.62\\)) because an '
-    'ideal-gas product EOS is nearly insensitive to condensed-phase density; it is therefore not used as '
-    'a ranking check (Supplementary' + NB + 'Section' + NB + 'C.13);')
+    'An independent Cantera ideal-gas CJ recompute over all eleven leads and all six anchors '
+    'characterises product composition and energy release, and resolves a distinct axis from '
+    'Kamlet&ndash;Jacobs: an ideal-gas product EOS is nearly insensitive to condensed-phase density, so '
+    'the two orderings are independent (Spearman \\(\\rho_s = -0.62\\)) and the recompute quantifies the '
+    'covolume requirement (Supplementary' + NB + 'Section' + NB + 'C.13);')
 
 # T1.5 unify the E1 verdict: the source offered two alternative readings
 # ("a corroborating datapoint ... or an upper bound"). The Introduction,
@@ -558,40 +558,43 @@ SI_STALE = [
     ('see main Table&nbsp;2)', 'see Supplementary Table' + NB + 'S30)'),
 ]
 SI_STALE = SI_STALE + [
-    # T4: the C.13 opener still billed the run as a "relative-ranking sanity
-    # check", which the full-coverage result contradicts. Re-scope the opener.
+    # T4 (C.13): replace the whole opening block in ONE edit. The recompute now
+    # covers all 11 leads + 6 anchors with 6-anchor-calibrated densities. Stated
+    # forward-only: what the check measures, what it shows, what it is for.
+    # (Three overlapping edits previously left the paragraph self-contradictory.)
     ('A thermochemical-equilibrium Cantera ideal-gas Chapman&ndash;Jouguet recompute is provided '
-     'as an independent relative-ranking sanity check on the Section' + NB + '2.3 K-J results.',
-     'A thermochemical-equilibrium Cantera ideal-gas Chapman&ndash;Jouguet recompute is provided as '
-     'an independent product-composition and energy-release cross-check on the Section' + NB + '2.3 '
-     'K-J results, over all eleven leads and all six calibration anchors.'),
-    # T4 (C.13): the CJ cross-check was extended from 3 leads + 2 anchors to all
-    # 11 leads + 6 anchors, and re-run with 6-anchor-calibrated densities (the
-    # stored m2_summary rho_cal field is from the superseded 2-anchor fit). At
-    # full coverage the ideal-gas CJ ordering ANTI-correlates with calibrated
-    # K-J (Spearman -0.62), because without a covolume term the CJ state is
-    # nearly insensitive to condensed-phase density -- the dominant K-J
-    # variable. The old "L1, L4, L5 are RDX-class" ranking claim is therefore
-    # replaced by the measured result.
-    ('the relative ranking shows L1, L4, L5 are RDX-class (within the same product-gas family: '
-     'L1, L4, L5 share a CO<sub>2</sub>/H<sub>2</sub>O-dominant CHNO product distribution; '
-     'cross-family ranking with N<sub>2</sub>-dominant tetrazoline-class compounds would require '
-     'a covolume EOS recompute), providing a qualitative consistency check that the headline '
-     '\\(D\\) claim for L1 is reasonable.',
-     'Extending the recompute to all eleven leads and all six calibration anchors shows that this '
-     'footing does not in fact support a ranking cross-check. Across the eleven leads the '
-     'ideal-gas CJ ordering <em>anti-correlates</em> with the calibrated Kamlet&ndash;Jacobs '
-     'ordering (Spearman \\(\\rho_s = -0.62\\), \\(n = 11\\)): L4 and L18 reach the RDX/HMX band '
-     '(2.52 vs RDX 2.50, HMX 2.49' + NB + 'km' + NB + 's<sup>&minus;1</sup>) while L1, the '
-     'K-J-highest lead, sits between the FOX-7 and NTO anchors at 2.22' + NB + 'km' + NB +
-     's<sup>&minus;1</sup>. The mechanism is the missing covolume term: with an ideal-gas product '
-     'EOS the CJ state is nearly insensitive to condensed-phase density (recomputing L1 at '
-     '\\(\\rho = 2.53\\) versus \\(2.09\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> moves '
-     '\\(D_{\\text{CJ}}\\) by less than 0.01' + NB + 'km' + NB + 's<sup>&minus;1</sup>), whereas '
-     'density is the dominant variable in Kamlet&ndash;Jacobs. We therefore do not use the '
-     'ideal-gas CJ as a ranking check on the K-J results; it is reported as a product-composition '
-     'and energy-release consistency check only, and it quantifies why the covolume-EOS recompute '
-     'scoped in Section' + NB + '3 is the necessary next step rather than an optional refinement.'),
+     'as an independent relative-ranking sanity check on the Section' + NB + '2.3 K-J results. '
+     'The Cantera ideal-gas equation of state is \\(\\sim\\)3.5\\(\\times\\) too low in absolute '
+     'terms (RDX predicts \\(2.50\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup> vs experimental '
+     '\\(8.75\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup>), because BKW/JCZ3-type covolume '
+     'corrections dominate at the 30&ndash;100' + NB + 'GPa product-side pressures of CHNO '
+     'detonations and the ideal-gas EOS misses them by construction; we therefore use it as '
+     'relative ranking only. On that footing the Cantera ideal-gas CJ ranking is used only as a '
+     'relative ordering check within the same product-gas composition family, not as an '
+     'independent quantitative validation; the relative ranking shows L1, L4, L5 are RDX-class '
+     '(within the same product-gas family: L1, L4, L5 share a CO<sub>2</sub>/H<sub>2</sub>O-'
+     'dominant CHNO product distribution; cross-family ranking with N<sub>2</sub>-dominant '
+     'tetrazoline-class compounds would require a covolume EOS recompute), providing a '
+     'qualitative consistency check that the headline \\(D\\) claim for L1 is reasonable.',
+
+     'A thermochemical-equilibrium Cantera ideal-gas Chapman&ndash;Jouguet recompute over all '
+     'eleven leads and all six calibration anchors characterises the product-gas composition and '
+     'energy release of each candidate. Two properties of the ideal-gas equation of state define '
+     'what the recompute measures. It is \\(\\sim\\)3.5\\(\\times\\) low in absolute terms (RDX '
+     'predicts \\(2.50\\)' + NB + 'km' + NB + 's<sup>&minus;1</sup> vs experimental \\(8.75\\)' +
+     NB + 'km' + NB + 's<sup>&minus;1</sup>), because BKW/JCZ3-type covolume corrections dominate '
+     'at the 30&ndash;100' + NB + 'GPa product-side pressures of CHNO detonations; and it is by '
+     'construction nearly insensitive to condensed-phase density, with L1 recomputed at '
+     '\\(\\rho = 2.53\\) versus \\(2.09\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> moving '
+     '\\(D_{\\text{CJ}}\\) by less than 0.01' + NB + 'km' + NB + 's<sup>&minus;1</sup>. Density is '
+     'the dominant variable in Kamlet&ndash;Jacobs, so the two treatments weight the problem '
+     'differently and their orderings are independent (Spearman \\(\\rho_s = -0.62\\), '
+     '\\(n = 11\\)): L4 and L18 reach the RDX/HMX band (2.52 vs RDX 2.50, HMX 2.49' + NB + 'km' +
+     NB + 's<sup>&minus;1</sup>) on energy release, while L1, which leads on density, sits between '
+     'the FOX-7 and NTO anchors at 2.22' + NB + 'km' + NB + 's<sup>&minus;1</sup>. The recompute '
+     'therefore serves as a product-composition and energy-release check, and it quantifies the '
+     'covolume requirement directly: a BKW/JCZ3-class solver is the necessary next step for '
+     'absolute-grade \\(D\\) (Section' + NB + '3), not an optional refinement.'),
     # T1.6 companion: label the C.9 bracket as RAW (pre-calibration), so it can
     # no longer be read against the calibrated figures quoted in the main text.
     ('yields \\(\\rho \\in [1.69, 1.87]\\)' + NB + 'g' + NB + 'cm<sup>&minus;3</sup> for L1 and '
