@@ -464,6 +464,29 @@ main = main.replace(
     'The SA and SC heads serve as multi-task trunk regularisers rather than sample-time gradients; '
     'the steering bus invokes the three domain-native heads. Both heads add')
 
+# T8 the dagger footnote sits inside Section 2.4 and pointed the reader to
+# "Section 2.4" -- a circular self-reference whose target is a sentence a few
+# lines below it in the same block. Drop the pointer; the fact stands alone.
+main = main.replace(
+    'these values are upper-bound estimates only (see Section' + NB + '2.4 E2 audit).',
+    'these values are upper-bound estimates only.')
+
+# T8b more self-references, all created by folding Conclusions into Discussion
+# (they were Section 5 -> Section 3 in the source, which was valid) plus one in
+# the T1.4 edit. Point them at the Limitations run-in, or drop where redundant.
+main = main.replace(
+    'productive retrosynthetic route was recovered (Section' + NB + '2.4), while the remaining',
+    'productive retrosynthetic route was recovered, while the remaining')
+main = main.replace(
+    'absolute \\(D\\) requires a thermochemical-equilibrium solver, Section' + NB + '3.)',
+    'absolute \\(D\\) requires a thermochemical-equilibrium solver, see Limitations above.)')
+main = main.replace(
+    'a 1,2,3,5-oxatriazole-class DFT anchor (Section' + NB + '3).',
+    'a 1,2,3,5-oxatriazole-class DFT anchor (see Limitations above).')
+main = main.replace(
+    'Polymorph screening and crystal-density refinement (Section' + NB + '3) are required',
+    'Polymorph screening and crystal-density refinement (see Limitations above) are required')
+
 # T1.5 unify the E1 verdict: the source offered two alternative readings
 # ("a corroborating datapoint ... or an upper bound"). The Introduction,
 # Discussion and Conclusions already commit to one; state it here too.
