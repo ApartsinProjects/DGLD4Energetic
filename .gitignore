@@ -79,3 +79,9 @@ paper/molecules/_molecules_template.docx
 SESSION_STATE.md
 session2.txt
 session_handover.txt
+
+# conference-talk working material (plan, Marp deck, exports, generated figures)
+slides/
+# ...except the published pipeline walkthrough deck
+!paper/slides/
+!paper/slides/**

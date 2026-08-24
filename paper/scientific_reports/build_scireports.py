@@ -554,7 +554,9 @@ main = main.replace('molecules_paper_SI.html', 'scireports_paper_SI.html')
 # surface the cover letter in both formats in the downloads aside
 COVER_BOTH = ('<a href="cover_letter.html">Cover letter <span class="ext">(.html)</span></a>\n'
               '  <a href="cover_letter.docx" download>Cover letter '
-              '<span class="ext">(.docx)</span></a>')
+              '<span class="ext">(.docx)</span></a>\n'
+              '  <a href="../slides/dgld_pipeline_slides.html">Pipeline walkthrough '
+              '<span class="ext">(slides)</span></a>')
 COVER_HTML = '<a href="cover_letter.html">Cover letter <span class="ext">(.html)</span></a>'
 main = main.replace(COVER_HTML, COVER_BOTH)
 OUT_MAIN.write_text(main, encoding="utf-8")

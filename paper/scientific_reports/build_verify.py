@@ -111,7 +111,12 @@ DROP_OK = [
     "the relative ranking shows L1, L4, L5 are RDX-class",         # T4 corrected at full coverage
     "An independent Cantera ideal-gas CJ recompute ranks L1",      # T4 main-text companion
     "as an independent relative-ranking sanity check",             # T4 C.13 opener re-scoped
-    "The Uni-Mol surrogate is well-calibrated on the labelled distribution",  # T1.6 pk arithmetic corrected
+    "The Uni-Mol surrogate is well-calibrated on the labelled distribution",
+    # --- T8 circular section cross-references removed ---
+    "E2 D and P are flagged",                 # dagger pointer to its own section dropped
+    "DGLD demonstrates that a label-quality gate",   # Conclusions folded in with run-in
+    "recovered the known oxatriazole E1",     # (Section 2.4) self-ref dropped
+    "Recommendation for synthesis-and-characterisation",  # (Section 3) -> Limitations above  # T1.6 pk arithmetic corrected
 ]
 lost = [s for s in src_segs if s not in OUT_ALL
         and not any(d in s for d in DROP_OK)]
@@ -125,6 +130,10 @@ if _p and _p[0] not in OUT_ALL:
 RUNIN = re.compile(r'^(Conclusions|Limitations)\.\s+')
 ADD_OK = [
     # declared new prose (build_scireports.py):
+    "E2 D and P are flagged",                        # T8 (derived side)
+    "Conclusions. DGLD demonstrates that a label-quality gate",
+    "recovered the known oxatriazole E1",
+    "Recommendation for synthesis-and-characterisation",
     "Energetic materials power mining, demolition",   # rewritten <=200-w plain-language abstract
     "generative models; latent diffusion; inverse molecular design; energetic",
     "an extended survey is given in the Supplementary Note",   # summary para 1
