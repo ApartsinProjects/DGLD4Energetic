@@ -226,7 +226,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <h1>How we generate a new explosive, end to end</h1>
   <p class="lede">A diffusion model proposes candidate molecules; first-principles physics decides which ones are real. This deck walks the whole pipeline: the data, the four training stages, sampling, and the filter funnel that removes everything the surrogate only <em>thought</em> was good.</p>
   <div class="rail"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <p class="sub mono">Aperstein &amp; Apartsin &middot; 24 slides &middot; use &larr; &rarr; to navigate</p>
+  <p class="sub mono">Aperstein &amp; Apartsin &middot; 25 slides &middot; use &larr; &rarr; to navigate</p>
 </section>
 
 <!-- 2 -->
@@ -326,7 +326,39 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Setup">
-  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">06</span> Map</p>
+  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">06</span> Design logic</p>
+  <h2>Why the pipeline has the shape it has</h2>
+  <div class="why"><b>Why</b><span>Every stage exists because a specific obstacle stands between &ldquo;we want a molecule&rdquo; and &ldquo;here is one worth making&rdquo;. Nothing in the design is decorative.</span></div>
+  <div class="scroll"><table>
+    <thead><tr><th>The obstacle</th><th>What it forces</th><th>Stage</th></tr></thead>
+    <tbody>
+      <tr><td>Molecules are discrete text. Diffusion only works on numbers that vary smoothly.</td>
+          <td>Learn a numeric space where similar molecules sit close together.</td>
+          <td class="mono">Encoder</td></tr>
+      <tr><td>The properties we want to aim at are mostly untrustworthy estimates.</td>
+          <td>Rank each label by provenance, and let only reliable ones steer.</td>
+          <td class="mono">Trust tiers</td></tr>
+      <tr><td>Nobody publishes &ldquo;is this viable&rdquo; or &ldquo;is this safe&rdquo;.</td>
+          <td>Manufacture those signals for every molecule in the corpus.</td>
+          <td class="mono">Labels</td></tr>
+      <tr><td>Mid-generation there is no molecule yet, only a noisy vector. Ordinary chemistry tools cannot read it.</td>
+          <td>Train a judge that works on the half-formed state.</td>
+          <td class="mono">Score model</td></tr>
+      <tr><td>Something has to actually invent structures, not just rate them.</td>
+          <td>Train a generator, conditioned on the targets.</td>
+          <td class="mono">Denoiser</td></tr>
+      <tr><td>One run explores one region and stops.</td>
+          <td>Run several differently-tuned lanes and pool the results.</td>
+          <td class="mono">Sampling</td></tr>
+      <tr><td>A model's own score is an opinion. Surrogates can be gamed, and they were.</td>
+          <td>Re-test every survivor with real physics before reporting it.</td>
+          <td class="mono">Funnel</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="slide" data-sec="Setup">
+  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">07</span> Map</p>
   <h2>Four training stages, then sample, then filter</h2>
   <div class="flow" style="margin:1rem 0">
     <div class="step"><span class="n">T1</span><span class="t"><b>Compressor</b>: LIMO VAE turns molecules into vectors</span><span class="v">~34 M, frozen</span></div>
@@ -342,7 +374,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 5 -->
 <section class="slide" data-sec="Encoder">
-  <p class="eyebrow"><span class="sec">Encoder</span><span class="sep">/</span><span class="num">07</span> Training 1 of 4</p>
+  <p class="eyebrow"><span class="sec">Encoder</span><span class="sep">/</span><span class="num">08</span> Training 1 of 4</p>
   <h2>Compress every molecule into a vector</h2>
   <div class="why"><b>Why</b><span>Diffusion works by nudging numbers, so it needs a space where <b>similar molecules sit close together</b>. Chemical text has no usable sense of &ldquo;nearby&rdquo;, so we build that space first.</span></div>
   <p>Molecules are written as <strong>SELFIES</strong> strings, a notation where every string is a valid molecule. A variational autoencoder (LIMO) learns to squeeze each one into <strong>1024 numbers</strong> and rebuild it.</p>
@@ -352,12 +384,13 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
     <div class="card"><div class="k">Rebuilt</div><p class="mono" style="font-size:.82rem">O=[N+]([O&minus;])c1noc&hellip;</p></div>
   </div>
   <div class="call"><p>Trained once, then <strong>frozen</strong>, and every latent is cached. From here on the pipeline is pure vector maths, which is what makes diffusion practical on a small GPU budget.</p></div>
+  <div class="call"><p><strong>&ldquo;Energetic-biased&rdquo; means the corpus is deliberately skewed toward explosive chemistry</strong>, not general molecules. It is built from three pools: the 66k labelled master, a ~380k unlabelled CHNO dump from the same domain, and a large <b>motif-augmented</b> expansion that programmatically grafts nitro, nitramine, azide, cyano, tetrazole and oxadiazole groups onto known energetic scaffolds. The encoder therefore spends its fine-tuning budget on the chemistry we care about instead of on drug-like molecules.</p></div>
   <p class="sub mono">MLP-VAE, 1024-d latent, ~34&nbsp;M parameters. Starts from the published LIMO checkpoint trained on general chemistry, then fine-tuned ~8,500 steps on 326&nbsp;k energetic-biased SMILES.</p>
 </section>
 
 <!-- 6 -->
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">08</span> Derive, learn, steer</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">09</span> Derive, learn, steer</p>
   <h2>Three jobs, and only the last one touches generation</h2>
   <div class="why"><b>Why</b><span>To steer generation toward good chemistry, we need a number that says what <b>good</b> means. The corpus does not carry one, so we have to create it.</span></div>
   <p><strong>The molecules are real; most of the labels are manufactured.</strong> Nobody publishes a molecule&rsquo;s &ldquo;viability&rdquo; or &ldquo;hazard&rdquo; score, so we derive those from domain knowledge, physics correlations and formulas.</p>
@@ -370,7 +403,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">09</span> Training 2 of 4</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">10</span> Training 2 of 4</p>
   <h2>Build the four label pipelines</h2>
   
   
@@ -391,7 +424,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 6b glossary -->
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">10</span> The toolbox, part 1</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">11</span> The toolbox, part 1</p>
   <h2>Tools that describe a molecule</h2>
   <p>Two of these describe a molecule <em>going in</em> to a classifier.</p>
   <div class="call"><p><strong>A fingerprint is not a label.</strong> A Morgan fingerprint only says <em>which substructures are present</em>; it has no opinion about whether the molecule is a good energetic material. The Random Forest is the function that turns those bits into a number. Fingerprint goes in, viability score comes out. You need both.</p></div>
@@ -402,7 +435,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">11</span> The toolbox, part 2</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">12</span> The toolbox, part 2</p>
   <h2>Tools that produce a value</h2>
   <p>The rest produce a value <em>coming out</em>: a number, or a yes/no class.</p>
   <dl class="gloss">
@@ -414,7 +447,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Steering">
-  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">12</span> A trick worth naming</p>
+  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">13</span> A trick worth naming</p>
   <h2>Why train heads you will never use?</h2>
   <p>Some of the score model&rsquo;s heads never steer anything; they exist only during training. That sounds wasteful. It is the opposite.</p>
   <div class="grid g2" style="margin:1.1rem 0">
@@ -448,7 +481,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 7 -->
 <section class="slide" data-sec="Steering">
-  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">13</span> Training 3 of 4</p>
+  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">14</span> Training 3 of 4</p>
   <h2>One trunk, six heads, trained together</h2>
   <div class="why"><b>Why</b><span>Mid-generation there is no finished molecule to inspect, only a noisy vector. We need a judge that can <b>read that half-formed state</b> and still say something useful.</span></div>
   <p>The score model judges a <strong>noisy</strong> latent, which matters, because at generation time everything is noisy. All six heads share a single trunk and are trained <strong>jointly</strong>, not separately.</p>
@@ -467,7 +500,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 6d labelling vs steering -->
 <section class="slide" data-sec="Steering">
-  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">14</span> The distinction that trips people up</p>
+  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">15</span> The distinction that trips people up</p>
   <h2>Labelling and steering are different jobs</h2>
   <p>The Random Forest and Uni-Mol never steer generation. They run <strong>once, offline</strong>, to manufacture training labels. Only the score model is in the sampling loop.</p>
   <div class="scroll" style="margin:.9rem 0"><table>
@@ -505,7 +538,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 7a denoiser training -->
 <section class="slide" data-sec="Generator">
-  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">15</span> Training 4 of 4 &middot; the generator</p>
+  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">16</span> Training 4 of 4 &middot; the generator</p>
   <h2>The denoiser, and how it learns</h2>
   <div class="why"><b>Why</b><span>Everything so far only <em>describes</em> molecules. This is the part that <b>invents</b> them.</span></div>
   <p>This is the network that actually invents molecules: a <strong>44.6&nbsp;M parameter</strong> FiLM-ResNet working entirely on 1024-number latents. Training it is a fill-in-the-blank exercise.</p>
@@ -522,7 +555,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 8 -->
 <section class="slide" data-sec="Generator">
-  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">16</span> Training 4 of 4 &middot; the mechanism</p>
+  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">17</span> Training 4 of 4 &middot; the mechanism</p>
   <h2>The mask is where trust gating actually happens</h2>
   <div class="why"><b>Why</b><span>Two awkward facts have to enter training: most rows lack some properties, and the ones they have differ in trust. The mask handles <b>both at once</b>.</span></div>
   <p>At every training step, a four-bit switch decides which properties are allowed to guide this molecule.</p>
@@ -547,7 +580,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 9 -->
 <section class="slide" data-sec="Sampling">
-  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">17</span> Inference &middot; the two guidances</p>
+  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">18</span> Inference &middot; the two guidances</p>
   <h2>Noise in, molecule out: in 40 steps</h2>
   <div class="why"><b>Why</b><span>Training is finished. Now we ask the model for molecules it has never seen, and steer it while it works.</span></div>
   <div class="flow" style="margin:.6rem 0 1rem">
@@ -574,7 +607,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 10 -->
 <section class="slide" data-sec="Sampling">
-  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">18</span> Inference &middot; lanes and merge</p>
+  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">19</span> Inference &middot; lanes and merge</p>
   <h2>What a &ldquo;lane&rdquo; is, and what gets merged</h2>
   <div class="why"><b>Why</b><span>A single run explores one region and stops. To cover more chemistry we run several, then combine what they found.</span></div>
   <p>A <strong>lane</strong> is one complete sampling run with its settings fixed throughout: <span class="mono">(which denoiser, which property targets, which guidance)</span>. Run it and you get a list of molecules.</p>
@@ -596,7 +629,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 11 -->
 <section class="slide" data-sec="Baselines">
-  <p class="eyebrow"><span class="sec">Baselines</span><span class="sep">/</span><span class="num">19</span> The comparison</p>
+  <p class="eyebrow"><span class="sec">Baselines</span><span class="sep">/</span><span class="num">20</span> The comparison</p>
   <h2>What the other methods produce</h2>
   <div class="why"><b>Why</b><span>Generating a plausible molecule is easy. The question is whether anything survives contact with physics, and that is only visible when you run the same audit on everyone.</span></div>
   <div class="scroll"><table>
@@ -616,7 +649,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">20</span> Filtering &middot; the funnel</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">21</span> Filtering &middot; the funnel</p>
   <h2>The four-stage funnel</h2>
   <div class="why"><b>Why</b><span>The model proposes; it does not verify. Everything it produces is a hypothesis until physics is applied.</span></div>
   <p>Every candidate must survive all four. The first three are cheap and use learned or heuristic scores; the last is expensive and uses real physics.</p>
@@ -633,7 +666,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 12 -->
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">21</span> After the funnel</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">22</span> After the funnel</p>
   <h2>Novelty and synthesis are checked twice</h2>
   <div class="why"><b>Why</b><span>A molecule that is already known, or that nobody can make, is not a discovery. Both have to be checked, and neither check is cheap enough to run on the whole pool.</span></div>
   <div class="scroll"><table>
@@ -651,7 +684,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">22</span> Filtering &middot; the yield</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">23</span> Filtering &middot; the yield</p>
   <h2>40,000 in, 11 out</h2>
   <div class="funnel" style="margin:1.2rem 0">
     <div class="fbar"><span class="lb">raw sampled</span><span class="bar" style="width:100%">40,000</span><span class="rt">100&nbsp;%</span></div>
@@ -665,7 +698,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 13 -->
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">23</span> Why stage 4 exists</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">24</span> Why stage 4 exists</p>
   <h2>A surrogate score is a hypothesis. DFT is the test.</h2>
   <div class="grid g2" style="margin:1.1rem 0">
     <div class="card" style="border-left:3px solid var(--bad)">
@@ -689,7 +722,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <button id="prev" aria-label="Previous slide">&larr; Prev</button>
   <button id="next" aria-label="Next slide">Next &rarr;</button>
   <div class="prog" id="prog"></div>
-  <span class="secname" id="secname">Setup</span><span class="count" id="count">1 / 24</span>
+  <span class="secname" id="secname">Setup</span><span class="count" id="count">1 / 25</span>
   <span class="hint">&larr; &rarr; keys</span>
 </nav>
 
