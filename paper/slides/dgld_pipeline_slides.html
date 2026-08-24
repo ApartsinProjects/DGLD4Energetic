@@ -545,6 +545,10 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <p class="eyebrow"><span class="sec">Encoder</span><span class="sep">/</span><span class="num">19</span> Data augmentation</p>
   <h2>Where the extra million molecules came from</h2>
   <div class="why"><b>Why</b><span>66,000 real molecules is not enough to teach a generative model the grammar of a whole chemical family. So we manufacture more, cheaply, by recombining what is already known.</span></div>
+  <div class="card" style="border-left:3px solid var(--cyan);margin:0 0 1rem">
+    <div class="k">The same idea as image augmentation</div>
+    <p>This is <b>data augmentation</b>, and a standard move. To train an image model you flip, crop and recolour each photo so it learns what a cat looks like from any angle, cheaply, without shooting new photos. Here we do the molecular version: recombining known parts, a textbook enumeration technique, so the model learns what energetic chemistry <em>looks like</em> without synthesising anything. <b>One real difference:</b> a flipped cat keeps its &ldquo;cat&rdquo; label, but our grafted molecules are brand new and carry <b>no</b> label, which is why they only shape the prior and never act as targets.</p>
+  </div>
   <div class="flow">
     <div class="step"><span class="n">1</span><span class="t"><b>Start from the scaffolds</b> of the labelled master: the bare core skeletons, mostly ring systems, left after stripping the decorations off known energetic molecules</span><span class="v">real cores</span></div>
     <div class="step"><span class="n">2</span><span class="t"><b>Graft on energetic groups</b> by script: nitro, nitramine, azide, cyano, tetrazole, oxadiazole, in every position the valences allow</span><span class="v">a program, not a chemist</span></div>
