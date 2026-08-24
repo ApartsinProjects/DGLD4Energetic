@@ -325,7 +325,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
     <div class="fbar"><span class="lb">Confirmed</span><span class="bar s4" style="width:12%">11 leads</span><span class="rt">10 unique</span></div>
   </div>
   <ul class="pts">
-    <li><b>SMARTS</b>, a pattern language for substructures, used here as a chemist-curated reject list (radicals, halogens, bad valences).</li>
+    <li><b>SMARTS</b>, a standard substructure pattern language (the kind RDKit reads). The reject rules are two sources: <b>hand-curated by us</b> (radicals, sulphur, halogens, bad valences) layered on the published <b>Bruns&ndash;Watson</b> structural-alert list, itself distilled from ChemAxon &ldquo;dangerous reactivity&rdquo; patterns.</li>
     <li><b>Pareto front</b>, the set of candidates nothing else beats on <em>every</em> objective at once.</li>
     <li><b>GFN2-xTB</b>, fast semi-empirical quantum chemistry, roughly a thousand times cheaper than DFT.</li>
     <li><b>DFT</b>, accurate first-principles quantum chemistry, but hundreds to thousands of times slower than xTB.</li>
