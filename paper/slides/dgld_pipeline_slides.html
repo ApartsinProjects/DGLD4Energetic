@@ -226,8 +226,8 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 <!-- 1 -->
 <section class="slide on" data-sec="Intro">
   <p class="eyebrow"><span class="num">DGLD</span> Domain-Gated Latent Diffusion</p>
-  <h1>The last new high explosive was designed before you were born</h1>
-  <p class="lede" style="color:var(--ink-3);font-size:1.02rem">So we taught a diffusion model to invent the next one, and had first-principles physics check its work.</p>
+  <h1>The high explosives we rely on are decades old</h1>
+  <p class="lede" style="color:var(--ink-3);font-size:1.02rem">So we taught a diffusion model to design new ones, and let first-principles physics decide which are real.</p>
   <div class="rail"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 </section>
 
@@ -237,9 +237,10 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <div class="why"><b>Why</b><span>Explosives and propellants run mining, demolition, rocket launch and car airbags, yet today&rsquo;s best compounds were designed decades ago.</span></div>
   <ul class="pts">
     <li><b>What we optimise:</b> crystal density &rho;, detonation velocity <span class="mono">D</span> and pressure <span class="mono">P</span>, alongside stability and cost.</li>
-    <li><b>The field has stalled:</b> the workhorses HMX and CL-20 (1987) were developed decades ago, and few new HMX-class compounds have been disclosed since.</li>
+    <li><b>The field has stalled:</b> the two workhorses were developed decades ago, <b>HMX</b> in the 1940s and <b>CL-20</b> in 1987, and few new HMX-class compounds have been disclosed since.</li>
     <li><b>Why it is hard:</b> the design space is astronomically large and the goals fight each other, a molecule has to be new, dense, stable and actually makeable all at once.</li>
   </ul>
+  <p class="sub"><b>HMX</b> = &ldquo;High-Melting eXplosive&rdquo; (octogen), first made in the 1940s as a by-product of making RDX. <b>CL-20</b> = &ldquo;China Lake compound&nbsp;20&rdquo;, synthesised there in 1987. The names are lab shorthand, not chemistry.</p>
   <div class="call"><p><strong>The goal:</strong> prescreen candidates computationally, so a lab only ever touches molecules already vetted on every axis.</p></div>
 </section>
 
@@ -425,7 +426,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   
   <p class="sub">Tier C is the Kamlet&ndash;Jacobs <strong>formula</strong>, a fixed equation with no learned parameters. Tier D is <strong>Uni-Mol</strong>, a <strong>neural network</strong>: pretrained on millions of molecules in <strong>3D</strong>, so it judges a candidate by its shape in space rather than by its formula. Ours is an in-house ensemble fine-tuned on detonation data (~84&nbsp;M parameters per fold, two folds). It answers in milliseconds where DFT takes an hour, which is why it can label the whole corpus, and why its answers are the least trusted tier.</p>
   <p class="sub mono" style="font-size:.72rem">Uni-Mol: Zhou, G. et al. (2023), <em>Uni-Mol: A Universal 3D Molecular Representation Learning Framework</em>, ICLR 2023. Kamlet &amp; Jacobs (1968), <em>J. Chem. Phys.</em> <strong>48</strong>, 23&ndash;35.</p>
-  <div class="call"><p><strong>The gate:</strong> only Tier A/B may <em>steer</em> generation toward a property target. Tier C/D still train the model on what a plausible molecule looks like. They shape the background, they never give orders.</p></div>
+  <div class="call"><p><strong>The gate is graded, not a switch.</strong> Every label carries a trust weight, Tier A 1.0, B 0.7, C 0.3, D 0.1. Trusted labels steer far more often; Tier C/D are <b>down-weighted, not silenced</b>, and they also shape the unconditional prior. Nothing is discarded, low-trust labels just get a quieter vote.</p></div>
 </section>
 
 <!-- 4 -->
@@ -435,9 +436,9 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <div class="why"><b>Why</b><span>Pretraining a 3D molecular model needs millions of molecules and a budget we do not have. Somebody already did it, on general chemistry. We only have to teach it <b>our</b> question.</span></div>
   <div class="flow">
     <div class="step"><span class="n">1</span><span class="t"><b>Take</b> the public Uni-Mol checkpoint, pretrained on millions of molecules in 3D<span class="sub"> (Zhou et al., ICLR 2023). Not ours, not energetic-specific.</span></span><span class="v">existing model</span></div>
-    <div class="step cy"><span class="n">2</span><span class="t"><b>Build a 3D shape</b> for each molecule first: the text has no coordinates, so RDKit generates a conformer (ETKDGv3) and relaxes it with the MMFF94 force field<span class="sub"> This is why Uni-Mol is a label-maker and not a per-step guide: doing it 40 times per molecule would be ruinous.</span></span><span class="v">conformer</span></div>
+    <div class="step cy"><span class="n">2</span><span class="t"><b>Build a 3D shape</b> for each molecule first: the text has no coordinates, so RDKit generates a conformer (ETKDGv3) and relaxes it with the MMFF94 force field<span class="sub"> This is why Uni-Mol is a label-maker, not a per-step guide: a molecule is built over 40 denoising steps, and scoring it inside the loop would mean decoding and rebuilding a 3D conformer at all 40, ruinous in cost and impossible to push a gradient through.</span></span><span class="v">conformer</span></div>
     <div class="step cy"><span class="n">3</span><span class="t"><b>Fine-tune</b> it on our labelled energetic data, as a regression model over eight outputs<span class="sub"> &rho;, D, P, T, E, V, HOF, BDE</span></span><span class="v">our data</span></div>
-    <div class="step cy"><span class="n">4</span><span class="t"><b>Ensemble</b> two folds and keep both, to damp single-model error</span><span class="v">2 &times; ~84 M</span></div>
+    <div class="step cy"><span class="n">4</span><span class="t"><b>Ensemble two folds:</b> split the labelled data by <b>scaffold</b> so each model trains on different core skeletons, fine-tune both from the same checkpoint, then average their two predictions<span class="sub"> scaffold-split, not random, because we generate novel scaffolds; the gap between the folds is a cheap uncertainty signal. Both are fine-tuned, neither is the raw checkpoint.</span></span><span class="v">2 &times; ~84 M</span></div>
   </div>
   <div class="call"><p><strong>Trained on tiers A + B + C only.</strong> That is deliberate: it learns from experimental, DFT and formula-derived rows, then <em>produces</em> the Tier D values for molecules that have nothing. Training it on its own output would be circular. Held-out quality is <span class="mono">R&sup2; = 0.84 to 0.92</span> in 5-fold cross-validation, good enough to rank candidates and not good enough to trust as a final answer, which is precisely why Tier D sits at the bottom and why the DFT stage exists.</p></div>
 </section>
@@ -612,7 +613,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 <section class="slide" data-sec="Steering">
   <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">24</span> A trick worth naming</p>
   <h2>Why train heads you will never use?</h2>
-  <p>Some of the score model&rsquo;s heads, the small output layers stacked on one shared trunk, never steer anything; they exist only during training. That sounds wasteful. It is the opposite.</p>
+  <p>Some of the score model&rsquo;s heads, the small output layers stacked on one shared trunk, never steer anything; at sample time they are simply not invoked, though they stay in the shipped model to regularise the trunk. That sounds wasteful. It is the opposite.</p>
   <div class="grid g2" style="margin:1.1rem 0">
     <div class="card"><div class="k">The problem</div>
       <p>Only <strong>~3,000</strong> trustworthy labels. A network with one job on a small dataset memorises it.</p></div>
@@ -649,6 +650,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <div class="why"><b>Why</b><span>Mid-generation there is no finished molecule to inspect, only a noisy vector. We need a judge that can <b>read that half-formed state</b> and still say something useful.</span></div>
   <p>The score model judges a <strong>noisy</strong> latent, which matters, because at generation time everything is noisy. All six heads share a single trunk and are trained <strong>jointly</strong>, not separately.</p>
   <p class="sub mono">4-block FiLM-MLP (FiLM: side information enters as a per-layer scale and shift), shared 1024-d trunk, ~8&nbsp;M parameters, six heads at ~256k each.</p>
+  <div class="call"><p><strong>It reads the latent directly and never decodes.</strong> In training it sees real molecules&rsquo; latents noised to <em>every</em> level; at generation it meets the same kind of noisy latent, now arriving from pure noise instead of from a molecule. Same distribution, so the judge stays in-distribution exactly when it has to.</p></div>
   <div class="grid g2" style="margin:1.1rem 0">
     <div class="card"><div class="k">Three heads steer</div>
       <p><strong>Viability</strong> &uarr; &nbsp;<strong>Sensitivity</strong> &darr; &nbsp;<strong>Hazard</strong> &darr;</p>
@@ -730,11 +732,11 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   </div>
   <div class="flow">
     <div class="step"><span class="n">1</span><span class="t">Pick how many properties to use</span><span class="v">0&ndash;4</span></div>
-    <div class="step"><span class="n">2</span><span class="t">Pick which, weighted so <b>trusted labels are chosen more often</b></span><span class="v">tier-weighted</span></div>
+    <div class="step"><span class="n">2</span><span class="t">Pick which, weighted so <b>trusted labels are chosen more often</b><span class="sub"> tier weights A 1.0, B 0.7, C 0.3, D 0.1: low-trust labels are down-weighted, never excluded</span></span><span class="v">tier-weighted</span></div>
     <div class="step"><span class="n">3</span><span class="t">Randomly switch some off again</span><span class="v">p = 0.30</span></div>
     <div class="step"><span class="n">4</span><span class="t">Sometimes zero the whole mask &rarr; <b>no steering at all</b></span><span class="v">p = 0.10</span></div>
   </div>
-  <div class="call"><p>An all-zero mask is the unconditional branch, and that is exactly where the untrustworthy Tier C/D labels do their work. They teach plausibility, never targets.</p></div>
+  <div class="call"><p>An all-zero mask is the unconditional branch: nothing steers. This is where low-trust Tier C/D labels mostly contribute, teaching what a plausible molecule looks like rather than hitting a specific number. When they <em>are</em> picked as targets, their low tier weight keeps the vote quiet.</p></div>
   <div class="card" style="border-left:3px solid var(--cyan);margin-top:.6rem">
     <div class="k">Careful: two separate switches</div>
     <p>The mask covers only the <b>four property targets</b> (&rho;, D, P, HOF), which reach the denoiser as conditioning. The steering heads (viability, sensitivity, hazard) are <b>not</b> masked: they have their own scales, set once at sample time, and push on chemistry quality. The score model&rsquo;s performance head is deliberately left off the steering bus, so property targets are pursued through conditioning alone.</p>
