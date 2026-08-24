@@ -226,7 +226,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <h1>How we generate a new explosive, end to end</h1>
   <p class="lede">A diffusion model, a generator that turns random noise into structure step by step, proposes candidate molecules; first-principles physics decides which ones are real. This deck walks the whole pipeline: the data, the four training stages, sampling, and the filter funnel that removes everything the surrogate, the fast property predictor standing in for real physics, only <em>thought</em> was good.</p>
   <div class="rail"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <p class="sub mono">Aperstein &amp; Apartsin &middot; 27 slides &middot; use &larr; &rarr; to navigate</p>
+  <p class="sub mono">Aperstein &amp; Apartsin &middot; 28 slides &middot; use &larr; &rarr; to navigate</p>
 </section>
 
 <!-- 2 -->
@@ -293,7 +293,19 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 4 -->
 <section class="slide" data-sec="Setup">
-  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">04</span> Terminology</p>
+  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">04</span> Adapting Uni-Mol</p>
+  <h2>We do not train Uni-Mol from scratch. We adapt it.</h2>
+  <div class="why"><b>Why</b><span>Pretraining a 3D molecular model needs millions of molecules and a budget we do not have. Somebody already did it, on general chemistry. We only have to teach it <b>our</b> question.</span></div>
+  <div class="flow">
+    <div class="step"><span class="n">1</span><span class="t"><b>Take</b> the public Uni-Mol checkpoint, pretrained on millions of molecules in 3D<span class="sub"> (Zhou et al., ICLR 2023). Not ours, not energetic-specific.</span></span><span class="v">existing model</span></div>
+    <div class="step cy"><span class="n">2</span><span class="t"><b>Fine-tune</b> it on our labelled energetic data, as a regression model over eight outputs<span class="sub"> &rho;, D, P, T, E, V, HOF, BDE</span></span><span class="v">our data</span></div>
+    <div class="step cy"><span class="n">3</span><span class="t"><b>Ensemble</b> two folds and keep both, to damp single-model error</span><span class="v">2 &times; ~84 M</span></div>
+  </div>
+  <div class="call"><p><strong>Trained on tiers A + B + C only.</strong> That is deliberate: it learns from experimental, DFT and formula-derived rows, then <em>produces</em> the Tier D values for molecules that have nothing. Training it on its own output would be circular. Held-out quality is <span class="mono">R&sup2; = 0.84 to 0.92</span> in 5-fold cross-validation, good enough to rank candidates and not good enough to trust as a final answer, which is precisely why Tier D sits at the bottom and why the DFT stage exists.</p></div>
+</section>
+
+<section class="slide" data-sec="Setup">
+  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">05</span> Terminology</p>
   <h2>Two different things are called &ldquo;labels&rdquo;</h2>
   <div class="why"><b>Why</b><span>The word is overloaded in this field, and mixing the two up makes the whole architecture look arbitrary. They come from different places and do different jobs.</span></div>
   <div class="grid g2">
@@ -316,7 +328,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Setup">
-  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">05</span> The two computed tiers</p>
+  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">06</span> The two computed tiers</p>
   <h2>How DFT and Kamlet&ndash;Jacobs actually work</h2>
   <p>Tiers B and C are both computed rather than measured, but they are not the same kind of computation, and they run in sequence.</p>
 <dl class="gloss">
@@ -327,7 +339,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Setup">
-  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">06</span> Design logic</p>
+  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">07</span> Design logic</p>
   <h2>Why the pipeline has the shape it has</h2>
   <div class="why"><b>Why</b><span>Every stage exists because a specific obstacle stands between &ldquo;we want a molecule&rdquo; and &ldquo;here is one worth making&rdquo;. Nothing in the design is decorative.</span></div>
   <div class="scroll"><table>
@@ -359,7 +371,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Setup">
-  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">07</span> Map</p>
+  <p class="eyebrow"><span class="sec">Setup</span><span class="sep">/</span><span class="num">08</span> Map</p>
   <h2>Four training stages, then sample, then filter</h2>
   <div class="flow" style="margin:1rem 0">
     <div class="step"><span class="n">T1</span><span class="t"><b>Compressor</b>: the LIMO VAE, a compress-and-rebuild network, turns molecules into vectors</span><span class="v">~34 M, frozen</span></div>
@@ -375,7 +387,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 5 -->
 <section class="slide" data-sec="Encoder">
-  <p class="eyebrow"><span class="sec">Encoder</span><span class="sep">/</span><span class="num">08</span> Training 1 of 4</p>
+  <p class="eyebrow"><span class="sec">Encoder</span><span class="sep">/</span><span class="num">09</span> Training 1 of 4</p>
   <h2>Compress every molecule into a vector</h2>
   <div class="why"><b>Why</b><span>Diffusion works by nudging numbers, so it needs a space where <b>similar molecules sit close together</b>. Chemical text has no usable sense of &ldquo;nearby&rdquo;, so we build that space first.</span></div>
   <p>Molecules are written as <strong>SELFIES</strong> strings, a notation where every string is a valid molecule. A variational autoencoder (LIMO) learns to squeeze each one into <strong>1024 numbers</strong> and rebuild it.</p>
@@ -391,7 +403,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 6 -->
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">09</span> Derive, learn, steer</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">10</span> Derive, learn, steer</p>
   <h2>Three jobs, and only the last one touches generation</h2>
   <div class="why"><b>Why</b><span>To steer generation toward good chemistry, we need a number that says what <b>good</b> means. The corpus does not carry one, so we have to create it.</span></div>
   <p><strong>The molecules are real; most of the labels are manufactured.</strong> Nobody publishes a molecule&rsquo;s &ldquo;viability&rdquo; or &ldquo;hazard&rdquo; score, so we derive those from domain knowledge, physics correlations and formulas.</p>
@@ -404,7 +416,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">10</span> Training 2 of 4</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">11</span> Training 2 of 4</p>
   <h2>Build the four label pipelines</h2>
   
   
@@ -425,7 +437,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 6b glossary -->
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">11</span> The toolbox, part 1</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">12</span> The toolbox, part 1</p>
   <h2>Tools that describe a molecule</h2>
   <p>Two of these describe a molecule <em>going in</em> to a classifier.</p>
   <div class="call"><p><strong>A fingerprint is not a label.</strong> A Morgan fingerprint only says <em>which substructures are present</em>; it has no opinion about whether the molecule is a good energetic material. The Random Forest is the function that turns those bits into a number. Fingerprint goes in, viability score comes out. You need both.</p></div>
@@ -436,7 +448,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Labels">
-  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">12</span> The toolbox, part 2</p>
+  <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">13</span> The toolbox, part 2</p>
   <h2>Tools that produce a value</h2>
   <p>The rest produce a value <em>coming out</em>: a number, or a yes/no class.</p>
   <dl class="gloss">
@@ -448,7 +460,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Steering">
-  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">13</span> A trick worth naming</p>
+  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">14</span> A trick worth naming</p>
   <h2>Why train heads you will never use?</h2>
   <p>Some of the score model&rsquo;s heads, the small output layers stacked on one shared trunk, never steer anything; they exist only during training. That sounds wasteful. It is the opposite.</p>
   <div class="grid g2" style="margin:1.1rem 0">
@@ -482,7 +494,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 7 -->
 <section class="slide" data-sec="Steering">
-  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">14</span> Training 3 of 4</p>
+  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">15</span> Training 3 of 4</p>
   <h2>One trunk, six heads, trained together</h2>
   <div class="why"><b>Why</b><span>Mid-generation there is no finished molecule to inspect, only a noisy vector. We need a judge that can <b>read that half-formed state</b> and still say something useful.</span></div>
   <p>The score model judges a <strong>noisy</strong> latent, which matters, because at generation time everything is noisy. All six heads share a single trunk and are trained <strong>jointly</strong>, not separately.</p>
@@ -501,7 +513,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 6d labelling vs steering -->
 <section class="slide" data-sec="Steering">
-  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">15</span> The distinction that trips people up</p>
+  <p class="eyebrow"><span class="sec">Steering</span><span class="sep">/</span><span class="num">16</span> The distinction that trips people up</p>
   <h2>Labelling and steering are different jobs</h2>
   <p>The Random Forest and Uni-Mol never steer generation. They run <strong>once, offline</strong>, to manufacture training labels. Only the score model is in the sampling loop.</p>
   <div class="scroll" style="margin:.9rem 0"><table>
@@ -539,7 +551,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 7a denoiser training -->
 <section class="slide" data-sec="Generator">
-  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">16</span> Training 4 of 4 &middot; the generator</p>
+  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">17</span> Training 4 of 4 &middot; the generator</p>
   <h2>The denoiser, and how it learns</h2>
   <div class="why"><b>Why</b><span>Everything so far only <em>describes</em> molecules. This is the part that <b>invents</b> them.</span></div>
   <p>This is the network that actually invents molecules: a <strong>44.6&nbsp;M parameter</strong> FiLM-ResNet working entirely on 1024-number latents. Training it is a fill-in-the-blank exercise.</p>
@@ -556,7 +568,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 8 -->
 <section class="slide" data-sec="Generator">
-  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">17</span> Training 4 of 4 &middot; the mechanism</p>
+  <p class="eyebrow"><span class="sec">Generator</span><span class="sep">/</span><span class="num">18</span> Training 4 of 4 &middot; the mechanism</p>
   <h2>The mask is where trust gating actually happens</h2>
   <div class="why"><b>Why</b><span>Two awkward facts have to enter training: most rows lack some properties, and the ones they have differ in trust. The mask handles <b>both at once</b>.</span></div>
   <p>At every training step, a four-bit switch decides which properties are allowed to guide this molecule.</p>
@@ -581,7 +593,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 9 -->
 <section class="slide" data-sec="Sampling">
-  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">18</span> Inference &middot; the two guidances</p>
+  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">19</span> Inference &middot; the two guidances</p>
   <h2>Noise in, molecule out: in 40 steps</h2>
   <div class="why"><b>Why</b><span>Training is finished. Now we ask the model for molecules it has never seen, and steer it while it works.</span></div>
   <div class="flow" style="margin:.6rem 0 1rem">
@@ -608,7 +620,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 10 -->
 <section class="slide" data-sec="Sampling">
-  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">19</span> Inference &middot; lanes and merge</p>
+  <p class="eyebrow"><span class="sec">Sampling</span><span class="sep">/</span><span class="num">20</span> Inference &middot; lanes and merge</p>
   <h2>What a &ldquo;lane&rdquo; is, and what gets merged</h2>
   <div class="why"><b>Why</b><span>A single run explores one region and stops. To cover more chemistry we run several, then combine what they found.</span></div>
   <p>A <strong>lane</strong> is one complete sampling run with its settings fixed throughout: <span class="mono">(which denoiser, which property targets, which guidance)</span>. Run it and you get a list of molecules.</p>
@@ -630,7 +642,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 11 -->
 <section class="slide" data-sec="Baselines">
-  <p class="eyebrow"><span class="sec">Baselines</span><span class="sep">/</span><span class="num">20</span> The comparison</p>
+  <p class="eyebrow"><span class="sec">Baselines</span><span class="sep">/</span><span class="num">21</span> The comparison</p>
   <h2>What the other methods produce</h2>
   <div class="why"><b>Why</b><span>Generating a plausible molecule is easy. The question is whether anything survives contact with physics, and that is only visible when you run the same audit on everyone.</span></div>
   <div class="scroll"><table>
@@ -650,16 +662,16 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 </section>
 
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">21</span> Novelty testing</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">22</span> Novelty testing</p>
   <h2>Five independent novelty checks</h2>
   <div class="why"><b>Why</b><span>A molecule already sitting in a database is not a discovery. And a generative model that quietly reproduces its training set will look brilliant unless you check, which is exactly how two of the baselines fail.</span></div>
   <div class="scroll"><table>
     <thead><tr><th>Test</th><th>Against what</th><th>Result</th></tr></thead>
     <tbody>
-      <tr><td>Tanimoto window</td><td>the 65,980-row training set, during Stage&nbsp;1</td>
+      <tr><td>Tanimoto window <span class="sub">fingerprint overlap, 1 is identical</span></td><td>the 65,980-row training set, during the funnel&rsquo;s Stage&nbsp;1</td>
           <td>every candidate forced into <span class="mono">[0.20, 0.55]</span>: not a copy, not alien</td></tr>
       <tr><td>Nearest-neighbour</td><td>same training set, after the funnel</td>
-          <td><b>97 of 100</b> have no neighbour above Tanimoto 0.55. L1 sits at <span class="mono">0.27</span></td></tr>
+          <td><b>97 of 100</b> have no neighbour above Tanimoto 0.55. Lead L1 sits at <span class="mono">0.27</span></td></tr>
       <tr><td>Augmented corpus</td><td>all 694,518 rows, including motif-grafted variants</td>
           <td><b>zero</b> exact matches, and <b>zero</b> within Tanimoto 0.70</td></tr>
       <tr><td>Public database</td><td><b>PubChem</b></td>
@@ -668,36 +680,36 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
           <td>all eleven leads absent</td></tr>
     </tbody>
   </table></div>
-  <div class="call"><p><strong>Stated honestly:</strong> novelty is established against <em>these</em> sources. A full CAS Registry search through SciFinder is recommended before any formal novelty claim, and the paper says so rather than implying the search was exhaustive.</p></div>
+  <div class="call"><p><strong>Stated honestly:</strong> novelty is established against <em>these</em> sources. A full search of the CAS Registry, the commercial index of known compounds, through SciFinder is recommended before any formal novelty claim, and the paper says so rather than implying the search was exhaustive.</p></div>
 </section>
 
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">22</span> Synthesis routes</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">23</span> Synthesis routes</p>
   <h2>Can anyone actually make it?</h2>
   <div class="why"><b>Why</b><span>A molecule nobody can build is a drawing. But the tools that answer this question were built for pharmaceuticals, so a negative answer has to be read carefully.</span></div>
-  <p>Retrosynthesis is run with <strong>AiZynthFinder</strong>, which searches backwards from the target for a sequence of known reactions ending in purchasable starting materials. It uses public USPTO reaction templates and the ZINC in-stock catalogue.</p>
+  <p>Retrosynthesis is run with <strong>AiZynthFinder</strong>, which searches backwards from the target for a sequence of known reactions ending in purchasable starting materials. It uses public USPTO reaction templates, drawn from US patent filings, and the ZINC in-stock catalogue.</p>
   <div class="grid g2" style="margin:.8rem 0">
     <div class="card" style="border-left:3px solid var(--good)">
       <div class="k">L1: route found</div>
-      <p><b>9 productive routes.</b> The best is <b>4 steps</b>: ring nitration, Boc protection, then a DPPA-mediated Curtius rearrangement.</p>
+      <p><b>9 productive routes.</b> The best is <b>4 steps</b> of standard synthetic chemistry: ring nitration, Boc protection, then a DPPA-mediated Curtius rearrangement.</p>
       <p class="sub" style="margin-top:.4rem">Hazard noted honestly: the acyl-azide intermediate is primary-explosive class and needs careful handling.</p></div>
     <div class="card">
       <div class="k">The other ten: none found</div>
       <p>Zero productive routes within budget, and still zero at <b>5&times; budget</b> on L4 and L5.</p>
       <p class="sub" style="margin-top:.4rem">The energetic intermediates come back <span class="mono">in_stock: false</span> against ZINC, which is a catalogue of drug-discovery reagents.</p></div>
   </div>
-  <div class="call"><p><strong>What the 1-of-11 rate does and does not mean.</strong> USPTO templates and the ZINC catalogue are both drug-domain resources; nitration and nitrolysis chemistry is thinly represented in them. So this measures a <b>gap in the public template library</b>, not proof that ten molecules are unmakeable. The paper claims only L1 as synthesis-actionable and reports the rest as a scaffold-diversity result.</p></div>
+  <div class="call"><p><strong>What the 1-of-11 rate does and does not mean.</strong> USPTO templates and the ZINC catalogue are both drug-domain resources; nitration and nitrolysis chemistry, the reactions that install nitro groups, is thinly represented in them. So this measures a <b>gap in the public template library</b>, not proof that ten molecules are unmakeable. The paper claims only L1 as synthesis-actionable and reports the rest as a scaffold-diversity result.</p></div>
 </section>
 
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">23</span> Filtering &middot; the funnel</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">24</span> Filtering &middot; the funnel</p>
   <h2>The four-stage funnel</h2>
   <div class="why"><b>Why</b><span>The model proposes; it does not verify. Everything it produces is a hypothesis until physics is applied.</span></div>
   <p>Every candidate must survive all four. The first three are cheap and use learned or heuristic scores; the last is expensive and uses real physics.</p>
   <div class="scroll"><table>
     <thead><tr><th>Stage</th><th>Check</th><th>Removes</th></tr></thead>
     <tbody>
-      <tr><td><strong>1 &middot; SMARTS gate</strong></td><td>chemist rules; SA &le; 5.0; SCScore &le; 3.5; Tanimoto to training set in [0.20, 0.55], Tanimoto being fingerprint overlap where 1 is identical</td><td>junk, unmakeable, and near-copies of the training data</td></tr>
+      <tr><td><strong>1 &middot; SMARTS gate</strong></td><td>chemist rules; SA &le; 5.0; SCScore &le; 3.5; Tanimoto to training set in [0.20, 0.55]</td><td>junk, unmakeable, and near-copies of the training data</td></tr>
       <tr><td><strong>2 &middot; Pareto rerank</strong></td><td>scaffold-aware composite over the Uni-Mol ensemble, keeping what nothing else beats on every property at once</td><td>low predicted performers</td></tr>
       <tr><td><strong>3 &middot; GFN2-xTB</strong></td><td>fast electronic-stability triage with cheap approximate quantum chemistry (HOMO&ndash;LUMO gap)</td><td>molecules that will not hold together</td></tr>
       <tr><td><strong>4 &middot; DFT audit</strong></td><td>standard DFT recipes: B3LYP/6-31G(d) geometry + frequencies, then &omega;B97X-D3BJ/def2-TZVP energy</td><td>anything that only <em>looked</em> good</td></tr>
@@ -707,7 +719,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 12 -->
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">24</span> After the funnel</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">25</span> After the funnel</p>
   <h2>Novelty and synthesis are checked twice</h2>
   <div class="why"><b>Why</b><span>A molecule that is already known, or that nobody can make, is not a discovery. Both have to be checked, and neither check is cheap enough to run on the whole pool.</span></div>
   <div class="scroll"><table>
@@ -715,17 +727,17 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
     <tbody>
       <tr><td><strong>Is it new?</strong></td>
         <td>Tanimoto to the nearest training molecule must sit in <span class="mono">[0.20, 0.55]</span>: not a copy, not alien</td>
-        <td>Search <b>PubChem</b>, the public compound database, and the <b>SureChEMBL</b> patent corpus. <b>96 of 97</b> merged top-100 candidates are absent from PubChem</td></tr>
+        <td>Search <b>PubChem</b> and the <b>SureChEMBL</b> patent corpus. <b>96 of 97</b> merged top-100 candidates are absent from PubChem</td></tr>
       <tr><td><strong>Can it be made?</strong></td>
         <td>Two complexity scores capped: <span class="mono">SA &le; 5.0</span> and <span class="mono">SCScore &le; 3.5</span></td>
-        <td><b>AiZynthFinder</b> searches real reaction routes. Lead L1 returns <b>9 productive routes</b>, best is 4 steps; the other leads return none within budget</td></tr>
+        <td><b>AiZynthFinder</b> searches real reaction routes. L1 returns <b>9 productive routes</b>, best is 4 steps; the other leads return none within budget</td></tr>
     </tbody>
   </table></div>
   <div class="call"><p>The funnel only uses <strong>fast proxies</strong>, because it has to run on 40,000 molecules. The database search and the retrosynthesis are far too slow for that, so they run afterwards on the handful that survived.</p></div>
 </section>
 
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">25</span> Filtering &middot; the yield</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">26</span> Filtering &middot; the yield</p>
   <h2>40,000 in, 11 out</h2>
   <div class="funnel" style="margin:1.2rem 0">
     <div class="fbar"><span class="lb">raw sampled</span><span class="bar" style="width:100%">40,000</span><span class="rt">100&nbsp;%</span></div>
@@ -739,7 +751,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 
 <!-- 13 -->
 <section class="slide" data-sec="Validation">
-  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">26</span> Why stage 4 exists</p>
+  <p class="eyebrow"><span class="sec">Validation</span><span class="sep">/</span><span class="num">27</span> Why stage 4 exists</p>
   <h2>A surrogate score is a hypothesis. DFT is the test.</h2>
   <div class="grid g2" style="margin:1.1rem 0">
     <div class="card" style="border-left:3px solid var(--bad)">
@@ -763,7 +775,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   <button id="prev" aria-label="Previous slide">&larr; Prev</button>
   <button id="next" aria-label="Next slide">Next &rarr;</button>
   <div class="prog" id="prog"></div>
-  <span class="secname" id="secname">Setup</span><span class="count" id="count">1 / 27</span>
+  <span class="secname" id="secname">Setup</span><span class="count" id="count">1 / 28</span>
   <span class="hint">&larr; &rarr; keys</span>
 </nav>
 
