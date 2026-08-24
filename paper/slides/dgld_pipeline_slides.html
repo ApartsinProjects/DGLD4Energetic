@@ -744,8 +744,8 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
         <td>Tanimoto to the nearest training molecule must sit in <span class="mono">[0.20, 0.55]</span>: not a copy, not alien</td>
         <td>Search <b>PubChem</b> and the <b>SureChEMBL</b> patent corpus. <b>96 of 97</b> merged top-100 candidates are absent from PubChem</td></tr>
       <tr><td><strong>Can it be made?</strong></td>
-        <td>Two complexity scores capped: <span class="mono">SA &le; 5.0</span> and <span class="mono">SCScore &le; 3.5</span></td>
-        <td><b>AiZynthFinder</b> searches real reaction routes. L1 returns <b>9 productive routes</b>, best is 4 steps; the other leads return none within budget</td></tr>
+        <td>Two quick complexity scores are capped: <span class="mono">SA &le; 5.0</span> (<b>Synthetic Accessibility</b>, penalises rare fragments and awkward ring fusions) and <span class="mono">SCScore &le; 3.5</span> (<b>Synthetic Complexity</b>, learned from a reaction database). Both are guesses from structure alone, no route is attempted.</td>
+        <td><b>AiZynthFinder</b> actually searches for a route: working backwards from the target through known reactions until it reaches purchasable starting materials. L1 returns <b>9 productive routes</b>, best is 4 steps; the other leads return none within budget</td></tr>
     </tbody>
   </table></div>
   <div class="call"><p>The funnel only uses <strong>fast proxies</strong>, because it has to run on 40,000 molecules. The database search and the retrosynthesis are far too slow for that, so they run afterwards on the handful that survived.</p></div>
