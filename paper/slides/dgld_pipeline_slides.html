@@ -286,7 +286,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
   </div>
   
   
-  <p class="sub mono">Tier C is the Kamlet&ndash;Jacobs formula; Tier D is the Uni-Mol 3D ensemble (~84&nbsp;M parameters per fold &times; 2), the same predictor reused later for re-ranking.</p>
+  <p class="sub">Tier C is the Kamlet&ndash;Jacobs formula. Tier D is <strong>Uni-Mol</strong>: a neural network pretrained on millions of molecules in <strong>3D</strong>, so it judges a candidate by its shape in space rather than by its formula. Ours is an in-house ensemble fine-tuned on detonation data (~84&nbsp;M parameters per fold, two folds). It answers in milliseconds where DFT takes an hour, which is why it can label the whole corpus, and why its answers are the least trusted tier.</p>
   <div class="call"><p><strong>The gate:</strong> only Tier A/B may <em>steer</em> generation toward a property target. Tier C/D still train the model on what a plausible molecule looks like. They shape the background, they never give orders.</p></div>
 </section>
 
