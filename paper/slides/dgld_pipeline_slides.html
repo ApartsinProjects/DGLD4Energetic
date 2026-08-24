@@ -560,11 +560,11 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
 <section class="slide" data-sec="Labels">
   <p class="eyebrow"><span class="sec">Labels</span><span class="sep">/</span><span class="num">20</span> Derive, learn, steer</p>
   <h2>Three jobs, and only the last one touches generation</h2>
-  <div class="why"><b>Why</b><span>To steer generation toward good chemistry, we need a number that says what <b>good</b> means. The corpus does not carry one, so we have to create it.</span></div>
-  <p><strong>The molecules are real; most of the labels are manufactured.</strong> Nobody publishes a molecule&rsquo;s &ldquo;viability&rdquo; or &ldquo;hazard&rdquo; score, so we derive those from domain knowledge, physics correlations and formulas.</p>
+  <div class="why"><b>Why</b><span>To steer generation we need a <b>classifier</b>, a model that scores how good a molecule is. Training a classifier needs labelled examples, and the labels we need do not exist, so we create them.</span></div>
+  <p><strong>Which labels?</strong> The three <b>chemistry-quality</b> signals: <b>viability</b> (is this a real energetic molecule?), <b>sensitivity</b> (will it go off too easily?) and <b>hazard</b> (does it contain a known-dangerous group?). Nobody publishes these, so we derive one for every molecule from domain knowledge, physics correlations and rules. <span class="sub">These are separate from the four property targets &rho;/D/P/HOF, which are the trust-tiered dataset labels; here we mean the quality signals that steer.</span></p>
   <div class="flow" style="margin:.9rem 0">
     <div class="step"><span class="n">1</span><span class="t"><b>Derive</b> a label for every molecule in the corpus, <b>once, before training starts</b></span><span class="v">offline</span></div>
-    <div class="step cy"><span class="n">2</span><span class="t"><b>Learn</b> one model that reproduces those labels from a <em>half-noised</em> molecule</span><span class="v">the score model</span></div>
+    <div class="step cy"><span class="n">2</span><span class="t"><b>Learn</b> a classifier that reproduces those labels from a <em>half-noised</em> molecule</span><span class="v">the score model</span></div>
     <div class="step cy"><span class="n">3</span><span class="t"><b>Steer</b> generation with that learned model, once at every sampling step</span><span class="v">at sampling</span></div>
   </div>
   <p>The generators below never steer anything. They exist to create the training signal for step 2.</p>
