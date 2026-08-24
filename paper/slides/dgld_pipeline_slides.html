@@ -581,7 +581,7 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
     <tbody>
       <tr><td><strong>Viability</strong></td><td>Is this a real energetic molecule?</td><td>Random Forest (a vote of many decision trees) on Morgan fingerprints (substructure bit patterns) + RDKit descriptors (open-source toolkit numbers)</td><td class="sub">learned</td></tr>
       <tr><td><strong>Sensitivity</strong></td><td>Will it go off too easily?</td><td>Politzer&ndash;Murray bond-strength fit on measured h<sub>50</sub> data</td><td class="sub">measured physics</td></tr>
-      <tr><td><strong>Hazard</strong></td><td>Does it contain a known-dangerous group?</td><td>Chemist-written SMARTS rules + Bruns&ndash;Watson demerit list</td><td class="sub">expert rules</td></tr>
+      <tr><td><strong>Hazard</strong></td><td>Does it contain a known-dangerous group?</td><td>Our own energetic-specific SMARTS reject rules, plus the published Bruns&ndash;Watson demerit list (distilled from ChemAxon &ldquo;dangerous reactivity&rdquo; patterns)</td><td class="sub">expert rules</td></tr>
       <tr><td><strong>Performance</strong></td><td>How strong would it be?</td><td>Uni-Mol ensemble &rarr; density, velocity, pressure, heat of formation</td><td class="sub">learned</td></tr>
     </tbody>
   </table></div>
