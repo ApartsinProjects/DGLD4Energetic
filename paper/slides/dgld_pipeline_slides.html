@@ -902,7 +902,12 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:righ
       <p>The set of candidates that <b>nothing else beats on every objective at once</b>. Honest about the trade-offs, but it gives no single ordering.</p></div>
   </div>
   <div class="call"><p><strong>DGLD uses both.</strong> The <b>Pareto layers</b> are the outer sort (how dominant a candidate is), and the <b>composite S</b> breaks ties within each layer. Keep the <b>top 100</b>. That composite S is the same number on the y-axis of the position plot.</p></div>
-  <p class="sub mono">objectives: performance, viability, novelty, sensitivity, hazard alerts &middot; scaffold-aware &middot; ~1,800 chem-pass &rarr; top 100 into GFN2-xTB</p>
+  <div class="card" style="margin:.2rem 0 .5rem">
+    <div class="k">The composite score, exactly</div>
+    <p class="mono" style="font-size:1.04rem;color:var(--ink);line-height:1.7;margin:.2rem 0 .5rem">S = 0.45&thinsp;S<sub>perf</sub> + 0.20&thinsp;S<sub>viab</sub> + 0.15&thinsp;S<sub>novel</sub> + 0.20&thinsp;(1&minus;S<sub>sens</sub>) &minus; 0.10&thinsp;S<sub>alerts</sub></p>
+    <p class="sub" style="margin:0">Each S<sub>&middot;</sub> is a 0-to-1 sub-score. Performance dominates (0.45); sensitivity enters as (1&minus;S<sub>sens</sub>), so a <b>safer molecule scores higher</b>; hazard alerts are the only <b>penalty</b> (&minus;0.10).</p>
+  </div>
+  <p class="sub mono">scaffold-aware &middot; ~1,800 chem-pass &rarr; top 100 into GFN2-xTB</p>
 </section>
 
 <section class="slide" data-sec="Validation">
